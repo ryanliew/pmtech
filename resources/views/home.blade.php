@@ -14,7 +14,35 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @if( !is_null(auth()->user()->referrer) )
+                        Your referrer : {{ auth()->user()->referrer->name }}
+                    @endif
+
+                    @if(auth()->user()->referees_count > 0)
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Date joined</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(auth()->user()->referees as $referee)
+                            <tr>
+                                <td>{{ $referee->id }}</td>
+                                <td>{{ $referee->name }}</td>
+                                <td>{{ $referee->created_at }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                        <p>You have yet to refer someone</p>
+                    @endif
+
+                    Your referral link : {{ auth()->user()->referral_link }}
+
                 </div>
             </div>
         </div>

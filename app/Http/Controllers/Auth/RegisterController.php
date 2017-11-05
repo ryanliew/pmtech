@@ -62,10 +62,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $referrer = User::where('username', $data['referrer_user'])->first();
+
+        if( !is_null( $referrer ) )
+        {
+            $user->update(['referrer_id' => $referrer->id]);
+        }
+        
+        return $user;
     }
 }

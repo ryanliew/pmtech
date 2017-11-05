@@ -68,10 +68,33 @@
                                 </button>
                             </div>
                         </div>
+
+                        <input type="hidden" name="referrer_user" id="referrer">
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+    <script>
+        var parseQueryString = function(url) {
+            var urlParams = {};
+            url.replace(
+                new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+                function($0, $1, $2, $3) {
+                urlParams[$1] = $3;
+                }
+            );
+          
+            return urlParams;
+        }
+
+        result = parseQueryString(location.search);
+
+        $('#referrer').val(result.r);
+        
+    </script>
 @endsection

@@ -1,100 +1,167 @@
-@extends('layouts.app')
+@extends('layouts.outer-layout')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+<div class="wrapper pa-0">
+    <header class="sp-header">
+        <div class="sp-logo-wrap pull-left">
+            <a href="{{ url('/') }}">
+                <img class="brand-img"></img>
+                <span class="brand-text">{{ env("APP_NAME", "Welory Solution") }}</span>
+            </a>
+        </div>
+        <div class="form-group mb-0 pull-right">
+            <span class="inline-block pr-10">Already have an account?</span>
+            <a class="inline-block btn btn-info btn-rounded btn-outline" href="{{ route('login') }}">Sign In</a>
+        </div>
+        <div class="clearfix"></div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="page-wrapper pa-0 ma-0 auth-page">
+        <div class="container-fluid">
+            <!-- Row -->
+            <div class="table-struct full-width full-height">
+                <div class="table-cell vertical-align-middle auth-form-wrap">
+                    <div class="auth-form  ml-auto mr-auto no-float">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="mb-30">
+                                    <h3 class="text-center txt-dark mb-10">Sign up to {{ env("APP_NAME", "Welory Solution") }}</h3>
+                                    <h6 class="text-center nonecase-font txt-grey">Enter your details below</h6>
+                                </div>  
+                                <div class="form-wrap">
+                                    <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        <div class="form-group{{ $errors->has('name') ? ' has-error has-danger' : '' }}{{ $errors->has('name') ? ' has-error has-danger' : '' }}">
+                                            <label class="control-label mb-10" for="name">Full name <span class="text-danger">*</span></label>
+                                            <input value="{{ old('name') }}" type="name" name="name" class="form-control" required="" id="name" placeholder="Your name as per IC">
+                                            @if($errors->has('name'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('name') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('email') ? ' has-error has-danger' : '' }}">
+                                            <label class="control-label mb-10" for="email">Email address <span class="text-danger">*</span></label>
+                                            <input value="{{ old('email') }}" type="email" name="email" class="form-control" required="" id="email" placeholder="Enter email">
+                                             @if($errors->has('email'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('email') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('ic') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="ic-number">IC number <span class="text-danger">*</span></label>
+                                            <input value="{{ old('ic') }}" type="text" name="ic" class="form-control" required="" id="ic-number" placeholder="Enter your IC number">
+                                             @if($errors->has('ic'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('ic') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('phone') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="phone-number">Phone number <span class="text-danger">*</span></label>
+                                            <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" required="" id="phone-number" placeholder="Enter your phone number">
+                                             @if($errors->has('phone'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('phone') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('alt_contact_name') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Alternate contact name <span class="text-danger">*</span></label>
+                                            <input value="{{ old('alt_contact_name') }}" type="text" name="alt_contact_name" class="form-control" required="" id="alt-name" placeholder="Enter alternate contact name">
+                                             @if($errors->has('alt_contact_name'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('alt_contact_name') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('alt_contact_phone') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Alternate contact phone number <span class="text-danger">*</span></label>
+                                            <input value="{{ old('alt_contact_phone') }}" type="text" name="alt_contact_phone" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                             @if($errors->has('alt_contact_phone'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('alt_contact_phone') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+                                        <!-- Start investor field -->
+                                        @if( request()->input('as') == "investor" )
+                                            <div class="form-group mb-30">
+                                                <label class="control-label mb-10 text-left">Payment slip upload</label>
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                    <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                    <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+                                                    <input type="file" accept="image/*" name="payment_slip">
+                                                    </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <!-- End investor field -->
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                                        <!-- Start agent field -->
+                                        @if( request()->input('as') == "agent" )
+                                            <div class="form-group mb-30">
+                                                <label class="control-label mb-10 text-left">IC copy upload</label>
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                    <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                    <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+                                                    <input type="file" accept="image/*" name="ic_copy">
+                                                    </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <!-- End agent field -->
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                                        <!-- End all fields -->
+                                        <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
+                                            <div class="checkbox checkbox-primary pr-10 pull-left">
+                                                <input name="terms" id="terms" required="" type="checkbox">
+                                                <label for="terms"> I agree to all <span class="txt-primary">Terms and conditions</span></label>
+                                                 @if($errors->has('terms'))
+                                                    <div class="help-block with-errors">
+                                                        <ul class="list-unstyled">
+                                                            <li>{{ $errors->first('terms') }}</li>
+                                                        </ul>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="form-group text-center">
+                                            <input type="hidden" name="referrer_user" value="{{ request()->input('r') }}">
+                                            <button type="submit" class="btn btn-info btn-rounded">Sign Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>  
                         </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="referrer_user" id="referrer">
-                    </form>
+                    </div>
                 </div>
             </div>
+            <!-- /Row -->   
         </div>
+        
     </div>
+    <!-- /Main Content -->
+
 </div>
 @endsection
 
 @section('js')
-    <script>
-        var parseQueryString = function(url) {
-            var urlParams = {};
-            url.replace(
-                new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-                function($0, $1, $2, $3) {
-                urlParams[$1] = $3;
-                }
-            );
-          
-            return urlParams;
-        }
-
-        result = parseQueryString(location.search);
-
-        $('#referrer').val(result.r);
-        
-    </script>
+    <script src="{{ asset('js/vendors/jasny-bootstrap/jasny-bootstrap.min.js') }}"></script>
 @endsection

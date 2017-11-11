@@ -47,6 +47,26 @@ class User extends Authenticatable
         return $this->referees->count();
     }
 
+    public function getPaymentSlipPathAttribute($payment)
+    {
+        return asset( $payment ? 'storage/' . $payment : "" );
+    }
+
+    public function getIcImagePathAttribute($ic)
+    {
+        return asset( $ic ? 'storage/' . $ic : "" );
+    }
+
+    /* Methods */
+    public function update_referrer($referrer_id)
+    {
+        $referrer = User::where('username', $referrer_id)->first();
+
+        if( !is_null( $referrer ) )
+        {
+            $this->update(['referrer_id' => $referrer->id]);
+        }  
+    }
 
 
 }

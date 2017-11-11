@@ -20,6 +20,14 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedInteger('referrer_id')->nullable();
+            $table->string('phone')->unique();
+            $table->string('ic')->unique();
+            $table->string('alt_contact_phone')->nullable();
+            $table->string('alt_contact_name')->nullable();
+            $table->string('ic_image_path')->nullable();
+            $table->string('payment_slip_path')->nullable();
+            $table->boolean('is_verified')->default(false);
+            $table->boolean('is_default_password')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -9,11 +9,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Theme style -->
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
+    <div class="preloader-it">
+        <div class="la-anim-1"></div>
+    </div> 
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">

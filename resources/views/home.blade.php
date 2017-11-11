@@ -32,7 +32,7 @@
                             <tr>
                                 <td>{{ $referee->id }}</td>
                                 <td>{{ $referee->name }}</td>
-                                <td>{{ $referee->created_at }}</td>
+                                <td>{{ $referee->created_at }}<i class="fa fa-facebook"></i></td>
                             </tr>
                             @endforeach
                         </tbody>

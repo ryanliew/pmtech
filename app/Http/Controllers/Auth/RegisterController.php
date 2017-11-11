@@ -47,11 +47,27 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $messages = [
+            'required'          =>  'This field is required', 
+            'name.max'          =>  'Your name should not be longer than 255 characters',
+            'email.email'       =>  'Please enter a valid email',
+            'email.unique'      =>  'This email already exists in our database',
+            'ic.unique'         =>  'This IC number already exists in our database',
+            'phone.unique'      =>  'This phone number already exists in our database',
+            'ic_image.required' =>  'You must upload the photocopy of your IC in order to join us as an marketing agent'
+        ];
+
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+            'name'              =>  'required|max:255',
+            'email'             =>  'required|email|max:255|unique:users',
+            'terms'             =>  'accepted',
+            'ic'                =>  'required|unique:users',
+            'phone'             =>  'required|unique:users',
+            'alt_contact_phone' =>  'required',
+            'alt_contact_name'  =>  'required',
+            'payment_slip'      =>  'sometimes|required|image',
+            'ic_image'          =>  'sometimes|required|image'
+        ], $messages);
     }
 
     /**
@@ -62,18 +78,33 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $ic_copy = ""; 
+        $payment_slip = "";
+        if(array_has($data, 'ic_copy'))
+        {
+            $ic_copy = $data['ic_copy']->store('identifications', 'public');
+        }
+        else if(array_has($data, 'payment_slip'))
+        {
+            $payment_slip = $data['payment_slip']->store('payments', 'public');
+        }
+
+        $default_password =  substr($data['ic'], -6);
+
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'name'              =>  $data['name'],
+            'email'             =>  $data['email'],
+            'password'          =>  bcrypt($default_password),
+            'ic_image_path'     =>  $ic_copy,
+            'payment_slip_path' =>  $payment_slip,
+            'phone'             =>  $data['phone'],
+            'ic'                =>  $data['ic'],
+            'username'          =>  str_random(6),
+            'alt_contact_name'  =>  $data['alt_contact_name'],
+            'alt_contact_phone' =>  $data['alt_contact_phone']
         ]);
 
-        $referrer = User::where('username', $data['referrer_user'])->first();
-
-        if( !is_null( $referrer ) )
-        {
-            $user->update(['referrer_id' => $referrer->id]);
-        }
+        $user->update_referrer($data['referrer_user']);
         
         return $user;
     }

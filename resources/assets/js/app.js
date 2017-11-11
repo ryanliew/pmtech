@@ -20,3 +20,12 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 const app = new Vue({
     el: '#app'
 });
+
+// Theme functions
+$('.preloader-it > .la-anim-1').addClass('la-animate');
+$(".preloader-it").delay(1000).fadeOut("slow");
+
+// Full height functions
+var height = $(window).height();
+$('.full-height').css('height', (height));
+

@@ -81,7 +81,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        dd($data);
         $ic_copy = ""; 
         $payment_slip = "";
         if(array_has($data, 'ic_copy'))

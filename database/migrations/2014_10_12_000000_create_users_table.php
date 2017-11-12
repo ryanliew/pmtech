@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('payment_slip_path')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->boolean('is_default_password')->default(true);
+            $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

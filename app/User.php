@@ -36,6 +36,11 @@ class User extends Authenticatable
         return $this->hasMany('App\User', 'referrer_id');
     }
 
+    public function payments()
+    {
+        return $this->hasMany('App\Payment');
+    }
+
     /* Mutators */
     public function getReferralLinkAttribute()
     {
@@ -54,7 +59,22 @@ class User extends Authenticatable
 
     public function getIcImagePathAttribute($ic)
     {
-        return asset( $ic ? 'storage/' . $ic : "" );
+        return !empty($ic) ? asset( 'storage/' . $ic ) : "";
+    }
+
+    public function getStatusAttribute()
+    {
+        return $this->is_verified ? 'Active' : 'Pending verfification';
+    }
+
+    public function getIsMarketingAgentAttribute()
+    {
+        return !empty( $this->ic_image_path );
+    }
+
+    public function getIsInvestorAttribute()
+    {
+        return $this->payments->count() > 0;
     }
 
     /* Methods */
@@ -66,6 +86,12 @@ class User extends Authenticatable
         {
             $this->update(['referrer_id' => $referrer->id]);
         }  
+    }
+
+    /* Scopes */
+    public function scopeActive($query)
+    {
+        return $query->where('is_verified', true);
     }
 
 

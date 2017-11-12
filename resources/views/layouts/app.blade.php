@@ -16,6 +16,8 @@
     <!-- Toast style -->
     <link href="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('css/vendors/jasny-bootstrap/jasny-bootstrap.min.css') }}" rel="stylesheet">
+
     @yield('css')
 
      <!-- Theme style -->
@@ -70,11 +72,11 @@
                         <i class="fa fa-chevron-circle-right"></i>
                     </li>
                     <li>
-                        <a href="documentation.html"><div class="pull-left"><i class="fa fa-home"></i><span class="right-nav-text">Dashboard</span></div><div class="clearfix"></div></a>
-                    </li>
-                    <li>
-                        <a href="documentation.html"><div class="pull-left"><i class="zmdi zmdi-book mr-20"></i><span class="right-nav-text">documentation</span></div><div class="clearfix"></div></a>
+                        <a href="{{ route('users') }}"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Users</span></div><div class="clearfix"></div></a>
                     </li> 
+                    <li>
+                        <a href="{{ route('machines') }}"><div class="pull-left"><i class="fa fa-server mr-20"></i><span class="right-nav-text">Machines</span></div><div class="clearfix"></div></a>
+                    </li>
                     <li><hr class="light-grey-hr mb-10"/></li>
                 </ul>
             </div>

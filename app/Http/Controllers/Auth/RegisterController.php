@@ -67,7 +67,7 @@ class RegisterController extends Controller
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
             'payment_slip'      =>  'sometimes|required|image',
-            'ic_image'          =>  'sometimes|required|image'
+            'ic_copy'          =>  'sometimes|required|image'
         ], $messages);
     }
 
@@ -85,10 +85,6 @@ class RegisterController extends Controller
         {
             $ic_copy = $data['ic_copy']->store('identifications', 'public');
         }
-        else if(array_has($data, 'payment_slip'))
-        {
-            $payment_slip = $data['payment_slip']->store('payments', 'public');
-        }
 
         $default_password =  substr($data['ic'], -6);
 
@@ -97,7 +93,6 @@ class RegisterController extends Controller
             'email'             =>  $data['email'],
             'password'          =>  bcrypt($default_password),
             'ic_image_path'     =>  $ic_copy,
-            'payment_slip_path' =>  $payment_slip,
             'phone'             =>  $data['phone'],
             'ic'                =>  $data['ic'],
             'username'          =>  str_random(6),
@@ -106,6 +101,13 @@ class RegisterController extends Controller
         ]);
 
         $user->update_referrer($data['referrer_user']);
+
+        if(array_has($data, 'payment_slip'))
+        {
+            $payment_slip = $data['payment_slip']->store('payments', 'public');
+                'payment_slip_path' => $payment_slip
+            ]);
+        }
         
         return $user;
     }

@@ -59,8 +59,8 @@
 								<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 									<thead>
 										<tr>
-										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Machine ID</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Name</th>
+										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
+										  	
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Total earnings</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
 										</tr>
@@ -68,8 +68,7 @@
 									<tbody>
 										@foreach( $machines as $machine )
 											<tr>
-											  	<td class="title">{{ $machine->id }}</td>
-											  	<td>{{ $machine->name }}</td>
+											  	<td class="title">{{ $machine->name }}</td>
 											  	<td>Todo Earning calculation</td>
 											  	<td>
 											  		<div class="button-list">
@@ -108,6 +107,7 @@
 											  	</td>
 											</tr>
 										@endforeach
+									</tbody>
 								</table>
 							</div>
 						</div>	

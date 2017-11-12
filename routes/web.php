@@ -23,3 +23,13 @@ Route::get('machines', 'MachineController@index')->name('machines');
 Route::post('machines', 'MachineController@store')->name('machines');
 Route::post('machine/{machine}', 'MachineController@update')->name('machine');
 Route::delete('machine/{machine}', 'MachineController@destroy')->name('machine');
+
+Route::get('/users', 'UserController@index')->name('users');
+Route::get('/user/new', 'UserController@create')->name('user.create');
+Route::post('/user/new', 'UserController@store')->name('user.create');
+Route::get('/user/{user}', 'UserController@show')->name('user');
+Route::post('/user/{user}', 'UserController@update')->name('user');
+Route::delete('/user/{user}', 'UserController@destroy')->name('user');
+
+
+Route::post('/payment/{payment}', 'PaymentController@update')->name('payment');

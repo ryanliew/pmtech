@@ -90,7 +90,7 @@
                                         <div class="form-group{{ $errors->has('alt_contact_phone') ? ' has-error has-danger' : '' }}">
                                             <label class="pull-left control-label mb-10" for="alt-name">Alternate contact phone number <span class="text-danger">*</span></label>
                                             <input value="{{ old('alt_contact_phone') }}" type="text" name="alt_contact_phone" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
-                                             @if($errors->has('alt_contact_phone'))
+                                            @if($errors->has('alt_contact_phone'))
                                                 <div class="help-block with-errors">
                                                     <ul class="list-unstyled">
                                                         <li>{{ $errors->first('alt_contact_phone') }}</li>
@@ -101,37 +101,52 @@
 
                                         <!-- Start investor field -->
                                         @if( request()->input('as') == "investor" )
-                                            <div class="form-group mb-30">
-                                                <label class="control-label mb-10 text-left">Payment slip upload</label>
+                                            <div class="form-group{{ $errors->has('payment_slip') ? ' has-error has-danger' : '' }} mb-30">
+                                                <label class="control-label mb-10 text-left">Payment slip upload <span class="text-danger">*</span></label>
                                                 <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                                     <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
                                                     <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
                                                     <input type="file" accept="image/*" name="payment_slip">
                                                     </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
                                                 </div>
+                                                @if($errors->has('payment_slip'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('payment_slip') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
                                             </div>
                                         @endif
                                         <!-- End investor field -->
 
                                         <!-- Start agent field -->
                                         @if( request()->input('as') == "agent" )
-                                            <div class="form-group mb-30">
-                                                <label class="control-label mb-10 text-left">IC copy upload</label>
+                                            <div class="form-group{{ $errors->has('ic_copy') ? ' has-error has-danger' : '' }} mb-30">
+                                                <label class="control-label mb-10 text-left">IC copy upload <span class="text-danger">*</span></label>
                                                 <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                                     <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
                                                     <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
                                                     <input type="file" accept="image/*" name="ic_copy">
                                                     </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
                                                 </div>
+                                                @if($errors->has('ic_copy'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('ic_copy') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
                                             </div>
                                         @endif
+                                        <input type="hidden" name="type" value="{{ request()->input('as') }}">
                                         <!-- End agent field -->
 
                                         <!-- End all fields -->
                                         <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
                                             <div class="checkbox checkbox-primary pr-10 pull-left">
                                                 <input name="terms" id="terms" required="" type="checkbox">
-                                                <label for="terms"> I agree to all <span class="txt-primary">Terms and conditions</span></label>
+                                                <label for="terms"> I agree to all <span class="txt-primary">Terms and conditions</span> <span class="text-danger">*</span></label>
                                                  @if($errors->has('terms'))
                                                     <div class="help-block with-errors">
                                                         <ul class="list-unstyled">

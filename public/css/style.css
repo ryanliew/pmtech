@@ -7009,7 +7009,6 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
     margin-left: 0; }
   .slide-nav-toggle.sidebar-hover .navbar.navbar-inverse.navbar-fixed-top .nav-header {
     width: 100%; }
-
   .navbar.navbar-inverse.navbar-fixed-top {
     padding: 0; }
     .navbar.navbar-inverse.navbar-fixed-top .mobile-only-brand {
@@ -7330,3 +7329,7 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
     margin-bottom: 20px; } }
 
 /*# sourceMappingURL=style.css.map */
+/* Ryan custom css */
+.side-nav {
+  overflow-x: hidden;
+}

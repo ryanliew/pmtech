@@ -12,76 +12,97 @@
     
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <!-- Toast style -->
+    <link href="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.css') }}" rel="stylesheet">
 
-    <!-- Theme style -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    @yield('css')
+
+     <!-- Theme style -->
+    <link href="{{ asset('css/style.css?v=1.0') }}" rel="stylesheet">
 </head>
 <body>
     <div class="preloader-it">
         <div class="la-anim-1"></div>
     </div> 
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+        <div class="wrapper theme-4-active primary-color-blue">
+            <!-- Top menu items -->
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="mobile-only-brand pull-left">
+                    <div class="nav-header pull-left">
+                        <div class="logo-wrap">
+                            <a href="index.html">
+                                <img class="brand-img"/>
+                                <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
+                            </a>
+                        </div>
+                    </div>  
+                    <a id="toggle_nav_btn" class="toggle-left-nav-btn inline-block ml-20 pull-left" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
                 </div>
+                <div id="mobile_only_nav" class="mobile-only-nav pull-right">
+                    <ul class="nav navbar-right top-nav pull-right">
+                        <li class="dropdown auth-drp">
+                            <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">Welcome, {{ auth()->user()->name }} <i class="fa fa-caret-down"></i></a>
+                            <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-power-off"></i><span>Logout</span>
+                                    </a>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                </div>  
+            </nav> 
+            <!-- Top menu items -->
+            <!-- Left Sidebar Menu -->
+            <div class="fixed-sidebar-left">
+                <ul class="nav navbar-nav side-nav nicescroll-bar">
+                    <li class="navigation-header">
+                        <span>Main</span> 
+                        <i class="fa fa-chevron-circle-right"></i>
+                    </li>
+                    <li>
+                        <a href="documentation.html"><div class="pull-left"><i class="fa fa-home"></i><span class="right-nav-text">Dashboard</span></div><div class="clearfix"></div></a>
+                    </li>
+                    <li>
+                        <a href="documentation.html"><div class="pull-left"><i class="zmdi zmdi-book mr-20"></i><span class="right-nav-text">documentation</span></div><div class="clearfix"></div></a>
+                    </li> 
+                    <li><hr class="light-grey-hr mb-10"/></li>
+                </ul>
             </div>
-        </nav>
+            <!-- /Left Sidebar Menu -->
 
-        @yield('content')
+
+            <div class="page-wrapper">
+                <div class="container-fluid pt-25"> 
+                    @yield('content')
+                </div>
+
+                <!-- Footer -->
+                <footer class="footer container-fluid pl-30 pr-30">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>2017 &copy; {{ config('app.name', 'Welory Solution') }}. Pampered by Welory Solution</p>
+                        </div>
+                    </div>
+                </footer>
+                <!-- /Footer -->  
+            </div>
+
+        </div>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
     @yield('js')
 </body>
 </html>

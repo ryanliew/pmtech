@@ -991,7 +991,7 @@ window.Vue = __webpack_require__(35);
 Vue.component('example-component', __webpack_require__(38));
 
 var app = new Vue({
-  el: '#app'
+	el: '#app'
 });
 
 // Theme functions
@@ -1001,6 +1001,47 @@ $(".preloader-it").delay(1000).fadeOut("slow");
 // Full height functions
 var height = $(window).height();
 $('.full-height').css('height', height);
+$('.page-wrapper').css('min-height', height);
+
+// Sidebar navigations
+$(document).ready(function () {
+	var $wrapper = $(".wrapper");
+	/*Sidebar Collapse Animation*/
+	var sidebarNavCollapse = $('.fixed-sidebar-left .side-nav  li .collapse');
+
+	var sidebarNavAnchor = '.fixed-sidebar-left .side-nav li a';
+	$(document).on("click", sidebarNavAnchor, function (e) {
+		if ($(this).attr('aria-expanded') === "false") $(this).blur();
+		$(sidebarNavCollapse).not($(this).parent().parent()).collapse('hide');
+	});
+
+	$(document).on('click', '#toggle_nav_btn,#open_right_sidebar,#setting_panel_btn', function (e) {
+		$(".dropdown.open > .dropdown-toggle").dropdown("toggle");
+		return false;
+	});
+	$(document).on('click', '#toggle_nav_btn', function (e) {
+		$wrapper.removeClass('open-right-sidebar open-setting-panel').toggleClass('slide-nav-toggle');
+		return false;
+	});
+
+	$(document).on("mouseenter mouseleave", ".wrapper > .fixed-sidebar-left", function (e) {
+		if (e.type == "mouseenter") {
+			$wrapper.addClass("sidebar-hover");
+		} else {
+			$wrapper.removeClass("sidebar-hover");
+		}
+		return false;
+	});
+
+	$(document).on("mouseenter mouseleave", ".wrapper > .setting-panel", function (e) {
+		if (e.type == "mouseenter") {
+			$wrapper.addClass("no-transition");
+		} else {
+			$wrapper.removeClass("no-transition");
+		}
+		return false;
+	});
+});
 
 /***/ }),
 /* 11 */

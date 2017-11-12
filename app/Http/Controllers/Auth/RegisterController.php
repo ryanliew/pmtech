@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'email.email'       =>  'Please enter a valid email',
             'email.unique'      =>  'This email already exists in our database',
             'ic.unique'         =>  'This IC number already exists in our database',
+            'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
             'phone.unique'      =>  'This phone number already exists in our database',
             'ic_image.required' =>  'You must upload the photocopy of your IC in order to join us as an marketing agent'
         ];
@@ -61,7 +62,7 @@ class RegisterController extends Controller
             'name'              =>  'required|max:255',
             'email'             =>  'required|email|max:255|unique:users',
             'terms'             =>  'accepted',
-            'ic'                =>  'required|unique:users',
+            'ic'                =>  'required|unique:users|numeric',
             'phone'             =>  'required|unique:users',
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',

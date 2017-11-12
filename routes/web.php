@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('machines', 'MachineController@index')->name('machines');
+Route::post('machines', 'MachineController@store')->name('machines');
+Route::get('machine/{machine}', 'MachineController@show')->name('machine');
+Route::delete('machine/{machine}', 'MachineController@destroy')->name('machine');

@@ -30,3 +30,15 @@ $factory->define(App\User::class, function (Faker $faker) {
         'username' => str_random(6) 
     ];
 });
+
+$factory->state(App\User::class, 'unverified', function($faker) {
+    return [
+        'is_verified'   => false
+    ];
+});
+
+$factory->state(App\User::class, 'password_unchanged', function($faker) {
+    return [
+        'is_default_password'   => true
+    ];
+});

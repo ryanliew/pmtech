@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Payment');
     }
 
+    public function area()
+    {
+        return $this->belongsTo('App\Area');
+    }
+
     /* Mutators */
     public function getReferralLinkAttribute()
     {

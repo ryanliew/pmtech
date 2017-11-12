@@ -47,7 +47,7 @@ class MachineController extends Controller
             return response(200);
         }
 
-        return redirect(route('machines'));
+        return back();
     }
 
     /**
@@ -56,9 +56,9 @@ class MachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Machine $machine)
     {
-        //
+        return view('machines.show', ['machine' => $machine]);
     }
 
     /**
@@ -67,9 +67,9 @@ class MachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Machine $machine)
     {
-        //
+        
     }
 
     /**
@@ -79,9 +79,15 @@ class MachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Machine $machine)
     {
-        //
+        $validated = $request->validate([
+                        'name' => 'required'
+                    ]);
+
+        $machine->update($validated);
+
+        return back();
     }
 
     /**
@@ -90,8 +96,11 @@ class MachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Machine $machine)
     {
-        //
+        $name = $machine->name;
+        $machine->delete();
+
+        return back()->with('success', $name . ' has been deleted.');
     }
 }

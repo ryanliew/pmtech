@@ -21,5 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('machines', 'MachineController@index')->name('machines');
 Route::post('machines', 'MachineController@store')->name('machines');
-Route::get('machine/{machine}', 'MachineController@show')->name('machine');
+Route::post('machine/{machine}', 'MachineController@update')->name('machine');
 Route::delete('machine/{machine}', 'MachineController@destroy')->name('machine');

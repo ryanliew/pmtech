@@ -103,6 +103,31 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
+    <script>
+        @if( $errors->any() )
+            @foreach($errors->all() as $error)
+                $.toast({
+                    heading: 'Error',
+                    text: '{{ $error }}',
+                    position: 'top-right',
+                    loaderBg: '#fec107',
+                    icon: 'error',
+                    hideAfter: 3500 
+                }); 
+            @endforeach
+        @endif
+
+        @if( session('success') )
+            $.toast({
+                heading: 'Success',
+                text: '{{ session("success") }}',
+                position: 'top-right',
+                loaderBg: '#fec107',
+                icon: 'success',
+                hideAfter: 3500 
+            }); 
+        @endif
+    </script>
     @yield('js')
 </body>
 </html>

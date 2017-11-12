@@ -58,11 +58,6 @@ class UserController extends Controller
             $ic_copy = $data['ic_copy']->store('identifications', 'public');
         }
 
-        if(array_has($data, 'payment_slip'))
-        {
-            $payment_slip = $data['payment_slip']->store('payments', 'public');
-        }
-
         $default_password =  substr($data['ic'], -6);
 
         $user = User::create([
@@ -70,7 +65,6 @@ class UserController extends Controller
             'email'             =>  $data['email'],
             'password'          =>  bcrypt($default_password),
             'ic_image_path'     =>  $ic_copy,
-            'payment_slip_path' =>  $payment_slip,
             'phone'             =>  $data['phone'],
             'ic'                =>  $data['ic'],
             'username'          =>  str_random(6),
@@ -79,7 +73,16 @@ class UserController extends Controller
             'is_verified'		=> 	true
         ]);
 
+        if(array_has($data, 'payment_slip'))
+        {
+            $payment_slip = $data['payment_slip']->store('payments', 'public');
+            $user->payments()->create([
+                'payment_slip_path'     => $payment_slip,
+                'is_verified'           => false
+            ]);
+        }
 
+        return redirect(route('users'))->with('success', $user->name . ' has been added.');
     }
 
     public function show(User $user)

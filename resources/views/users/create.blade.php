@@ -98,13 +98,6 @@
 
 			    <!-- End all fields -->
 			    <div class="form-group">
-			        <div class="checkbox checkbox-primary pr-10 pull-left">
-			            <input name="verified" id="verified" type="checkbox">
-			            <label for="verified"> Is user verified</label>
-			        </div>
-			        <div class="clearfix"></div>
-			    </div>
-			    <div class="form-group">
 			        <button type="submit" class="btn btn-info btn-rounded">Add user</button>
 			    </div>
 			</form>

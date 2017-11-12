@@ -42,7 +42,6 @@ class UserController extends Controller
     	$data = request()->validate([
 		            'name'              =>  'required|max:255',
 		            'email'             =>  'required|email|max:255|unique:users',
-		            'terms'             =>  'accepted',
 		            'ic'                =>  'required|unique:users|numeric',
 		            'phone'             =>  'required|unique:users',
 		            'alt_contact_phone' =>  'required',

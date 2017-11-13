@@ -56,10 +56,9 @@ class RegisterController extends Controller
             'ic.numeric'                =>  'Please enter your IC number without dashes. eg.800514149687',
             'phone.unique'              =>  'This phone number already exists in our database',
             'payment_slip.required_if'  =>  'Payment slip is required to join as an investor',
-            'ic_image.required_if'      =>  'You must upload the photocopy of your IC in order to join us as an marketing agent'
+            'ic_image.required_if'      =>  'You must upload the photocopy of your IC in order to join us as an marketing agent',
+            'area_id.numeric'           =>  'Please select a valid area'
         ];
-
-        
         return Validator::make($data, [
             'name'              =>  'required|max:255',
             'email'             =>  'required|email|max:255|unique:users',
@@ -69,7 +68,8 @@ class RegisterController extends Controller
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
             'payment_slip'      =>  'required_if:type,==,investor|image',
-            'ic_copy'           =>  'required_if:type,==,agent|image'
+            'ic_copy'           =>  'required_if:type,==,agent|image',
+            'area_id'           =>  'required|numeric'
         ], $messages);
     }
 
@@ -99,7 +99,8 @@ class RegisterController extends Controller
             'ic'                =>  $data['ic'],
             'username'          =>  str_random(6),
             'alt_contact_name'  =>  $data['alt_contact_name'],
-            'alt_contact_phone' =>  $data['alt_contact_phone']
+            'alt_contact_phone' =>  $data['alt_contact_phone'],
+            'area_id'           =>  $data['area_id']
         ]);
 
         $user->update_referrer($data['referrer_user']);

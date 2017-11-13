@@ -44,6 +44,12 @@
 					</div>
 					<div class="col-md-6">
 						<div class="row form-group">
+							<label class="control-label col-md-3">Area:</label>
+							<div class="col-md-9">
+								<p>{{ $user->area->name }}, {{ $user->area->state->name }}</p>
+							</div>
+						</div>
+						<div class="row form-group">
 							<label class="control-label col-md-3">Joined date:</label>
 							<div class="col-md-9">
 								<p>{{ $user->created_at->toDateString() }}</p>

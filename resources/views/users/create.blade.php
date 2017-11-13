@@ -30,7 +30,7 @@
 			    <div class="form-group{{ $errors->has('ic') ? ' has-error has-danger' : '' }}">
 			        <label class="pull-left control-label mb-10" for="ic-number">IC number <span class="text-danger">*</span></label>
 			        <input value="{{ old('ic') }}" type="text" name="ic" class="form-control" required="" id="ic-number" placeholder="Enter IC number">
-			         @if($errors->has('ic'))
+			        @if($errors->has('ic'))
 			            <div class="help-block with-errors">
 			                <ul class="list-unstyled">
 			                    <li>{{ $errors->first('ic') }}</li>
@@ -41,7 +41,7 @@
 			    <div class="form-group{{ $errors->has('phone') ? ' has-error has-danger' : '' }}">
 			        <label class="pull-left control-label mb-10" for="phone-number">Phone number <span class="text-danger">*</span></label>
 			        <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" required="" id="phone-number" placeholder="Enter phone number">
-			         @if($errors->has('phone'))
+			        @if($errors->has('phone'))
 			            <div class="help-block with-errors">
 			                <ul class="list-unstyled">
 			                    <li>{{ $errors->first('phone') }}</li>
@@ -49,6 +49,26 @@
 			            </div>
 			        @endif
 			    </div>
+			    <div class="form-group{{ $errors->has('area_id') ? ' has-error has-danger' : '' }}">
+                    <label class="pull-left control-label mb-10" for="area_id">Area <span class="text-danger">*</span></label>
+                    <select class="form-control select2" name="area_id" id="area_id">
+                        <option>Select area</option>
+                        @foreach( $states as $state )
+                            <optgroup label="{{ $state->name }}">
+                                @foreach( $state->areas as $area )
+                                    <option value="{{ $area->id }}">{{ $area->name }}</option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                    @if($errors->has('area_id'))
+                        <div class="help-block with-errors">
+                            <ul class="list-unstyled">
+                                <li>{{ $errors->first('area_id') }}</li>
+                            </ul>
+                        </div>
+                    @endif
+                </div>
 			    <div class="form-group{{ $errors->has('alt_contact_name') ? ' has-error has-danger' : '' }}">
 			        <label class="pull-left control-label mb-10" for="alt-name">Alternate contact name <span class="text-danger">*</span></label>
 			        <input value="{{ old('alt_contact_name') }}" type="text" name="alt_contact_name" class="form-control" required="" id="alt-name" placeholder="Enter alternate contact name">
@@ -107,4 +127,7 @@
 
 @section('js')
     <script src="{{ asset('js/vendors/jasny-bootstrap/jasny-bootstrap.min.js') }}"></script>
+    <script>
+    	$(".select2").select2();
+    </script>
 @endsection

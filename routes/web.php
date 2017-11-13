@@ -17,6 +17,13 @@ Route::get('/', function(){
 
 Auth::routes();
 
+Route::get('/test', function() {
+	foreach(\App\Area::all() as $area)
+	{
+		echo "['name' => '{$area->name}', 'state_id' => {$area->state_id}],<br>";
+	}
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('machines', 'MachineController@index')->name('machines');

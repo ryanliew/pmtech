@@ -27,7 +27,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'alt_contact_name'	=> $faker->name,
         'alt_contact_phone' => str_random(13),
         'remember_token' => str_random(10),
-        'username' => str_random(6) 
+        'username' => str_random(6),
+        'area_id'  => $faker->numberBetween(1,188) 
     ];
 });
 

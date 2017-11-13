@@ -36,7 +36,8 @@ class UserController extends Controller
             'email.unique'      =>  'This email already exists in the database',
             'ic.unique'         =>  'This IC number already exists in the database',
             'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
-            'phone.unique'      =>  'This phone number already exists in the database'
+            'phone.unique'      =>  'This phone number already exists in the database',
+            'area_id.numeric'   =>  'Please select a valid area'
         ];
 
     	$data = request()->validate([
@@ -48,6 +49,7 @@ class UserController extends Controller
 		            'alt_contact_name'  =>  'required',
 		            'payment_slip'      =>  'image',
 		            'ic_copy'          	=>  'image',
+                    'area_id'           =>  'required|numeric'
 		        ], $messages);
 
     	$ic_copy = ""; 
@@ -70,6 +72,7 @@ class UserController extends Controller
             'username'          =>  str_random(6),
             'alt_contact_name'  =>  $data['alt_contact_name'],
             'alt_contact_phone' =>  $data['alt_contact_phone'],
+            'area_id'           =>  $data['area_id'],
             'is_verified'		=> 	true
         ]);
 

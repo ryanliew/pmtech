@@ -56,7 +56,7 @@ class MachineController extends Controller
             return response(200);
         }
 
-        return back();
+        return redirect(route('machines'))->with("success", $validated['name'] . " has been created");
     }
 
     /**

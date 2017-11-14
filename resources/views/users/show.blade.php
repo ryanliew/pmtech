@@ -112,6 +112,48 @@
 				@slot('heading')
 					Payments
 				@endslot
+			
+				@component('components.modal')
+					@slot('button')
+						Add payment
+					@endslot
+
+					@slot('title')
+						Add payment
+					@endslot
+
+					@slot('modal_id')
+						add-payment
+					@endslot
+
+					@slot('action_button')
+						<button type="button" class="btn btn-success" onclick="$('#add-payment-form').submit()">Confirm payment</button>
+					@endslot
+
+					<form action="{{ route('payments') }}" method="POST" id="add-payment-form" enctype="multipart/form-data">
+						{{ csrf_field() }}
+						<div class="form-group{{ $errors->has('payment_slip') ? ' has-error has-danger' : '' }} mb-30">
+                            <label class="control-label mb-10 text-left">Payment slip upload <span class="text-danger">*</span></label>
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+                                <input type="file" accept="image/*" name="payment_slip">
+                                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+                            </div>
+                            @if($errors->has('payment_slip'))
+	                            <div class="help-block with-errors">
+	                                <ul class="list-unstyled">
+	                                    <li>{{ $errors->first('payment_slip') }}</li>
+	                                </ul>
+	                            </div>
+                        	@endif
+
+                        	@if(request()->is('user/*')) 
+								<input type="hidden" name="user_id" value="{{ $user->id }}">
+                        	@endif
+                        </div>
+					</form>
+				@endcomponent
 
 				<div class="table-wrap">
 					<div class="mt-40">

@@ -38,5 +38,5 @@ Route::get('/user/{user}', 'UserController@show')->name('user');
 Route::post('/user/{user}', 'UserController@update')->name('user');
 Route::delete('/user/{user}', 'UserController@destroy')->name('user');
 
-
+Route::post('payments', 'PaymentController@store')->name('payments');
 Route::post('/payment/{payment}', 'PaymentController@update')->name('payment');

@@ -108,9 +108,7 @@ class RegisterController extends Controller
         if(array_has($data, 'payment_slip'))
         {
             $payment_slip = $data['payment_slip']->store('payments', 'public');
-            $user->payments()->create([
-                'payment_slip_path' => $payment_slip
-            ]);
+            $user->add_payment($payment_slip);
         }
         
         return $user;

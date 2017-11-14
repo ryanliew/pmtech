@@ -93,6 +93,13 @@ class User extends Authenticatable
         }  
     }
 
+    public function add_payment($payment_slip_path)
+    {
+        $this->payments()->create([
+            'payment_slip_path' => $payment_slip_path
+        ]);
+    }
+
     /* Scopes */
     public function scopeActive($query)
     {

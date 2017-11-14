@@ -20,7 +20,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'ic' => str_random(12),
+        'ic' => $faker->numberBetween(100000000000,999999999999),
         'phone' => str_random(12),
         'is_verified' => true,
         'is_default_password' => false,

@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+	<!-- header -->
+	<div class="row heading-bg">
+		
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			<h5 class="txt-dark">Create user</h5>
+		</div>
+
+		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+		  	<ol class="breadcrumb">
+				<li><a href="{{ route('home') }}">Dashboard</a></li>
+				<li class="active"><span>Create user</span></li>
+		  	</ol>
+		</div>
+	</div>
+	<!-- end header -->
 	<div class="row">
 		<div class="col-md-12">
 			<form action="{{ route('user.create') }}" method="POST" enctype="multipart/form-data">

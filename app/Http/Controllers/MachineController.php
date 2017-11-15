@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Machine;
+use App\User;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
@@ -24,7 +25,7 @@ class MachineController extends Controller
      */
     public function index()
     {
-        return view('machines.index', ["machines" => Machine::all()]);
+        return view('machines.index', ["machines" => Machine::with('earningSum')->with('emptyUnitCount')->get()]);
     }
 
     /**
@@ -67,7 +68,7 @@ class MachineController extends Controller
      */
     public function show(Machine $machine)
     {
-        return view('machines.show', ['machine' => $machine]);
+        return view('machines.show', ['users' => User::all(), 'machine' => $machine]);
     }
 
     /**

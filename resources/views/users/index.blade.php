@@ -81,6 +81,6 @@
 @endsection
 
 @section('js')
-	<script src="/js/vendors/filament-tablesaw/tablesaw.js"></script>
-	<script src="/js/vendors/filament-tablesaw/tablesaw-init.js"></script>
+	<script src="{{ asset('js/vendors/filament-tablesaw/tablesaw.js') }}"></script>
+	<script src="{{ asset('js/vendors/filament-tablesaw/tablesaw-init.js') }}"></script>
 @endsection

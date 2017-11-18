@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+	<link href="/js/vendors/filament-tablesaw/tablesaw.css" rel="stylesheet">
+@endsection
+
 @section('content')
 	<!-- header -->
 	<div class="row heading-bg">
@@ -192,6 +196,6 @@
 @endsection
 
 @section('js')
-	<script src="/js/vendors/filament-tablesaw/tablesaw.js"></script>
-	<script src="/js/vendors/filament-tablesaw/tablesaw-init.js"></script>
+	<script src="{{ asset('js/vendors/filament-tablesaw/tablesaw.js') }}"></script>
+	<script src="{{ asset('js/vendors/filament-tablesaw/tablesaw-init.js') }}"></script>
 @endsection

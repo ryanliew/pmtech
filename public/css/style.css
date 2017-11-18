@@ -7337,3 +7337,11 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
 .tablesaw td a.btn {
   color: white !important;
 }
+
+@media screen and (min-width:900px)
+{
+  .tablesaw-toolbar {
+    float: left;
+    width: 50%;
+  }
+}

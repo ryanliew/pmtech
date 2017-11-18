@@ -34,6 +34,8 @@ Route::get('machine/{machine}', 'MachineController@show')->name('machine');
 Route::post('machine/{machine}', 'MachineController@update')->name('machine');
 Route::delete('machine/{machine}', 'MachineController@destroy')->name('machine');
 
+Route::delete('unit/{unit}', 'UnitController@destroy')->name('unit');
+
 
 Route::get('/users', 'UserController@index')->name('users');
 Route::get('/user/new', 'UserController@create')->name('user.create');

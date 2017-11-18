@@ -62,7 +62,6 @@
 										<tr>
 										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="5">Empty units</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Total earnings</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Last earning amount</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Last earning month</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
@@ -73,7 +72,6 @@
 											<tr>
 											  	<td class="title">{{ $machine->name }}</td>
 											  	<td>{{ $machine->empty_unit_count }}</td>
-											  	<td>{{ $machine->total_earning }}</td>
 											  	<td>@if( null !== $machine->latest_earning() ){{ $machine->latest_earning()->amount }} @else - @endif</td>
 											  	<td>@if( null !== $machine->latest_earning() ){{ $machine->latest_earning()->date->toDateString() }} @else - @endif</td>
 											  	<td>

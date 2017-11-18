@@ -19,7 +19,7 @@
 	<!-- end header -->
 	@component('components.panel')
 		@slot('heading')
-			Units <small>earning {{ $machine->latest_earning()->amount / 10 }} per unit last month</small>
+			Units @if( null !== $machine->latest_earning() )<small>earning {{ $machine->latest_earning()->amount / 10 }} per unit last month </small>@endif
 		@endslot
 	
 		<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>

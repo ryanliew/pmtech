@@ -76,6 +76,14 @@
 								            </form>
 								  		@endcomponent
 								  	</li>
+								  	<li>
+										<form method="POST" action="{{ route('unit', $unit->id) }}">
+											{{ csrf_field() }}
+											{{ method_field('DELETE') }}
+
+											<button type="submit" class="btn btn-danger">Remove investor</button>
+										</form>
+								  	</li>
 								</ul>
 						  	</td>
 						</tr>
@@ -87,7 +95,7 @@
 		<div class="col-md-6">
 			@component('components.panel')
 				@slot('heading')
-					Earnings history
+					Earnings history <small>Earned {{ $machine->total_earning }} bitcoin so far</small>
 				@endslot
 			
 				<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>

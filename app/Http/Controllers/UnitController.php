@@ -24,4 +24,13 @@ class UnitController extends Controller
         $user = User::find($data["investor_id"]);
     	return back()->with('success', 'Assigned unit ' . $unit->id . ' to ' . $user->name);
     }
+
+    public function destroy(Unit $unit)
+    {
+        $unit->update([
+            "investor_id" => null
+        ]);
+
+        return back()->with('success', 'Investor removed for unit ' . $unit->id);
+    }
 }

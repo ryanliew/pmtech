@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Earning;
 use App\Machine;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -30,5 +31,18 @@ class EarningController extends Controller
     	]);
 
     	return back()->with('success', "Added earning to " . $machine->name);
+    }
+
+    public function update(Earning $earning)
+    {
+        $data = request()->validate([
+            'amount'    => 'required|numeric'
+        ]);
+
+        $earning->update([
+            'amount'    => $data['amount']
+        ]);
+
+        return back()->with('success', "Edited earning for " . $earning->date->toDateString());
     }
 }

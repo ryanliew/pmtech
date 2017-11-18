@@ -54,3 +54,4 @@ Route::post('/payment/{payment}', 'PaymentController@update')->name('payment');
 
 
 Route::post('earnings/{machine}', 'EarningController@store')->name('earning');
+Route::patch('earnings/{earning}', 'EarningController@update')->name('earning');

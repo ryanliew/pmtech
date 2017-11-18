@@ -76,14 +76,16 @@
 								            </form>
 								  		@endcomponent
 								  	</li>
-								  	<li>
-										<form method="POST" action="{{ route('unit', $unit->id) }}">
-											{{ csrf_field() }}
-											{{ method_field('DELETE') }}
+								  	@if( null !== $unit->investor)
+									  	<li>
+											<form method="POST" action="{{ route('unit', $unit->id) }}">
+												{{ csrf_field() }}
+												{{ method_field('DELETE') }}
 
-											<button type="submit" class="btn btn-danger">Remove investor</button>
-										</form>
-								  	</li>
+												<button type="submit" class="btn btn-danger">Remove investor</button>
+											</form>
+									  	</li>
+								  	@endif
 								</ul>
 						  	</td>
 						</tr>

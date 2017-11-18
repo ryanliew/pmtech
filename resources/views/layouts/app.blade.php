@@ -74,6 +74,24 @@
             <div class="fixed-sidebar-left">
                 <ul class="nav navbar-nav side-nav nicescroll-bar">
                     <li class="navigation-header">
+                        <span>Welcome, {{ auth()->user()->name }}</span>
+                    <li>
+                        <a href="{{ route('user.profile') }}">
+                            <i class="fa fa-address-book mr-20"></i><span>My profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                            <i class="fa fa-power-off mr-20"></i><span>Logout</span>
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                    <li class="navigation-header">
                         <span>Main</span> 
                         <i class="fa fa-chevron-circle-right"></i>
                     </li>

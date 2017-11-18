@@ -5,8 +5,9 @@
 @endsection
 
 @section('content')
+	<!-- header -->
 	<div class="row heading-bg">
-		<!-- header -->
+		
 		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
 			<h5 class="txt-dark">machines</h5>
 		</div>
@@ -60,7 +61,7 @@
 									<thead>
 										<tr>
 										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
-										  	
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Empty units</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Total earnings</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
 										</tr>
@@ -69,21 +70,98 @@
 										@foreach( $machines as $machine )
 											<tr>
 											  	<td class="title">{{ $machine->name }}</td>
-											  	<td>Todo Earning calculation</td>
+											  	<td>{{ $machine->empty_unit_count }}</td>
+											  	<td>{{ $machine->total_earning }}</td>
 											  	<td>
-											  		<div class="button-list">
-												  		<button class="btn btn-success" data-toggle="modal" data-target="#edit-machine-modal-{{ $machine->id }}">Edit</button>
-												  		<button type="button" class="btn btn-danger" onclick="$('#delete-machine-{{ $machine->id }}').submit()">Delete</button>
-												  		<form method="POST" action="{{ route("machine", $machine->id) }}" id="delete-machine-{{ $machine->id }}">
-															{{ csrf_field() }}
-															{{ method_field('DELETE') }}
+											  		<ul class="list-inline">
+											  			<li>
+													  		<button class="btn btn-success" data-toggle="modal" data-target="#edit-machine-modal-{{ $machine->id }}">Edit</button>
+													  	</li>
+													  	<li>	
+												  			<button type="button" class="btn btn-danger" onclick="$('#delete-machine-{{ $machine->id }}').submit()">Delete</button>
+
+												  			<form method="POST" action="{{ route("machine", $machine->id) }}" id="delete-machine-{{ $machine->id }}">
+																{{ csrf_field() }}
+																{{ method_field('DELETE') }}
+												  			</form>
+												  		</li>
+												  		<li>
+															@component('components.modal')
+																@slot('button')
+																	Add earning
+																@endslot
+																@slot('title')
+																	Earning for {{ $machine->name }}
+																@endslot
+																@slot('modal_id')
+																	machine-earning-{{ $machine->id }}-modal
+																@endslot
+																@slot('action_button')
+																	<button type="button" class="btn btn-success" onclick="$('#machine-earning-{{ $machine->id }}-form').submit()">Add earning</button>
+																@endslot
 															
-												  		</form>
-														
-													</div>
+																<form method="POST" action="{{ route('earning', $machine->id) }}" id="machine-earning-{{ $machine->id }}-form">
+																	{{ csrf_field() }}
+
+																	@component('components.input') 
+																		@slot('input_name')
+																			month
+																		@endslot
+																	
+																		@slot('input_type')
+																			number
+																		@endslot
+																	
+																		@slot('input_value')
+																			
+																		@endslot
+																	
+																		@slot('input_placeholder')
+																			Insert earning month
+																		@endslot
+																		
+																		Earning month
+																	
+																		@slot('show_only')
+																			false
+																		@endslot
+																	@endcomponent
+
+																	@component('components.input') 
+																		@slot('input_name')
+																			amount
+																		@endslot
+																	
+																		@slot('input_type')
+																			number
+																		@endslot
+																	
+																		@slot('input_value')
+																			
+																		@endslot
+																	
+																		@slot('input_placeholder')
+																			Insert earning for the month
+																		@endslot
+																		
+																		Amount mined
+																	
+																		@slot('show_only')
+																			false
+																		@endslot
+																	@endcomponent
+																</form>
+															@endcomponent
+														</li>
+														<li>
+															<a href="{{ route('machine', $machine->id) }}" class="btn btn-warning">
+																View details
+															</a>
+														</li>
+													</ul>
 													<div id="edit-machine-modal-{{ $machine->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit-machine-modal" aria-hidden="true" style="display: none;">
 												  		<div class="modal-dialog">
-												  			<form id="add-machine-form" method="POST" action="{{ route('machine', $machine->id) }}">
+												  			<form method="POST" action="{{ route('machine', $machine->id) }}">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

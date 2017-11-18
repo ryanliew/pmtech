@@ -20,14 +20,15 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'ic' => str_random(12),
+        'ic' => $faker->numberBetween(100000000000,999999999999),
         'phone' => str_random(12),
         'is_verified' => true,
         'is_default_password' => false,
         'alt_contact_name'	=> $faker->name,
         'alt_contact_phone' => str_random(13),
         'remember_token' => str_random(10),
-        'username' => str_random(6) 
+        'username' => str_random(6),
+        'area_id'  => $faker->numberBetween(1,188) 
     ];
 });
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -23,6 +24,8 @@ class UserTest extends TestCase
     /** @test */
     public function user_can_upload_their_payment_slip_during_registration()
     {
+        $this->withExceptionHandling();
+
     	$user = make('App\User');
 
     	Storage::fake('public');
@@ -37,12 +40,21 @@ class UserTest extends TestCase
             'alt_contact_phone' =>  $user->alt_contact_phone,
             'payment_slip'		=> 	$file = UploadedFile::fake()->image('something.jpg'),
             'terms'				=> 	true,
+            'area_id'           =>  $user->area_id,
+            'type'              =>  'investor',
             'referrer_user'		=> 	'123456'	
     	]);
 
-    	//dd(session()->all());
+        $payment = User::first()->payments()->first();
 
-    	$this->assertEquals(asset('/storage/payments/' . $file->hashName()), auth()->user()->payment_slip_path);
+    	//dd(session()->all());
+        $this->assertDatabaseHas('payments', [
+            'payment_slip_path' => 'payments/' . $file->hashName(),
+            'amount' => NULL,
+            'is_verified' => 0
+        ]);
+
+    	//$this->assertEquals(asset('/storage/payments/' . $file->hashName()), auth()->user()->payment_slip_path);
 
     	Storage::disk('public')->assertExists('payments/' . $file->hashName());
     } 
@@ -64,6 +76,8 @@ class UserTest extends TestCase
             'alt_contact_phone' =>  $user->alt_contact_phone,
             'ic_copy'			=> 	$file = UploadedFile::fake()->image('something.jpg'),
             'terms'				=> 	true,
+            'area_id'           =>  $user->area_id,
+            'type'              =>  'agent',
             'referrer_user'		=> 	'123456'	
     	]);
 

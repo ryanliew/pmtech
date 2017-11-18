@@ -17,19 +17,40 @@ Route::get('/', function(){
 
 Auth::routes();
 
+Route::get('/test', function() {
+	foreach(\App\Area::all() as $area)
+	{
+		echo "['name' => '{$area->name}', 'state_id' => {$area->state_id}],<br>";
+	}
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('machines', 'MachineController@index')->name('machines');
 Route::post('machines', 'MachineController@store')->name('machines');
+Route::post('machine/unit/{unit}', 'UnitController@index')->name('unit');
+Route::post('machine/unit/{unit}', 'UnitController@update')->name('unit');
+Route::get('machine/{machine}', 'MachineController@show')->name('machine');
 Route::post('machine/{machine}', 'MachineController@update')->name('machine');
 Route::delete('machine/{machine}', 'MachineController@destroy')->name('machine');
+
 
 Route::get('/users', 'UserController@index')->name('users');
 Route::get('/user/new', 'UserController@create')->name('user.create');
 Route::post('/user/new', 'UserController@store')->name('user.create');
+Route::get('/user/profile', 'UserController@edit')->name('user.profile');
+Route::post('/user/profile', 'UserController@update')->name('user.profile');
+Route::get('/user/edit/{user}', 'UserController@edit')->name('user.edit');
+Route::post('/user/edit/{user}', 'UserController@update')->name('user.edit');
+Route::post('/user/verify/{user}', 'UserController@verify')->name('user.verify');
+Route::delete('/user/verify/{user}', 'UserController@destroy')->name('user.verify');
+Route::post('/user/ic/{user}', 'UserController@updateIdentity')->name('user.ic');
 Route::get('/user/{user}', 'UserController@show')->name('user');
 Route::post('/user/{user}', 'UserController@update')->name('user');
-Route::delete('/user/{user}', 'UserController@destroy')->name('user');
 
 
+Route::post('payments', 'PaymentController@store')->name('payments');
 Route::post('/payment/{payment}', 'PaymentController@update')->name('payment');
+
+
+Route::post('earnings/{machine}', 'EarningController@store')->name('earning');

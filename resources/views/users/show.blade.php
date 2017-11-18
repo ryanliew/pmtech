@@ -1,6 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+	<!-- header -->
+	<div class="row heading-bg">
+		
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			<h5 class="txt-dark">User detail</h5>
+		</div>
+
+		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+		  	<ol class="breadcrumb">
+				<li><a href="{{ route('home') }}">Dashboard</a></li>
+				<li><a href="{{ route('users') }}">Users</a></li>
+				<li class="active"><span>User detail</span></li>
+		  	</ol>
+		</div>
+	</div>
+	<!-- end header -->
 	<div class="row">
 		<div class="col-md-12">
 			@component('components.panel')
@@ -44,6 +60,12 @@
 					</div>
 					<div class="col-md-6">
 						<div class="row form-group">
+							<label class="control-label col-md-3">Area:</label>
+							<div class="col-md-9">
+								<p>{{ $user->area->name }}, {{ $user->area->state->name }}</p>
+							</div>
+						</div>
+						<div class="row form-group">
 							<label class="control-label col-md-3">Joined date:</label>
 							<div class="col-md-9">
 								<p>{{ $user->created_at->toDateString() }}</p>
@@ -72,16 +94,21 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<div class="button-list">
-							<form method="POST" action="{{ route('user', $user->id) }}">
-								{{ csrf_field() }}
-								@if($user->is_verified)
-									{{ method_field('DELETE') }}
-								@endif
-								<button type="submit" class="btn {{ $user->is_verified ? 'btn-danger' : 'btn-success' }}">
-									{{ $user->is_verified ? 'Deactivate user' : 'Verify user' }}
-								</button>
-							</form>
+						<div class="list-inline">
+							<li>
+								<a href="{{ route('user.edit', $user->id) }}" class="btn btn-info">Edit info</a>
+							</li>
+							<li>
+								<form method="POST" action="{{ route('user.verify', $user->id) }}">
+									{{ csrf_field() }}
+									@if($user->is_verified)
+										{{ method_field('DELETE') }}
+									@endif
+									<button type="submit" class="btn {{ $user->is_verified ? 'btn-danger' : 'btn-success' }}">
+										{{ $user->is_verified ? 'Deactivate user' : 'Verify user' }}
+									</button>
+								</form>
+							</li>
 						</div>		
 					</div>
 				</div>
@@ -98,6 +125,40 @@
 					<img src="{{ $user->ic_image_path }}" class="img-responsive"/>
 				@else
 					<p>User has not uploaded his IC</p>
+					@component('components.modal')
+						@slot('button')
+							Add IC
+						@endslot
+						@slot('title')
+							Add IC image
+						@endslot
+						@slot('modal_id')
+							add-ic-image-modal
+						@endslot
+						@slot('action_button')
+							<button type="button" class="btn btn-success" onclick="$('#add-ic-form').submit()">Confirm</button>
+						@endslot
+					
+						<form action="{{ route('user.ic', $user->id) }}" method="POST" id="add-ic-form" enctype="multipart/form-data">
+							{{ csrf_field() }}
+							<div class="form-group{{ $errors->has('ic_image_path') ? ' has-error has-danger' : '' }} mb-30">
+	                            <label class="control-label mb-10 text-left">IC upload <span class="text-danger">*</span></label>
+	                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+	                                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+	                                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+	                                <input type="file" accept="image/*" name="ic_image_path">
+	                                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+	                            </div>
+	                            @if($errors->has('ic_image_path'))
+		                            <div class="help-block with-errors">
+		                                <ul class="list-unstyled">
+		                                    <li>{{ $errors->first('ic_image_path') }}</li>
+		                                </ul>
+		                            </div>
+	                        	@endif
+	                        </div>
+						</form>
+					@endcomponent
 				@endif
 			@endcomponent
 		</div>	
@@ -106,6 +167,48 @@
 				@slot('heading')
 					Payments
 				@endslot
+			
+				@component('components.modal')
+					@slot('button')
+						Add payment
+					@endslot
+
+					@slot('title')
+						Add payment
+					@endslot
+
+					@slot('modal_id')
+						add-payment
+					@endslot
+
+					@slot('action_button')
+						<button type="button" class="btn btn-success" onclick="$('#add-payment-form').submit()">Confirm payment</button>
+					@endslot
+
+					<form action="{{ route('payments') }}" method="POST" id="add-payment-form" enctype="multipart/form-data">
+						{{ csrf_field() }}
+						<div class="form-group{{ $errors->has('payment_slip') ? ' has-error has-danger' : '' }} mb-30">
+                            <label class="control-label mb-10 text-left">Payment slip upload <span class="text-danger">*</span></label>
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+                                <input type="file" accept="image/*" name="payment_slip">
+                                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+                            </div>
+                            @if($errors->has('payment_slip'))
+	                            <div class="help-block with-errors">
+	                                <ul class="list-unstyled">
+	                                    <li>{{ $errors->first('payment_slip') }}</li>
+	                                </ul>
+	                            </div>
+                        	@endif
+
+                        	@if(request()->is('user/*')) 
+								<input type="hidden" name="user_id" value="{{ $user->id }}">
+                        	@endif
+                        </div>
+					</form>
+				@endcomponent
 
 				<div class="table-wrap">
 					<div class="mt-40">

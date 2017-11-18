@@ -15,6 +15,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        \View::composer(['auth.register', 'users.create', 'users.edit'], function($view) {
+            $states = \Cache::rememberForever('states', function(){
+                return \App\State::all();
+            });
+
+            $view->with('states', $states);
+        });
     }
 
     /**
@@ -24,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 }

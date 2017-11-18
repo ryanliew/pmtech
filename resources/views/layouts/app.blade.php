@@ -48,6 +48,11 @@
                             <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">Welcome, {{ auth()->user()->name }} <i class="fa fa-caret-down"></i></a>
                             <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
                                 <li>
+                                    <a href="{{ route('user.profile') }}">
+                                        <i class="fa fa-address-book"></i><span>My profile</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
@@ -58,6 +63,7 @@
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
+
                             </ul>
                         </li>
                     </ul>

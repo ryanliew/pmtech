@@ -10,6 +10,7 @@ class Earning extends Model
 		'date'
 	];
 
+    protected $guarded = [];
     public function machine()
     {
     	return $this->belongsTo('App\Machine');

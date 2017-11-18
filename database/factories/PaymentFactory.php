@@ -1,5 +1,7 @@
 <?php
 
+use App\Machine;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*
@@ -13,16 +15,13 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Unit::class, function (Faker $faker) {
-    static $password;
-
+$factory->define(App\Payment::class, function (Faker $faker) {
     return [
-        'name'          =>  str_random(5),
-        'investor_id'   =>  function() {
-            return factory('App\User')->create()->id;
-        },
-        'machine_id'    =>  function() {
-            return factory('App\Machine')->create()->id;
+        'is_verified'		=> false,
+        'payment_slip_path'	=> "payment/default.jpg",
+        'amount'			=> 1800.00,
+        'user_id'			=> function() {
+        	return factory('App\User')->create()->id;	
         }
     ];
 });

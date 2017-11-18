@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -36,19 +37,21 @@ class UserController extends Controller
             'email.unique'      =>  'This email already exists in the database',
             'ic.unique'         =>  'This IC number already exists in the database',
             'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
-            'phone.unique'      =>  'This phone number already exists in the database'
+            'phone.unique'      =>  'This phone number already exists in the database',
+            'area_id.numeric'   =>  'Please select a valid area'
         ];
 
-    	$data = request()->validate([
-		            'name'              =>  'required|max:255',
-		            'email'             =>  'required|email|max:255|unique:users',
-		            'ic'                =>  'required|unique:users|numeric',
-		            'phone'             =>  'required|unique:users',
-		            'alt_contact_phone' =>  'required',
-		            'alt_contact_name'  =>  'required',
-		            'payment_slip'      =>  'image',
-		            'ic_copy'          	=>  'image',
-		        ], $messages);
+        $data = request()->validate([
+            'name'              =>  'required|max:255',
+            'email'             =>  'required|email|max:255|unique:users',
+            'ic'                =>  'required|unique:users|numeric',
+            'phone'             =>  'required|unique:users',
+            'alt_contact_phone' =>  'required',
+            'alt_contact_name'  =>  'required',
+            'payment_slip'      =>  'image',
+            'ic_copy'           =>  'image',
+            'area_id'           =>  'required|numeric'
+        ], $messages);
 
     	$ic_copy = ""; 
         $payment_slip = "";
@@ -70,6 +73,7 @@ class UserController extends Controller
             'username'          =>  str_random(6),
             'alt_contact_name'  =>  $data['alt_contact_name'],
             'alt_contact_phone' =>  $data['alt_contact_phone'],
+            'area_id'           =>  $data['area_id'],
             'is_verified'		=> 	true
         ]);
 
@@ -90,7 +94,52 @@ class UserController extends Controller
     	return view('users.show', ['user' => $user]);
     }
 
+    public function edit(User $user)
+    {
+        if (empty($user->id)) $user = auth()->user();
+
+        return view('users.edit', ['user' => $user]);
+    }
+
     public function update(User $user)
+    {
+        $messages = [
+            'required'          =>  'This field is required', 
+            'name.max'          =>  'Name should not be longer than 255 characters',
+            'email.email'       =>  'Please enter a valid email',
+            'email.unique'      =>  'This email already exists in the database',
+            'ic.unique'         =>  'This IC number already exists in the database',
+            'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
+            'phone.unique'      =>  'This phone number already exists in the database',
+            'area_id.numeric'   =>  'Please select a valid area'
+        ];
+
+        if(empty($user->id)) $user = auth()->user();
+
+        $data = request()->validate([
+            'name'              =>  'sometimes|required|max:255',
+            'email'             =>  ['sometimes', 'required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'ic'                =>  ['sometimes', 'required', 'numeric', Rule::unique('users')->ignore($user->id)],
+            'phone'             =>  ['sometimes', 'required', Rule::unique('users')->ignore($user->id)],
+            'alt_contact_phone' =>  'required',
+            'alt_contact_name'  =>  'required',
+            'ic_image_path'     =>  'image',
+            'area_id'           =>  'required|numeric'
+        ], $messages);
+
+        
+
+        if(array_has($data, 'ic_image_path'))
+        {
+            $data['ic_image_path'] = $data['ic_image_path']->store('identifications', 'public');
+        }
+
+        $user->update($data);
+
+        return back()->with('success', 'Your profile has been updated');
+    }
+
+    public function verify(User $user)
     {
     	$user->update([
     		'is_verified'	=> true
@@ -106,5 +155,18 @@ class UserController extends Controller
     	]);
 
     	return redirect(route('users'))->with('success', $user->name . ' has been deactivated.');
-    }	
+    }
+
+    public function updateIdentity(User $user)
+    {
+        $data = request()->validate([
+            'ic_image_path'     =>  'required|image',
+        ]);
+
+        $data['ic_image_path'] = $data['ic_image_path']->store('identifications', 'public');
+
+        $user->update($data);
+
+        return back()->with('success', "IC for " . $user->name . " has been added");
+    }
 }

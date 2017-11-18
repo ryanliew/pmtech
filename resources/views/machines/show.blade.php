@@ -76,11 +76,6 @@
 								            </form>
 								  		@endcomponent
 								  	</li>
-									<li>
-										<a href="{{ route('unit', $unit->id) }}" class="btn btn-warning">
-											View details
-										</a>
-									</li>
 								</ul>
 						  	</td>
 						</tr>

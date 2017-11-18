@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+	<link href="/js/vendors/filament-tablesaw/tablesaw.css" rel="stylesheet">
+@endsection
+
 @section('content')
 	<!-- header -->
 	<div class="row heading-bg">

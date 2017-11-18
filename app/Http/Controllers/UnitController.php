@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Unit;
+use App\User;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller
@@ -20,6 +21,7 @@ class UnitController extends Controller
 
     	$unit->update($data);
 
-    	return back()->with('success', 'Assigned unit ' . $unit->id . ' to ' . $unit->investor->name);
+        $user = User::find($data["investor_id"]);
+    	return back()->with('success', 'Assigned unit ' . $unit->id . ' to ' . $user->name);
     }
 }

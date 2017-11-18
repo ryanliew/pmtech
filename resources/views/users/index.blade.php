@@ -59,7 +59,7 @@
 												  		<a class="btn btn-success" href="{{ route('user', $user->id) }}">View details</a>
 												  		@if($user->is_verified)
 													  		<button type="button" class="btn btn-danger" onclick="$('#delete-user-{{ $user->id }}').submit()">Deactivate</button>
-													  		<form method="POST" action="{{ route("user", $user->id) }}" id="delete-user-{{ $user->id }}">
+													  		<form method="POST" action="{{ route("user.verify", $user->id) }}" id="delete-user-{{ $user->id }}">
 																{{ csrf_field() }}
 																{{ method_field('DELETE') }}	
 													  		</form>	

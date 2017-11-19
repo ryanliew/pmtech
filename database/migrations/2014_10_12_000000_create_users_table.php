@@ -29,8 +29,6 @@ class CreateUsersTable extends Migration
             $table->boolean('is_verified')->default(false);
             $table->boolean('is_default_password')->default(true);
             $table->boolean('is_admin')->default(false);
-            $table->boolean('is_team_leader')->default(false);
-            $table->boolean('is_group_manager')->default(false);
             $table->unsignedInteger('area_id')->nullable();
             $table->rememberToken();
             $table->timestamps();

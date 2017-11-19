@@ -53,6 +53,11 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('transactions', auth()->id()) }}">
+                                        <i class="fa fa-bank"></i><span>My transactions</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
@@ -81,6 +86,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('transactions', auth()->id()) }}">
+                            <i class="fa fa-bank mr-20"></i><span>My transactions</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
@@ -100,6 +110,9 @@
                     </li> 
                     <li>
                         <a href="{{ route('machines') }}"><div class="pull-left"><i class="fa fa-server mr-20"></i><span class="right-nav-text">Machines</span></div><div class="clearfix"></div></a>
+                    </li>
+                    <li>
+                        <a href="{{ route('settings') }}"><div class="pull-left"><i class="fa fa-cog mr-20"></i><span class="right-nav-text">Settings</span></div><div class="clearfix"></div></a>
                     </li>
                     <li><hr class="light-grey-hr mb-10"/></li>
                 </ul>
@@ -150,6 +163,17 @@
                 position: 'top-right',
                 loaderBg: '#fec107',
                 icon: 'success',
+                hideAfter: 3500 
+            }); 
+        @endif
+
+        @if( session('error') )
+            $.toast({
+                heading: 'Error',
+                text: '{{ session("error") }}',
+                position: 'top-right',
+                loaderBg: '#fec107',
+                icon: 'error',
                 hideAfter: 3500 
             }); 
         @endif

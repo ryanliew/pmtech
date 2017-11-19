@@ -25,15 +25,17 @@ Route::get('/test', function() {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/settings', 'SettingController@edit')->name('settings');
+Route::post('/settings', 'SettingController@update')->name('settings');
 
 Route::get('machines', 'MachineController@index')->name('machines');
 Route::post('machines', 'MachineController@store')->name('machines');
-Route::post('machine/unit/{unit}', 'UnitController@index')->name('unit');
-Route::post('machine/unit/{unit}', 'UnitController@update')->name('unit');
 Route::get('machine/{machine}', 'MachineController@show')->name('machine');
 Route::post('machine/{machine}', 'MachineController@update')->name('machine');
 Route::delete('machine/{machine}', 'MachineController@destroy')->name('machine');
 
+
+Route::post('unit/{unit}', 'UnitController@update')->name('unit');
 Route::delete('unit/{unit}', 'UnitController@destroy')->name('unit');
 
 
@@ -57,3 +59,6 @@ Route::post('/payment/{payment}', 'PaymentController@update')->name('payment');
 
 Route::post('earnings/{machine}', 'EarningController@store')->name('earning');
 Route::patch('earnings/{earning}', 'EarningController@update')->name('earning');
+
+
+Route::get('/transactions/{user}', 'TransactionController@index')->name('transactions');

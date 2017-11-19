@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMachineEarningsTable extends Migration
+class CreateTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateMachineEarningsTable extends Migration
      */
     public function up()
     {
-        Schema::create('earnings', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id')->index();
             $table->date('date');
-            $table->float('amount', 12, 4);
-            $table->float('deduction', 12, 4)->default(0);
-            $table->unsignedInteger('machine_id');
+            $table->float('amount', 12, 8);
+            $table->string('type');
+            $table->string('description')->nullable();
             $table->timestamps();
-
-            $table->foreign('machine_id')
-                    ->references('id')->on('machines')
-                    ->onDelete('cascade');
         });
     }
 
@@ -34,6 +31,6 @@ class CreateMachineEarningsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('earnings');
+        Schema::dropIfExists('transactions');
     }
 }

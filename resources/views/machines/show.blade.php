@@ -101,7 +101,7 @@
 		<div class="col-md-6">
 			@component('components.panel')
 				@slot('heading')
-					Earnings history <small>Earned {{ $machine->total_earning }} bitcoin so far</small>
+					Earnings history <small>Earned {{ $machine->total_earning }} so far</small>
 				@endslot
 			
 				<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>

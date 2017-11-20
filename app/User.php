@@ -180,7 +180,7 @@ class User extends Authenticatable
             $this->add_bonus_transaction($description, $amount, $date);
         }
 
-        if($this->referrer->is_team_leader) {
+        if($isset($this->referrer) && $this->referrer->is_team_leader) {
             $description = "Gained team leader commission from " . $this->name;
             $amount = $setting->incentive_commission_per_referee * $setting->incentive_direct_downline_commission_percentage / 100; 
             $this->referrer->add_bonus_transaction($description, $amount, $date);

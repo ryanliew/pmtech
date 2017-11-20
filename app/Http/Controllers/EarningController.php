@@ -25,12 +25,17 @@ class EarningController extends Controller
 
     	$date = $date->lastOfMonth();
 
-    	$machine->earnings()->create([
-    		'date'		=> $date,
-    		'amount'	=> $data['amount']
-    	]);
+        if( $machine->earnings()->whereMonth('date', $date->month)->whereYear('year', $date->year)->count() > 1 )
+        {
+            return back()->with('error', 'You have already added earning for ' . $date->format('F Y'));
+        }	
 
-    	return back()->with('success', "Added earning to " . $machine->name);
+        $machine->earnings()->create([
+            'date'      => $date,
+            'amount'    => $data['amount']
+        ]);
+
+        return back()->with('success', "Added earning to " . $machine->name);
     }
 
     public function update(Earning $earning)

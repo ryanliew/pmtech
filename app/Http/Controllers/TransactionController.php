@@ -14,7 +14,7 @@ class TransactionController extends Controller
 
     	if( isset(request()->month) ) $month = request()->month;
 
-    	$transactions = $user->transactions()->whereMonth('created_at', $month)->paginate(20);
+    	$transactions = $user->transactions()->paginate(20);
 
     	return view('transactions.index', ['user' => $user, 'transactions' => $transactions, '']);
     }

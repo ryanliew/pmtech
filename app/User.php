@@ -137,7 +137,7 @@ class User extends Authenticatable
 
         if( $value = 1 && $this->is_investor && null !== $this->referrer )
         {
-            $this->referrer->add_referrer_bonus($this);
+            $this->referrer->add_referrer_bonus_transaction($this);
         }
     }
 
@@ -169,7 +169,7 @@ class User extends Authenticatable
 
         $date = $user->created_at;
 
-        $this->add_transaction("bonus", $description, $amount, $date);
+        $this->add_transaction("one-time-commision", $description, $amount, $date);
 
         $now = Carbon::now();
 

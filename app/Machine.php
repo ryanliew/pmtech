@@ -35,7 +35,9 @@ class Machine extends Model
 
     public function earningSum()
     {
-        return $this->earnings->sum('final_amount');
+        return $this->hasOne('App\Earning')
+                    ->selectRaw('machine_id, sum(amount - deduction) as aggregate')
+                    ->groupBy('machine_id');
     }
 
     public function emptyUnitCount()

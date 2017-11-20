@@ -24,6 +24,6 @@ class Unit extends Model
     /* Mutators */
     public function getEarningThisMonthAttribute()
     {
-    	return $this->machine()->earnings()->last()->amount / 10;
+    	return $this->machine()->earnings()->last()->final_amount / 10;
     }
 }

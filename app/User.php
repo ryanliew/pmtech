@@ -174,7 +174,7 @@ class User extends Authenticatable
 
         $now = Carbon::now();
 
-        if($this->referee()->whereMonth('created_at', $now->month)->count() == 5) {
+        if($this->referees()->whereMonth('created_at', $now->month)->count() == 5) {
             $description = "Gained bonus for referring 5 investor in " . $now->Format("F Y");
             $amount = $settings->incentive_bonus_per_referee_pack;
             $this->add_bonus_transaction($description, $amount, $date);

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Setting;
 use App\Unit;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 

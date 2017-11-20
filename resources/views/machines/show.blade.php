@@ -108,7 +108,8 @@
 				<thead>
 					<tr>
 					 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Date</th>
-					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Amount</th>
+					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
+					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Final amount</th>
 					  	<th scope="col"	data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
 					</tr>
 				</thead>
@@ -117,6 +118,7 @@
 						<tr>
 						  	<td class="title">{{ $earning->date->toDateString()  }}</td>
 						  	<td>{{ $earning->amount }}</td>
+						  	<td>{{ $earning->final_amount }}</td>
 						  	<td>
 								@component('components.modal')
 									@slot('button')

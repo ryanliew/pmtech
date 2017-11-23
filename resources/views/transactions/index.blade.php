@@ -38,7 +38,7 @@
 			<tbody>
 				@forelse($transactions as $transaction)
 					<tr>
-						<td>{{ $transaction->type }}</td>
+						<td>{{ title_case($transaction->type) }}</td>
 						<td>{{ $transaction->description }}</td>
 						<td>{{ $transaction->amount }}</td>
 						<td>{{ $transaction->created_at->toDateString() }}</td>

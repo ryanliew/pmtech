@@ -136,7 +136,7 @@ class User extends Authenticatable
     {
         $this->attributes['is_verified'] = $value;
 
-        if( $value = 1 && $this->is_investor && null !== $this->referrer )
+        if( $value == 1 && $this->is_investor && null !== $this->referrer )
         {
             $this->referrer->add_referrer_bonus_transaction($this);
         }
@@ -174,12 +174,15 @@ class User extends Authenticatable
 
         $now = Carbon::now();
 
-        if($this->referees()->whereMonth('created_at', $now->month)->count() == 5) {
+        
+        // 5 referee per month bonus
+        if($this->referees()->active()->whereMonth('created_at', $now->month)->count() == 4) {
             $description = "Gained bonus for referring 5 investor in " . $now->Format("F Y");
             $amount = $settings->incentive_bonus_per_referee_pack;
             $this->add_bonus_transaction($description, $amount, $date);
         }
 
+        // Team leader commission
         if(isset($this->referrer) && $this->referrer->is_team_leader) {
             $description = "Gained team leader commission from " . $this->name;
             $amount = $setting->incentive_commission_per_referee * $setting->incentive_direct_downline_commission_percentage / 100; 

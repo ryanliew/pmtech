@@ -17,12 +17,17 @@ Route::get('/', function(){
 
 Auth::routes();
 
+Route::get('/phpinfo', function() {
+	phpinfo();
+});
 Route::get('/test', function() {
 	foreach(\App\Area::all() as $area)
 	{
 		echo "['name' => '{$area->name}', 'state_id' => {$area->state_id}],<br>";
 	}
 });
+
+Route::get('/repeater', 'HomeController@repeater');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'SettingController@edit')->name('settings');

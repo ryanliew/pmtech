@@ -1,51 +1,68 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+    <dashboard inline-template>
+        <div class="row">
+            @component('components.numbers')
+                @slot('color')
+                    bg-red
+                @endslot
 
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                @slot('icon')
+                    <i class="fa fa-4x fa-money text-white"></i>
+                @endslot
 
-                    @if( !is_null(auth()->user()->referrer) )
-                        Your referrer : {{ auth()->user()->referrer->name }}
-                    @endif
+                @slot('adjective')
+                    Total earning
+                @endslot
 
-                    @if(auth()->user()->referees_count > 0)
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Date joined</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach(auth()->user()->referees as $referee)
-                            <tr>
-                                <td>{{ $referee->id }}</td>
-                                <td>{{ $referee->name }}</td>
-                                <td>{{ $referee->created_at }}<i class="fa fa-facebook"></i></td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    @else
-                        <p>You have yet to refer someone</p>
-                    @endif
+                {{ auth()->user()->transactions()->profits()->sum('amount') }}
+            @endcomponent
+            @component('components.numbers')
+                @slot('color')
+                    bg-pink
+                @endslot
 
-                    Your referral link : {{ auth()->user()->referral_link }}
+                @slot('icon')
+                    <i class="fa fa-bitcoin fa-4x text-white"></i>
+                @endslot
 
-                </div>
-            </div>
+                @slot('adjective')
+                    Earning last month
+                @endslot
+
+                {{ auth()->user()->transactions()->profits()->latest()->first() ? auth()->user()->transactions()->profits()->latest()->first()->amount : "0" }}
+            @endcomponent
+            @component('components.numbers')
+                @slot('color')
+                    bg-blue
+                @endslot
+
+                @slot('icon')
+                    <i class="fa fa-child fa-4x text-white"></i>
+                @endslot
+
+                @slot('adjective')
+                    Users referred
+                @endslot
+
+                {{ auth()->user()->referees()->count() }}
+            @endcomponent
+            @component('components.numbers')
+                @slot('color')
+                    bg-green
+                @endslot
+
+                @slot('icon')
+                    <i class="fa fa-usd fa-4x text-white"></i>
+                @endslot
+
+                @slot('adjective')
+                    Bitcoin value
+                @endslot
+
+                <span v-text="this.bitcoinUSD"></span>
+            @endcomponent
         </div>
-    </div>
-</div>
+    </dashboard>
 @endsection

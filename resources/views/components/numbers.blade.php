@@ -7,7 +7,7 @@
 						<div class="row">
 							<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
 								<span class="txt-light block counter"><span class="counter-anim">{{ $slot }}</span></span>
-								<span class="weight-500 uppercase-font txt-light block font-13">{{ $adjective }}</span>
+								<span class="weight-500 uppercase-font txt-light block font-13 text-center">{{ $adjective }}</span>
 							</div>
 							<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
 								{{ $icon }}

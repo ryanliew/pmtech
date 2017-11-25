@@ -29,10 +29,10 @@
                     @endslot
 
                     @slot('adjective')
-                        Units owned
+                        Total commision this month
                     @endslot
 
-                    {{ auth()->user()->units()->count() }}
+                    {{ $commision }}
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
@@ -82,6 +82,37 @@
                     
                         <chartjs-line :bind="true" :labels="this.bitcoinChartLabels" :data="this.bitcoinChartData" datalabel="USD"></chartjs-line>
                     @endcomponent 
+                </div>
+                <div class="col-md-6">
+                    @component('components.panel')
+                        @slot('heading')
+                            Units performance
+                        @endslot
+                    
+                        <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
+                            <thead>
+                                <tr>
+                                    <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">ID</th>
+                                    
+                                    <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Earning last month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse( auth()->user()->units as $unit )
+                                    <tr>
+                                        <td class="title">{{ $unit->id }}</td>
+                                        <td>{{ $unit->machine->latest_earning()->final_amount / 10 }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="2">
+                                            You did not invest in any units
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    @endcomponent
                 </div>
             </div>  
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Transaction;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
             });
 
             $view->with('states', $states);
+        });
+
+        \View::composer(['home'], function($view) {
+            $view->with('commision', Transaction::current()->commision()->sum('amount'));
         });
     }
 

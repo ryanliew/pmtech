@@ -55,9 +55,11 @@ Route::post('/user/edit/{user}', 'UserController@update')->name('user.edit');
 Route::post('/user/verify/{user}', 'UserController@verify')->name('user.verify');
 Route::delete('/user/verify/{user}', 'UserController@destroy')->name('user.verify');
 Route::post('/user/ic/{user}', 'UserController@updateIdentity')->name('user.ic');
+Route::get('/user/next-milestone', 'UserController@milestone')->name('milestone');
 Route::get('/user/{user}', 'UserController@show')->name('user');
 Route::post('/user/{user}', 'UserController@update')->name('user');
 Route::post('/user/{user}/password', 'UserController@updatePassword')->name('password');
+
 
 
 Route::post('payments', 'PaymentController@store')->name('payments');

@@ -123,17 +123,61 @@ class User extends Authenticatable
         return $this->referees->filter(function($referee, $key) {return $referee->is_investor; })->count();
     }
 
+    public function getNextRoleStringAttribute()
+    {
+        $string = "Marketing agent";
+
+        if($this->is_marketing_agent) $string = "Team leader"; 
+        if($this->is_team_leader) $string = "Group manager";
+
+        return $string;
+    }
+
     public function getRoleStringAttribute()
     {
         $role = [];
 
         if($this->is_investor) array_push($role, "Investor");
 
-        if($this->is_group_manager) { array_push($role, "General manager"); }
+        if($this->is_group_manager) { array_push($role, "Group manager"); }
         elseif($this->is_team_leader) { array_push($role, "Team leader"); }
         elseif($this->is_marketing_agent) { array_push($role, "Marketing agent"); }
 
         return implode(", ", $role);
+    }
+
+    public function getNextRolePercentageAttribute()
+    {
+        $percentage = 0.0;
+
+        if($this->is_marketing_agent)
+        {
+            $percentage = $this->descending_marketing_agent_count / 5 * 100;
+        }
+
+        if($this->is_team_leader)
+        {
+            $percentage = $this->descending_team_leader_count / 10 * 100;
+        }
+
+        return $percentage;
+    }
+
+    public function getNextRoleDescriptionAttribute()
+    {
+        $string = 0.0;
+
+        if($this->is_marketing_agent)
+        {
+            $string = "Refer " . ( 5 - $this->descending_marketing_agent_count ) . " more active marketing agent to become team leader";
+        }
+
+        if($this->is_team_leader)
+        {
+            $string = "Refer " . ( 10 - $this->descending_team_leader_count ). " more team leaders OR " . ( 50 - $this->descending_marketing_agent_count ) . " to become group manager";
+        }
+
+        return $string;
     }
 
     /* Mutators */

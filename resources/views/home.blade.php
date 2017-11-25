@@ -113,6 +113,71 @@
                             </tbody>
                         </table>
                     @endcomponent
+                    <div class="row">
+                        <div class="col-md-6" :class="milestoneLoadingClass">
+                            <div class="preloader-block">
+                                <ul class="spin-preloader">
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            @component('components.panel')
+                                @slot('heading')
+                                    <span class="text-center">Next milestone</span>
+                                @endslot
+
+                                @slot('custom_body_class')
+                                    sm-data-box-1
+                                @endslot
+                                
+                                <span class="uppercase-font weight-500 font-14 block text-center txt-dark" v-text="milestoneString">
+                                </span>
+                                <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
+                                    <span id="milestone-percentage" v-text="milestonePercentage"></span><span>%</span>
+                                </div>
+                                <div class="progress-anim mt-20">
+                                    <div class="progress mb-5">
+                                        <div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" :aria-valuenow="milestonePercentage" aria-valuemin="0" aria-valuemax="100" :style="'width:' + milestonePercentage + '%;'"></div>
+                                    </div>
+                                </div>
+                                <div class="next-role-description text-center" v-text="milestoneDescription">
+                                </div>
+                                
+                            @endcomponent
+                        </div>
+                        <div class="col-md-6">
+                            @component('components.panel')
+                                @slot('heading')
+                                    My referees
+                                @endslot
+                            
+                                <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
+                                            
+                                            <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Role</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse( auth()->user()->referees as $referee )
+                                            <tr>
+                                                <td class="title">{{ $referee->name }}</td>
+                                                <td>{{ $referee->role_string }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="2">
+                                                    You do not have any referee
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            @endcomponent
+                    </div>
                 </div>
             </div>  
         </div>

@@ -6,7 +6,7 @@
 		<div class="clearfix"></div>
 	</div>
 	<div class="panel-wrapper collapse in">
-		<div class="panel-body">
+		<div class="panel-body @if(isset($custom_body_class)) {{ $custom_body_class }} @endif">
 			{{ $slot }}
 		</div>
 	</div>

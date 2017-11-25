@@ -10,12 +10,16 @@
 				bitcoinHistoryLoadingClass: 'loading',
 				bitcoinChartLabels: [1],
 				bitcoinChartData: [1],
+				milestoneLoadingClass: "loading",
+				milestonePercentage: 0,
+				milestoneString: "",
+				milestoneDescription: "",	
 			};
 		},
 
 		created() {
 
-			if(this.isdefaultpassword)
+			if(this.isdefaultpassword == 1)
 			{
 				Vue.swal({
 					title: 'Using default password',
@@ -46,6 +50,14 @@
 				
 				this.bitcoinHistoryLoadingClass = "";
 
+			});
+
+			axios.get('/user/next-milestone').then( data => {
+				this.milestonePercentage = data.data.percentage;
+				this.milestoneString = data.data.string;
+				this.milestoneDescription = data.data.description;
+
+				this.milestoneLoadingClass = "";
 			});
 		}	
 	}

@@ -189,4 +189,17 @@ class UserController extends Controller
 
         return back()->with('success', "IC for " . $user->name . " has been added");
     }
+
+    public function milestone()
+    {
+        $user = auth()->user();
+
+        $result = [
+            'string' => $user->next_role_string,
+            'description' => $user->next_role_description,
+            'percentage' => $user->next_role_percentage
+        ];
+
+        return json_encode($result);
+    }
 }

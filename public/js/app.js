@@ -98104,13 +98104,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			bitcoinHistoryURL: 'https://api.coindesk.com/v1/bpi/historical/close.json',
 			bitcoinHistoryLoadingClass: 'loading',
 			bitcoinChartLabels: [1],
-			bitcoinChartData: [1]
+			bitcoinChartData: [1],
+			milestoneLoadingClass: "loading",
+			milestonePercentage: 0,
+			milestoneString: "",
+			milestoneDescription: ""
 		};
 	},
 	created: function created() {
 		var _this = this;
 
-		if (this.isdefaultpassword) {
+		if (this.isdefaultpassword == 1) {
 			Vue.swal({
 				title: 'Using default password',
 				text: "You are currently using our default password, it is recommended that you change your password immeadiately",
@@ -98139,6 +98143,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			_this.bitcoinChartData = Object.values(result.data.bpi);
 
 			_this.bitcoinHistoryLoadingClass = "";
+		});
+
+		axios.get('/user/next-milestone').then(function (data) {
+			_this.milestonePercentage = data.data.percentage;
+			_this.milestoneString = data.data.string;
+			_this.milestoneDescription = data.data.description;
+
+			_this.milestoneLoadingClass = "";
 		});
 	}
 });

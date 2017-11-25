@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Transaction');
     }
 
+    public function units()
+    {
+        return $this->hasMany('App\Unit', 'investor_id');
+    }
+
     /* Accessors */
     public function getReferralLinkAttribute()
     {

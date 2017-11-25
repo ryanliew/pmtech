@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -137,6 +138,24 @@ class UserController extends Controller
         $user->update($data);
 
         return back()->with('success', 'Your profile has been updated');
+    }
+
+    public function updatePassword(User $user)
+    {   
+        //dd(request()->all());
+
+        $data = request()->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|confirmed'
+        ]);
+
+        if( ! Hash::check(request()->current_password, $user->password)) return back()->with('error', 'Your current password is wrong');
+
+        $user->update([
+            "password" => bcrypt(request()->new_password)
+        ]);
+
+        return back()->with('success', 'Your password has been updated');
     }
 
     public function verify(User $user)

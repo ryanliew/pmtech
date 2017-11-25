@@ -17,9 +17,10 @@ Route::get('/', function(){
 
 Auth::routes();
 
-Route::get('/phpinfo', function() {
-	phpinfo();
-});
+// Route::get('/phpinfo', function() {
+// 	phpinfo();
+// });
+// 
 Route::get('/test', function() {
 	foreach(\App\Area::all() as $area)
 	{
@@ -56,6 +57,7 @@ Route::delete('/user/verify/{user}', 'UserController@destroy')->name('user.verif
 Route::post('/user/ic/{user}', 'UserController@updateIdentity')->name('user.ic');
 Route::get('/user/{user}', 'UserController@show')->name('user');
 Route::post('/user/{user}', 'UserController@update')->name('user');
+Route::post('/user/{user}/password', 'UserController@updatePassword')->name('password');
 
 
 Route::post('payments', 'PaymentController@store')->name('payments');

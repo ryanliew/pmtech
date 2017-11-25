@@ -285,6 +285,101 @@
 					</div>
 				</div>
 			@endcomponent
+
+			@component('components.panel')
+				@slot('heading')
+					Change password
+				@endslot
+
+				@slot('custom_class')
+					@if($user->is_default_password)
+						panel-danger
+					@endif
+				@endslot
+
+				@slot('custom_message')
+					@if($user->is_default_password)
+						(Recommended)
+					@endif
+				@endslot
+			
+				<form action="{{ route('password', $user->id) }}" method="POST">
+					{{ csrf_field() }}
+					@component('components.input') 
+						@slot('input_name')
+							current_password
+						@endslot
+					
+						@slot('input_type')
+							password
+						@endslot
+					
+						@slot('input_value')
+							
+						@endslot
+					
+						@slot('input_placeholder')
+							Enter current password
+						@endslot
+						
+						Old password
+					
+						@slot('show_only')
+							false
+						@endslot
+					@endcomponent
+
+					@component('components.input') 
+						@slot('input_name')
+							new_password
+						@endslot
+					
+						@slot('input_type')
+							password
+						@endslot
+					
+						@slot('input_value')
+							
+						@endslot
+					
+						@slot('input_placeholder')
+							Preferred new password
+						@endslot
+						
+						New password
+					
+						@slot('show_only')
+							false
+						@endslot
+					@endcomponent
+					
+					@component('components.input') 
+						@slot('input_name')
+							new_password_confirmation
+						@endslot
+					
+						@slot('input_type')
+							password
+						@endslot
+					
+						@slot('input_value')
+							
+						@endslot
+					
+						@slot('input_placeholder')
+							Enter your new password again
+						@endslot
+						
+						Confirm new password
+					
+						@slot('show_only')
+							false
+						@endslot
+					@endcomponent
+
+					<button type="submit" class="btn btn-info btn-rounded">Change password</button>
+				</form>
+			@endcomponent
 		</div>
 	</div>
 @endsection

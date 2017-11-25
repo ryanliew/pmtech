@@ -149,10 +149,11 @@ class UserController extends Controller
             'new_password' => 'required|confirmed'
         ]);
 
-        if( ! Hash::check(request()->current_password, $user->password)) return back()->with('error', 'Your current password is wrong');
+        if( ! Hash::check(request()->current_password, $user->password)) return back()->with('error', 'The current password is wrong');
 
         $user->update([
-            "password" => bcrypt(request()->new_password)
+            "password" => bcrypt(request()->new_password),
+            "is_default_password" => false
         ]);
 
         return back()->with('success', 'Your password has been updated');

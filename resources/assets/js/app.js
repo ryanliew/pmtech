@@ -14,9 +14,13 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.component('paginator', require('./components/Paginator.vue'));
+Vue.component('transactions', require('./components/Transactions.vue'));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
+Vue.component('dashboard', require('./pages/Dashboard.vue'));
+Vue.use(VueCharts);
+Vue.use(VueSweetalert2);
 const app = new Vue({
     el: '#app'
 });
@@ -33,6 +37,9 @@ $('.page-wrapper').css('min-height', (height));
 // Sidebar navigations
 $(document).ready(function(){
 	var $wrapper = $(".wrapper");
+
+	
+	
 	/*Sidebar Collapse Animation*/
 	var sidebarNavCollapse = $('.fixed-sidebar-left .side-nav  li .collapse');
 

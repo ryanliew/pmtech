@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-	<link href="/js/vendors/filament-tablesaw/tablesaw.css" rel="stylesheet">
+	<link href="{{ asset('/js/vendors/filament-tablesaw/tablesaw.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -24,34 +24,9 @@
 		@slot('heading')
 			Transactions
 		@endslot
+		
+		<transactions created_at="{{ $user->created_at->toDateString() }}"></transactions>
 
-		<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
-			<thead>
-				<tr>
-				 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Type</th>
-				  	
-				  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Description</th>
-				  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Amount</th>
-				  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Date</th>
-				</tr>
-			</thead>
-			<tbody>
-				@forelse($transactions as $transaction)
-					<tr>
-						<td>{{ $transaction->type }}</td>
-						<td>{{ $transaction->description }}</td>
-						<td>{{ $transaction->amount }}</td>
-						<td>{{ $transaction->created_at->toDateString() }}</td>
-					</tr>
-				@empty
-					<tr>
-						<td colspan="4">No transaction for this month</td>
-					</tr>
-				@endforelse
-			</tbody>
-		</table>
-
-		{{ $transactions->links() }}
 	@endcomponent
 @endsection
 

@@ -80,6 +80,12 @@
                 <ul class="nav navbar-nav side-nav nicescroll-bar">
                     <li class="navigation-header">
                         <span>Welcome, {{ auth()->user()->name }}</span>
+                    </li>
+                    <li>
+                        <a href="{{ route('home') }}">
+                            <i class="fa fa-dashboard mr-20"></i><span>Dashboard</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ route('user.profile') }}">
                             <i class="fa fa-address-book mr-20"></i><span>My profile</span>

@@ -25,4 +25,17 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function repeater()
+    {
+        $url = request()->url;
+
+        $client = new \GuzzleHttp\Client();
+
+        $request = $client->get($url);
+
+        $response = $request->getBody();
+        
+        return($response);   
+    }
 }

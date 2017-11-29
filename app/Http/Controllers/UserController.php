@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -139,6 +140,25 @@ class UserController extends Controller
         return back()->with('success', 'Your profile has been updated');
     }
 
+    public function updatePassword(User $user)
+    {   
+        //dd(request()->all());
+
+        $data = request()->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|confirmed'
+        ]);
+
+        if( ! Hash::check(request()->current_password, $user->password)) return back()->with('error', 'The current password is wrong');
+
+        $user->update([
+            "password" => bcrypt(request()->new_password),
+            "is_default_password" => false
+        ]);
+
+        return back()->with('success', 'Your password has been updated');
+    }
+
     public function verify(User $user)
     {
     	$user->update([
@@ -168,5 +188,18 @@ class UserController extends Controller
         $user->update($data);
 
         return back()->with('success', "IC for " . $user->name . " has been added");
+    }
+
+    public function milestone()
+    {
+        $user = auth()->user();
+
+        $result = [
+            'string' => $user->next_role_string,
+            'description' => $user->next_role_description,
+            'percentage' => $user->next_role_percentage
+        ];
+
+        return json_encode($result);
     }
 }

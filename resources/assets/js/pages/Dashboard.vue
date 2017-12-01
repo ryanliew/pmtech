@@ -18,7 +18,6 @@
 		},
 
 		created() {
-
 			if(this.isdefaultpassword == 1)
 			{
 				Vue.swal({

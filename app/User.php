@@ -108,6 +108,12 @@ class User extends Authenticatable
                 ||  $this->descending_team_leader_count >= 10;
     }
 
+    public function getIsActiveThisMonthAttribute()
+    {
+        $now = Carbon::now();
+        return $this->referees()->active()->whereMonth('created_at', $now->month)->whereYear('created_at', $now->year)->count() >= 1;
+    }
+
     public function getDescendingTeamLeaderCountAttribute()
     {
         return $this->referees->filter(function($referee, $key) {return $referee->is_team_leader; })->count();
@@ -165,7 +171,7 @@ class User extends Authenticatable
 
     public function getNextRoleDescriptionAttribute()
     {
-        $string = 0.0;
+        $string = "Refer an investor to become a marketing agent";
 
         if($this->is_marketing_agent)
         {
@@ -178,6 +184,16 @@ class User extends Authenticatable
         }
 
         return $string;
+    }
+
+    public function getTotalNumberOfReferralAttribute()
+    {
+        return $this->referees->filter(function($referee){ return $referee->is_marketing_agent; })->count();
+    }
+
+    public function getActiveReferralThisMonthAttribute()
+    {
+        return $this->referees->sum(function($referee){ return $referee->active_referral_this_month; }) + $this->referees->filter(function($referee){ return $referess->is_marketing_agent && $referee->is_active_this_month; })->count();
     }
 
     /* Mutators */

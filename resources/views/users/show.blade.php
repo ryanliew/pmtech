@@ -131,7 +131,7 @@
 				@slot('heading')
 					IC Image
 				@endslot
-				@if( $user->is_marketing_agent )
+				@if( $user->ic_image_path !== "" )
 					<img src="{{ $user->ic_image_path }}" class="img-responsive"/>
 				@else
 					<p>User has not uploaded his IC</p>

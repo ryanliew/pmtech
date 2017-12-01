@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('css')
+    <link href="{{ asset('/js/vendors/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
+@endsection
 @section('content')
     <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" inline-template>
         <div>
@@ -89,29 +92,38 @@
                             Units performance
                         @endslot
                     
-                        <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
-                            <thead>
-                                <tr>
-                                    <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">ID</th>
-                                    
-                                    <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Earning last month</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse( auth()->user()->units as $unit )
-                                    <tr>
-                                        <td class="title">{{ $unit->id }}</td>
-                                        <td>{{ $unit->machine->latest_earning()->final_amount / 10 }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="2">
-                                            You did not invest in any units
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                        <div class="table-wrap">
+                            <div class="table-responsive"> 
+                                <table id="units-data-table" class="table table-hover display pb-30">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Earning last month</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Earning last month</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        @forelse( auth()->user()->units as $unit )
+                                            <tr>
+                                                <td class="title">{{ $unit->id }}</td>
+                                                <td>{{ $unit->machine->latest_earning()->final_amount / 10 }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="2">
+                                                    You did not invest in any units
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     @endcomponent
                     <div class="row">
                         <div class="col-md-6" :class="milestoneLoadingClass">
@@ -144,6 +156,11 @@
                                 </div>
                                 <div class="next-role-description text-center" v-text="milestoneDescription">
                                 </div>
+                                <div class="referral-link mt-10">
+                                    @if(auth()->user()->is_verified)
+                                        <span class="text-white">My referral link:</span>  {{ auth()->user()->referral_link }}
+                                    @endif
+                                </div>
                                 
                             @endcomponent
                         </div>
@@ -152,31 +169,41 @@
                                 @slot('heading')
                                     My referees
                                 @endslot
-                            
-                                <table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
-                                            
-                                            <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Role</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse( auth()->user()->referees as $referee )
-                                            <tr>
-                                                <td class="title">{{ $referee->name }}</td>
-                                                <td>{{ $referee->role_string }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="2">
-                                                    You do not have any referee
-                                                </td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                
+                                <div class="table-wrap">
+                                    <div class="table-responsive"> 
+                                        <table id="referee-data-table" class="table table-hover display pb-30">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Role</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Role</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                @forelse( auth()->user()->referees as $referee )
+                                                    <tr>
+                                                        <td class="title">{{ $referee->name }}</td>
+                                                        <td>{{ $referee->role_string }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            You do not have any referee
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             @endcomponent
+                        </div>
                     </div>
                 </div>
             </div>  
@@ -187,4 +214,9 @@
 @section('js')
     <script src="{{ asset( 'js/vendors/jquery.counterup/jquery.counterup.min.js' ) }}"></script>
     <script src="{{ asset( 'js/vendors/waypoints/jquery.waypoints.min.js' ) }}"></script> 
+    <script src="{{ asset( 'js/vendors/datatables/jquery.dataTables.min.js' ) }}"></script>
+    <script>
+        $('#referee-data-table').DataTable();
+        $('#units-data-table').DataTable();
+    </script> 
 @endsection

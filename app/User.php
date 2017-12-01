@@ -255,7 +255,7 @@ class User extends Authenticatable
         // Team leader commission
         if(isset($this->referrer) && $this->referrer->is_team_leader) {
             $description = "Gained team leader commission from " . $this->name;
-            $amount = $settings->incentive_commission_per_referee * $setting->incentive_direct_downline_commission_percentage / 100; 
+            $amount = $settings->incentive_commission_per_referee * $settings->incentive_direct_downline_commission_percentage / 100; 
             $this->referrer->add_bonus_transaction($description, $amount, $date);
         }
     }

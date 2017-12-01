@@ -158,13 +158,12 @@
                                 </div>
                                 <div class="referral-link mt-10">
                                     @if(auth()->user()->is_verified)
-                                        <div class="button-list">
-                                            <button class="btn btn-success" @click="copyMarketing()">Copy Investor URL</button>
-                                            <button class="btn btn-info" @click="copyInvestor()">Copy Agent URL</button>
+                                        <div class="row">
+                                            <div class="col-md-6"><button class="btn btn-success btn-sm" @click="copyInvestor()">Copy Investor URL</button></div>
+                                            <div class="col-md-6"><button class="btn btn-info btn-sm" @click="copyMarketing()">Copy Agent URL</button></div>
                                         </div>
                                     @endif
                                 </div>
-                                
                             @endcomponent
                         </div>
                         <div class="col-md-6">

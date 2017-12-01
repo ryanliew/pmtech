@@ -72,7 +72,7 @@
 
 		data() {
 			return {
-				dataSet: false,
+				dataSet: [],
 				value: [moment().format("MM-YYYY"), moment().add(1, 'months').format("MM-YYYY") ],
 				dotSize: 18,
 				interval: 2,
@@ -133,11 +133,14 @@
 				let start = moment(this.created_at);
 				let dates = [];
 
+				//console.log(moment().add(1, 'months'));
 				do {
+
 					dates.push(start.format("MM-YYYY"));
 					start.add(1,'months');
 				} while(start.isBefore(moment().add(1, 'months')));
 
+				dates.push(start.format("MM-YYYY"));
 				return dates;
 			}
 		}	

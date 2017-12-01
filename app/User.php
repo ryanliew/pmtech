@@ -185,7 +185,7 @@ class User extends Authenticatable
 
         if($this->is_team_leader)
         {
-            $string = "Refer " . ( 10 - $this->descending_team_leader_count ). " more team leaders OR " . ( 50 - $this->descending_marketing_agent_count ) . " to become group manager";
+            $string = "Refer " . ( 10 - $this->descending_team_leader_count ). " more team leaders OR " . ( 50 - $this->descending_marketing_agent_count ) . " active marketing agent to become group manager";
         }
 
         return $string;

@@ -97384,7 +97384,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	data: function data() {
 		return {
-			dataSet: false,
+			dataSet: [],
 			value: [__WEBPACK_IMPORTED_MODULE_3_moment___default()().format("MM-YYYY"), __WEBPACK_IMPORTED_MODULE_3_moment___default()().add(1, 'months').format("MM-YYYY")],
 			dotSize: 18,
 			interval: 2,
@@ -97442,11 +97442,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var start = __WEBPACK_IMPORTED_MODULE_3_moment___default()(this.created_at);
 			var dates = [];
 
+			//console.log(moment().add(1, 'months'));
 			do {
+
 				dates.push(start.format("MM-YYYY"));
 				start.add(1, 'months');
 			} while (start.isBefore(__WEBPACK_IMPORTED_MODULE_3_moment___default()().add(1, 'months')));
 
+			dates.push(start.format("MM-YYYY"));
 			return dates;
 		}
 	}

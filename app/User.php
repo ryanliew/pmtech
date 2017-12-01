@@ -65,6 +65,11 @@ class User extends Authenticatable
         return url("/register?as=investor&r=" . $this->username);
     }
 
+    public function getMarketingReferralLinkAttribute()
+    {
+        return url("/register?as=marketing&r=" . $this->username);
+    }
+
     public function getRefereesCountAttribute()
     {
         return $this->referees->count();

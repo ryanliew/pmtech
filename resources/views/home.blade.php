@@ -4,7 +4,7 @@
     <link href="{{ asset('/js/vendors/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" inline-template>
+    <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" investor="{{ auth()->user()->referral_link }}" marketing="{{ auth()->user()->marketing_referral_link }}" inline-template>
         <div>
             <div class="row">
                 @component('components.numbers')
@@ -158,7 +158,10 @@
                                 </div>
                                 <div class="referral-link mt-10">
                                     @if(auth()->user()->is_verified)
-                                        <span class="text-white">My referral link:</span>  {{ auth()->user()->referral_link }}
+                                        <div class="button-list">
+                                            <button class="btn btn-success" @click="copyMarketing()">Copy Investor URL</button>
+                                            <button class="btn btn-info" @click="copyInvestor()">Copy Agent URL</button>
+                                        </div>
                                     @endif
                                 </div>
                                 

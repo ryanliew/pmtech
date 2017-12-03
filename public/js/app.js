@@ -98111,7 +98111,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			milestoneLoadingClass: "loading",
 			milestonePercentage: 0,
 			milestoneString: "",
-			milestoneDescription: ""
+			milestoneDescription: "",
+			activeDescendents: 0
 		};
 	},
 	created: function created() {
@@ -98152,6 +98153,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			_this.milestonePercentage = data.data.percentage;
 			_this.milestoneString = data.data.string;
 			_this.milestoneDescription = data.data.description;
+			_this.activeDescendents = data.data.descendents;
 
 			_this.milestoneLoadingClass = "";
 		});

@@ -244,7 +244,7 @@ class User extends Authenticatable
         if( $value == 1 && $this->is_investor && null !== $this->referrer )
         {
             $this->referrer->add_referrer_bonus_transaction($this);
-            $this->referrer->update(['is_marketing_agent', true]);
+            $this->referrer->update(['is_marketing_agent' => true, 'is_active' => true]);
         }
     }
 

@@ -45,10 +45,6 @@ class PaymentController extends Controller
     	]);
 
         $payment->user->update(['is_investor' => true]);
-        if( !is_null($payment->user->referrer) )
-        {
-            $payment->user->referrer->update(['is_marketing_agent' => true, 'is_active' => true]);
-        }
 
     	return back()->with('success', 'Payment#' . $payment->id . ' approved.');
     }

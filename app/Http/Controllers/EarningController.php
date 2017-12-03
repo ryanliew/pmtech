@@ -59,14 +59,21 @@ class EarningController extends Controller
     {
         $groupmanagers = User::all()->filter(function($user){ return $user->is_group_manager; });
         $totalpercentage = $groupmanagers->sum(function($user){ return $user->group_manager_bonus_percentage; });
-        $totalcommission = Transaction::month($date->month, $date->year)->commision()->sum('amount') * 10 / 100 / $totalpercentage;
+        $totalcommision = $totalpercentage > 0 ? Transaction::month($date->month, $date->year)->commision()->sum('amount') * 10 / 100 / $totalpercentage : 0;
 
-        foreach($groupmanagers as $groupmanager)
+        if($totalcommision > 0)
         {
-            $percentage = $groupmanager->group_manager_bonus_percentage;
-            $amount = $totalcommission * $percentage;
-            $description = "Group manager bonus of " . $percentage . "%";
-            $groupmanager->add_bonus_transaction($description, $amount, $date);
+            foreach($groupmanagers as $groupmanager)
+            {
+                $percentage = $groupmanager->group_manager_bonus_percentage;
+                $amount = $totalcommision * $percentage;
+                $description = "Group manager bonus of " . $percentage . "%";
+                $groupmanager->add_bonus_transaction($description, $amount, $date);
+            }
         }
+        
+        // Reset all users is_active flag
+        App\User::where('is_active', true)
+                ->update(['is_active' =>  false]);
     }
 }

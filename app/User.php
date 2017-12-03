@@ -313,10 +313,6 @@ class User extends Authenticatable
         $amount = $unit->machine->latest_earning()->final_amount / 10; 
 
         $this->add_transaction("profit", $description, $amount, $earning->date);
-
-        // Reset all users is_active flag
-        App\User::where('is_active', true)
-                ->update(['is_active' =>  false]);
     }
 
     public function add_transaction($type, $description, $amount, $date)

@@ -198,7 +198,7 @@ class User extends Authenticatable
 
     public function getTotalNumberOfActiveReferralAttribute()
     {
-        return $this->referees()->where('is_active', true)->count() + $this->referees->sum(function($referee){ return $referee->total_number_of_active_referral; });
+        return $this->referees()->where('is_active', true)->count() + $this->referees->filter(function($referee){ return $referee->is_marketing_agent; })->sum(function($referee){ return $referee->total_number_of_active_referral; });
     }
 
     public function getActiveDescendentsPercentageAttribute()

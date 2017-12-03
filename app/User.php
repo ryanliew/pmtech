@@ -193,7 +193,7 @@ class User extends Authenticatable
 
     public function getTotalNumberOfReferralAttribute()
     {
-        return $this->referees->filter(function($referee){ return $referee->is_marketing_agent; })->count() + $this->referees->filter(function($referee){ return $referee->is_marketing_agent; })->sum(function($referee){ return $referee->total_number_of_referral; });
+        return $this->descending_marketing_agent_count + $this->referees->filter(function($referee){ return $referee->is_marketing_agent; })->sum(function($referee){ return $referee->descending_marketing_agent_count; });
     }
 
     public function getTotalNumberOfActiveReferralAttribute()

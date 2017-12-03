@@ -68,5 +68,9 @@ class EarningController extends Controller
             $description = "Group manager bonus of " . $percentage . "%";
             $groupmanager->add_bonus_transaction($description, $amount, $date);
         }
+
+        // Reset all users is_active flag
+        App\User::where('is_active', true)
+                ->update(['is_active' =>  false]);
     }
 }

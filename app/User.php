@@ -40,6 +40,11 @@ class User extends Authenticatable
         return $this->hasMany('App\User', 'referrer_id');
     }
 
+    public function allReferees()
+    {
+        return $this->referees()->with('allReferees');
+    }
+
     public function payments()
     {
         return $this->hasMany('App\Payment');
@@ -193,12 +198,12 @@ class User extends Authenticatable
 
     public function getTotalNumberOfReferralAttribute()
     {
-        return $this->descending_marketing_agent_count + $this->referees->filter(function($referee){ return $referee->referres->is_marketing_agent; })->sum(function($referee){ return $referee->referees->descending_marketing_agent_count; });
+        return $this->allReferees->filter(function($referee){ return $referee->is_marketing_agent; })->count();
     }
 
     public function getTotalNumberOfActiveReferralAttribute()
     {
-        return $this->referees()->where('is_active', true)->count() + $this->referees->filter(function($referee){ return $referee->referees->is_marketing_agent; })->sum(function($referee){ return $referee->referees->total_number_of_active_referral; });
+        return $this->allReferees()->where('is_active', true)->count();
     }
 
     public function getActiveDescendentsPercentageAttribute()

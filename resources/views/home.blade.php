@@ -230,7 +230,7 @@
                                     <div class="panel-body">
                                         <div class="col-md-6 pull-left"><h6>My referral links</div>
                                         <div class="col-md-6 pull-right">
-                                            @if(auth()->user()->is_verified && auth()->user()->is_marketing_agent)
+                                            @if(auth()->user()->is_verified && auth()->user()->ic_image_path !== "")
                                                 <div class="row">
                                                     <div class="col-md-6"><button class="btn btn-success btn-sm" @click="copyInvestor()">Copy Investor URL</button></div>
                                                     <div class="col-md-6"><button class="btn btn-info btn-sm" @click="copyMarketing()">Copy Agent URL</button></div>

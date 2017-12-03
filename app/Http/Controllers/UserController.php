@@ -161,9 +161,7 @@ class UserController extends Controller
 
     public function verify(User $user)
     {
-    	$user->update([
-    		'is_verified'	=> true
-    	]);
+    	$user->verify();
 
     	return redirect(route('users'))->with('success', $user->name . ' is now verified.');
     }
@@ -197,7 +195,8 @@ class UserController extends Controller
         $result = [
             'string' => $user->next_role_string,
             'description' => $user->next_role_description,
-            'percentage' => $user->next_role_percentage
+            'percentage' => $user->next_role_percentage,
+            'descendents' => $user->active_descendents_percentage
         ];
 
         return json_encode($result);

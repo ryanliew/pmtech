@@ -107,20 +107,22 @@
                             {{ csrf_field() }}
                         </form>
                     </li>
-                    <li class="navigation-header">
-                        <span>Main</span> 
-                        <i class="fa fa-chevron-circle-right"></i>
-                    </li>
-                    <li>
-                        <a href="{{ route('users') }}"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Users</span></div><div class="clearfix"></div></a>
-                    </li> 
-                    <li>
-                        <a href="{{ route('machines') }}"><div class="pull-left"><i class="fa fa-server mr-20"></i><span class="right-nav-text">Machines</span></div><div class="clearfix"></div></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('settings') }}"><div class="pull-left"><i class="fa fa-cog mr-20"></i><span class="right-nav-text">Settings</span></div><div class="clearfix"></div></a>
-                    </li>
-                    <li><hr class="light-grey-hr mb-10"/></li>
+                    @if(auth()->user()->is_admin)
+                        <li class="navigation-header">
+                            <span>Main</span> 
+                            <i class="fa fa-chevron-circle-right"></i>
+                        </li>
+                        <li>
+                            <a href="{{ route('users') }}"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Users</span></div><div class="clearfix"></div></a>
+                        </li> 
+                        <li>
+                            <a href="{{ route('machines') }}"><div class="pull-left"><i class="fa fa-server mr-20"></i><span class="right-nav-text">Machines</span></div><div class="clearfix"></div></a>
+                        </li>
+                        <li>
+                            <a href="{{ route('settings') }}"><div class="pull-left"><i class="fa fa-cog mr-20"></i><span class="right-nav-text">Settings</span></div><div class="clearfix"></div></a>
+                        </li>
+                        <li><hr class="light-grey-hr mb-10"/></li>
+                    @endif
                 </ul>
             </div>
             <!-- /Left Sidebar Menu -->

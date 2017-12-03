@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Setting;
+use App\Transaction;
 use App\Unit;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -198,12 +199,37 @@ class User extends Authenticatable
 
     public function getTotalNumberOfReferralAttribute()
     {
-        return $this->referees->filter(function($referee){ return $referee->is_marketing_agent; })->count();
+        return $this->referees->filter(function($referee){ return $referee->is_marketing_agent; })->count() + $this->referees->sum(function($referee){ return $referee->total_number_of_referral; });
     }
 
-    public function getActiveReferralThisMonthAttribute()
+    public function getTotalNumberOfActiveReferralAttribute()
     {
-        return $this->referees->sum(function($referee){ return $referee->active_referral_this_month; }) + $this->referees->filter(function($referee){ return $referess->is_marketing_agent && $referee->is_active_this_month; })->count();
+        return $this->referees()->where('is_active')->count() + $this->referees->sum(function($referee){ return $referee->total_number_of_active_referral; })->count();
+    }
+
+    public function getActiveDescendentsPercentageAttribute()
+    {
+        return $this->total_number_of_referral > 0 ? $this->total_number_of_active_referral / $this->total_number_of_referral * 100 : 0;
+    }
+
+    public function getGroupManagerBonusPercentageAttribute()
+    {
+        $percentage = 0;
+        $active_percentage = $this->active_descendents_percentage;
+        if( $active_percentage >= 100 )
+        {
+            $percentage = 10;
+        }
+        else if( $active_percentage >= 80 )
+        {
+            $percentage = 8;
+        }
+        else if( $active_percentage >= 50 )
+        {
+            $percentage = 5;
+        }
+
+        return $percentage;
     }
 
     /* Mutators */
@@ -226,6 +252,13 @@ class User extends Authenticatable
         {
             $this->update(['referrer_id' => $referrer->id]);
         }
+    }
+
+    public function verify()
+    {
+        $this->update(['is_verified' => true]);
+
+        if( $this->is_investor && !is_null($this->referrer) ) $this->referrer->update(['is_active' => true]);
     }
 
     public function add_payment($payment_slip_path)
@@ -277,6 +310,10 @@ class User extends Authenticatable
         $amount = $unit->machine->latest_earning()->final_amount / 10; 
 
         $this->add_transaction("profit", $description, $amount, $earning->date);
+
+        // Reset all users is_active flag
+        App\User::where('is_active', true)
+                ->update(['is_active' =>  false]);
     }
 
     public function add_transaction($type, $description, $amount, $date)

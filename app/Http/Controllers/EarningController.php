@@ -35,6 +35,8 @@ class EarningController extends Controller
             'amount'    => $data['amount']
         ]);
 
+        $this->sendGMBonus($date);
+
         return back()->with('success', "Added earning to " . $machine->name);
     }
 
@@ -49,5 +51,20 @@ class EarningController extends Controller
         ]);
 
         return back()->with('success', "Edited earning for " . $earning->date->toDateString());
+    }
+
+    public function sendGMBonus($date)
+    {
+        $groupmanagers = User::all()->filter(function($user){ return $user->is_group_manager; });
+        $totalpercentage = $groupmanagers->sum(function($user){ return $user->group_manager_bonus_percentage; });
+        $totalcommission = Transaction::month($date->month, $date->year)->commission()->sum('amount') * 10 / 100 / $totalpercentage;
+
+        foreach($groupmanagers as $groupmanager)
+        {
+            $percentage = $groupmanager->group_manager_bonus_percentage;
+            $amount = $totalcommission * $precentage;
+            $description = "Group manager bonus of " . $percentage . "%";
+            $groupmanager->add_bonus_transaction($description, $amount, $date);
+        }
     }
 }

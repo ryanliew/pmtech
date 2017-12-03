@@ -84,7 +84,45 @@
                         @endslot
                     
                         <chartjs-line :bind="true" :labels="this.bitcoinChartLabels" :data="this.bitcoinChartData" datalabel="USD"></chartjs-line>
-                    @endcomponent 
+                    @endcomponent
+                    @component('components.panel')
+                        @slot('heading')
+                            My referees
+                        @endslot
+                        
+                        <div class="table-wrap">
+                            <div class="table-responsive"> 
+                                <table id="referee-data-table" class="table table-hover display pb-30">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Role</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Role</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        @forelse( auth()->user()->referees as $referee )
+                                            <tr>
+                                                <td class="title">{{ $referee->name }}</td>
+                                                <td>{{ $referee->role_string }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="2">
+                                                    You do not have any referee
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endcomponent
                 </div>
                 <div class="col-md-6">
                     @component('components.panel')
@@ -156,54 +194,106 @@
                                 </div>
                                 <div class="next-role-description text-center" v-text="milestoneDescription">
                                 </div>
-                                <div class="referral-link mt-10">
-                                    @if(auth()->user()->is_verified)
-                                        <div class="row">
-                                            <div class="col-md-6"><button class="btn btn-success btn-sm" @click="copyInvestor()">Copy Investor URL</button></div>
-                                            <div class="col-md-6"><button class="btn btn-info btn-sm" @click="copyMarketing()">Copy Agent URL</button></div>
-                                        </div>
-                                    @endif
-                                </div>
                             @endcomponent
                         </div>
                         <div class="col-md-6">
                             @component('components.panel')
                                 @slot('heading')
-                                    My referees
+                                    <span class="text-center">Active Descendents</span>
+                                @endslot
+
+                                @slot('custom_body_class')
+                                    sm-data-box-1
                                 @endslot
                                 
-                                <div class="table-wrap">
-                                    <div class="table-responsive"> 
-                                        <table id="referee-data-table" class="table table-hover display pb-30">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Role</th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Role</th>
-                                                </tr>
-                                            </tfoot>
-                                            <tbody>
-                                                @forelse( auth()->user()->referees as $referee )
-                                                    <tr>
-                                                        <td class="title">{{ $referee->name }}</td>
-                                                        <td>{{ $referee->role_string }}</td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            You do not have any referee
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
+                                <span class="uppercase-font weight-500 font-14 block text-center txt-dark">
+                                    Active marketing agent
+                                </span>
+                                <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
+                                    <span id="active-percentage" v-text="activeDescendents"></span><span>%</span>
+                                </div>
+                                <div class="progress-anim mt-20">
+                                    <div class="progress mb-5">
+                                        <div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" :aria-valuenow="activeDescendents" aria-valuemin="0" aria-valuemax="100" :style="'width:' + activeDescendents + '%;'"></div>
                                     </div>
                                 </div>
+                                <div class="next-role-description text-center">
+                                    Numer of active marketing agent under me
+                                </div>
+                            @endcomponent
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default card-view">
+                                <div class="panel-wrapper collapse in">
+                                    <div class="panel-body">
+                                        <div class="col-md-6 pull-left"><h6>My referral links</div>
+                                        <div class="col-md-6 pull-right">
+                                            @if(auth()->user()->is_verified && auth()->user()->is_marketing_agent)
+                                                <div class="row">
+                                                    <div class="col-md-6"><button class="btn btn-success btn-sm" @click="copyInvestor()">Copy Investor URL</button></div>
+                                                    <div class="col-md-6"><button class="btn btn-info btn-sm" @click="copyMarketing()">Copy Agent URL</button></div>
+                                                </div>
+                                            @else
+                                                <div class="text-center text-danger">
+                                                    Please consult our support team on how to become a marketing agent.
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @component('components.panel')
+                                @slot('heading')
+                                    FAQ
+                                @endslot
+                            
+                                <div class="panel-group accordion-struct" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">How to become a marketing agent?</a>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="panel-body pa-15">If you are already an investor, please email your copy of IC to support@pmtech.com. You will become a marketing agent after you succesfully referred an investor.</div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                            <a role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">How am I considered a team leader?</a>
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="panel-body pa-15">You must be a marketing agent before hand to "level up" into a team leader. You can become a team leader by referring 5 marketing agent successfully.</div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingThree">
+                                            <a role="button" data-toggle="collapse" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">Why become a team leader?</a>
+                                        </div>
+                                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                            <div class="panel-body pa-15">A team leader can earn passive income of 10% per referee referred by your direct descendents.</div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingFour">
+                                            <a role="button" data-toggle="collapse" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">How am I considered a group manager?</a>
+                                        </div>
+                                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                            <div class="panel-body pa-15">You must be a team leader before hand to "level up" into a group manager. You can become a group manager by referring 50 marketing agent successfully or by having 10 team leaders as your direct descendent.</div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingFive">
+                                            <a role="button" data-toggle="collapse" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">Why become a group manager?</a>
+                                        </div>
+                                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                                            <div class="panel-body pa-15">A group manager enjoys the benefit of team leader and at the same time stand a chance to get a percentage of the total commission per month, depending on how active your descendents are.</div>
+                                        </div>
+                                    </div>
                             @endcomponent
                         </div>
                     </div>

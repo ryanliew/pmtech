@@ -13,7 +13,8 @@
 				milestoneLoadingClass: "loading",
 				milestonePercentage: 0,
 				milestoneString: "",
-				milestoneDescription: "",	
+				milestoneDescription: "",
+				activeDescendents: 0,	
 			};
 		},
 
@@ -56,6 +57,7 @@
 				this.milestonePercentage = data.data.percentage;
 				this.milestoneString = data.data.string;
 				this.milestoneDescription = data.data.description;
+				this.activeDescendents = data.data.descendents;
 
 				this.milestoneLoadingClass = "";
 			});

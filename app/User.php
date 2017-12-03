@@ -193,12 +193,29 @@ class User extends Authenticatable
 
     public function getTotalNumberOfReferralAttribute()
     {
-        return $this->descending_marketing_agent_count + $this->referees->sum(function($referee){ return $referee->descending_marketing_agent_count; });
+        $in_id = $this->referees->pluck('id')->push($this->id);
+
+        $count = DB::table('users')
+                    ->whereIn('referrer_id', $in_id)
+                    ->whereNotNull('ic_image_path')
+                    ->where('is_verified', true)
+                    ->count();
+
+        return $count;
     }
 
     public function getTotalNumberOfActiveReferralAttribute()
     {
-        return $this->referees()->where('is_active', true)->count() + $this->referees->sum(function($referee){ return $referee->total_number_of_active_referral; });
+        $in_id = $this->referees->pluck('id')->push($this->id);
+
+        $count = DB::table('users')
+                    ->whereIn('referrer_id', $in_id)
+                    ->whereNotNull('ic_image_path')
+                    ->where('is_verified', true)
+                    ->where('is-active', true)
+                    ->count();
+
+        return $count;
     }
 
     public function getActiveDescendentsPercentageAttribute()

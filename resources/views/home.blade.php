@@ -97,16 +97,12 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Role</th>
-                                            <th>Marketing agents referred</th>
-                                            <th>Investor referred</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
                                             <th>Role</th>
-                                            <th>Marketing agents referred</th>
-                                            <th>Investor referred</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>

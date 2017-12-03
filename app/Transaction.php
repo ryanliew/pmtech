@@ -34,7 +34,7 @@ class Transaction extends Model
 
     public function scopeCurrent($query)
     {
-        return $query->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year);
+        return $query->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year);
     }
 
     public function scopeMonth($query, $month, $year)

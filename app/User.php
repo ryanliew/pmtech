@@ -92,18 +92,6 @@ class User extends Authenticatable
         return $this->is_verified ? 'Active' : 'Pending verfification';
     }
 
-    public function getIsInvestorAttribute()
-    {
-        return $this->payments()->where('is_verified', true)->count() > 0;
-    }
-
-    public function getIsMarketingAgentAttribute()
-    {
-        return !empty( $this->ic_image_path ) && $this->referees->filter(function($referee, $key){
-                return $referee->is_investor;
-        })->count() > 0;
-    }
-
     public function getIsTeamLeaderAttribute()
     {
         return $this->descending_marketing_agent_count >= 5;   
@@ -122,22 +110,12 @@ class User extends Authenticatable
 
     public function getDescendingMarketingAgentCountAttribute()
     {
-        $in_id = $this->referees->pluck('id')->push($this->id);
-
-        $count = DB::table('users')
-                    ->where('referrer_id', $this->id)
-                    ->whereNotNull('ic_image_path')
-                    ->where('ic_image_path', '<>', '')
-                    ->where('is_verified', true)
-                    ->where('is_marketing_agent', true)
-                    ->count();
-
-        return $count;
+        return $this->referees()->where('is_marketing_agent', true)->count();
     }
 
     public function getDescendingInvestorCountAttribute()
     {
-        return $this->referees->filter(function($referee, $key) {return $referee->is_investor; })->count();
+        return $this->referees()->where('is_investor', true)->count();
     }
 
     public function getNextRoleStringAttribute()

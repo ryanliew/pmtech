@@ -61,15 +61,13 @@ class EarningController extends Controller
         $totalpercentage = $groupmanagers->sum(function($user){ return $user->group_manager_bonus_percentage; });
         $totalcommision = $totalpercentage > 0 ? Transaction::month($date->month, $date->year)->commision()->sum('amount') * 10 / 100 / $totalpercentage : 0;
 
-        dd($totalcommision);
-
         if($totalcommision > 0)
         {
             foreach($groupmanagers as $groupmanager)
             {
                 $percentage = $groupmanager->group_manager_bonus_percentage;
                 $amount = $totalcommision * $percentage;
-                $description = "Group manager bonus of " . $percentage . "%";
+                $description = "Group manager bonus of " . $percentage . "% for " . $date->format('F Y');
                 $groupmanager->add_bonus_transaction($description, $amount, $date);
             }
         }

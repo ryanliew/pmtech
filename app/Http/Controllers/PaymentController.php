@@ -44,6 +44,8 @@ class PaymentController extends Controller
     		'is_verified'	=>	true
     	]);
 
+        $payment->user->update(['is_investor', true]);
+
     	return back()->with('success', 'Payment#' . $payment->id . ' approved.');
     }
 }

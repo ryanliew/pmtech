@@ -24,7 +24,7 @@
 			{
 				Vue.swal({
 					title: 'Using default password',
-					text: "You are currently using our default password, it is recommended that you change your password immeadiately",
+					text: "Your password is currently your last 6 digit of your IC number, it is recommended that you change your password immeadiately",
 					type: "warning",
 					showCancelButton: true,
 					confirmButtonText: "Change my password",

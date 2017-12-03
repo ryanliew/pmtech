@@ -4,6 +4,7 @@
     <link href="{{ asset('/js/vendors/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
+    {{ auth()->user()->total_number_of_referral }} / {{ auth()->user()->total_number_of_active_referral }}
     <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" investor="{{ auth()->user()->referral_link }}" marketing="{{ auth()->user()->marketing_referral_link }}" inline-template>
         <div>
             <div class="row">
@@ -259,7 +260,7 @@
                                             <a role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">How to become a marketing agent?</a>
                                         </div>
                                         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                                            <div class="panel-body pa-15">If you are already an investor, please email your copy of IC to support@pmtech.com. You will become a marketing agent after you succesfully referred an investor.</div>
+                                            <div class="panel-body pa-15">If you are already an investor, please email your copy of IC to support@pmtech.com. You will become a marketing agent after you referred an investor successfully.</div>
                                         </div>
                                     </div>
                                     <div class="panel panel-default">
@@ -267,7 +268,7 @@
                                             <a role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">How am I considered a team leader?</a>
                                         </div>
                                         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                            <div class="panel-body pa-15">You must be a marketing agent before hand to "level up" into a team leader. You can become a team leader by referring 5 marketing agent successfully.</div>
+                                            <div class="panel-body pa-15">You must be a marketing agent before hand to "level up" into a team leader. You will then become a team leader by referring 5 marketing agent successfully.</div>
                                         </div>
                                     </div>
                                     <div class="panel panel-default">
@@ -283,7 +284,7 @@
                                             <a role="button" data-toggle="collapse" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">How am I considered a group manager?</a>
                                         </div>
                                         <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                                            <div class="panel-body pa-15">You must be a team leader before hand to "level up" into a group manager. You can become a group manager by referring 50 marketing agent successfully or by having 10 team leaders as your direct descendent.</div>
+                                            <div class="panel-body pa-15">You must be a team leader before hand to "level up" into a group manager. You can then become a group manager by referring 50 marketing agent successfully or by having 10 team leaders as your direct descendents.</div>
                                         </div>
                                     </div>
                                     <div class="panel panel-default">

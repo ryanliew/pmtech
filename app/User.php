@@ -199,6 +199,7 @@ class User extends Authenticatable
         $count = DB::table('users')
                     ->whereIn('referrer_id', $in_id)
                     ->whereNotNull('ic_image_path')
+                    ->where('ic_image_path', '<>', '')
                     ->where('is_verified', true)
                     ->count();
 
@@ -212,8 +213,9 @@ class User extends Authenticatable
         $count = DB::table('users')
                     ->whereIn('referrer_id', $in_id)
                     ->whereNotNull('ic_image_path')
+                    ->where('ic_image_path', '<>', '')
                     ->where('is_verified', true)
-                    ->where('is-active', true)
+                    ->where('is_active', true)
                     ->count();
 
         return $count;

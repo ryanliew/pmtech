@@ -110,8 +110,6 @@
                                             <tr>
                                                 <td class="title">{{ $referee->name }}</td>
                                                 <td>{{ $referee->role_string }}</td>
-                                                <td>{{ $referee->descending_marketing_agent_count }}</td>
-                                                <td>{{ $referee->descending_investor_count }}</td>
                                             </tr>
                                         @empty
                                             <tr>

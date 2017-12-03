@@ -252,8 +252,6 @@ class User extends Authenticatable
     public function verify()
     {
         $this->update(['is_verified' => true]);
-
-        if( $this->is_investor && !is_null($this->referrer) ) $this->referrer->update(['is_active' => true]);
     }
 
     public function add_payment($payment_slip_path)

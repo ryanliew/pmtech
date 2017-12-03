@@ -210,7 +210,7 @@
                                     Active marketing agent
                                 </span>
                                 <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
-                                    <span id="active-percentage" v-text="activeDescendents"></span><span>%</span>
+                                    <span id="active-percentage" v-text="activeDescendents.toFixed(2)"></span><span>%</span>
                                 </div>
                                 <div class="progress-anim mt-20">
                                     <div class="progress mb-5">

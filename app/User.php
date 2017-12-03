@@ -122,7 +122,16 @@ class User extends Authenticatable
 
     public function getDescendingMarketingAgentCountAttribute()
     {
-        return $this->referees->filter(function($referee, $key) {return $referee->is_marketing_agent; })->count();
+        $in_id = $this->referees->pluck('id')->push($this->id);
+
+        $count = DB::table('users')
+                    ->whereIn('referrer_id', $in_id)
+                    ->whereNotNull('ic_image_path')
+                    ->where('ic_image_path', '<>', '')
+                    ->where('is_verified', true)
+                    ->count();
+
+        return $count;
     }
 
     public function getDescendingInvestorCountAttribute()

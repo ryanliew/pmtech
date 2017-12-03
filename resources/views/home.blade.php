@@ -4,7 +4,6 @@
     <link href="{{ asset('/js/vendors/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    {{ auth()->user()->total_number_of_active_referral }} / {{ auth()->user()->total_number_of_referral }} 
     <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" investor="{{ auth()->user()->referral_link }}" marketing="{{ auth()->user()->marketing_referral_link }}" inline-template>
         <div>
             <div class="row">
@@ -98,12 +97,16 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Role</th>
+                                            <th>Marketing agents referred</th>
+                                            <th>Investor referred</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
                                             <th>Role</th>
+                                            <th>Marketing agents referred</th>
+                                            <th>Investor referred</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -111,6 +114,8 @@
                                             <tr>
                                                 <td class="title">{{ $referee->name }}</td>
                                                 <td>{{ $referee->role_string }}</td>
+                                                <td>{{ $referee->descending_marketing_agent_count }}</td>
+                                                <td>{{ $referee->descending_investor_count }}</td>
                                             </tr>
                                         @empty
                                             <tr>

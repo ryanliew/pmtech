@@ -75,5 +75,7 @@ class EarningController extends Controller
         // Reset all users is_active flag
         User::where('is_active', true)
                 ->update(['is_active' =>  false]);
+
+        // Force commit
     }
 }

@@ -294,6 +294,7 @@
                                             <div class="panel-body pa-15">A group manager enjoys the benefit of team leader and at the same time stand a chance to get a percentage of the total commission per month, depending on how active your descendents are.</div>
                                         </div>
                                     </div>
+                                </div>
                             @endcomponent
                         </div>
                     </div>

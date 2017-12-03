@@ -182,7 +182,18 @@ class User extends Authenticatable
 
     public function getTotalNumberOfReferralAttribute()
     {
-        return $this->descending_marketing_agent_count;
+        $in_id = $this->referees->pluck('id')->push($this->id);
+
+        $count = DB::table('users')
+                    ->whereIn('referrer_id', $in_id)
+                    ->whereNotNull('ic_image_path')
+                    ->where('ic_image_path', '<>', '')
+                    ->where('is_verified', true)
+                    ->where('is_active', true)
+                    ->where('is_marketing_agent', true)
+                    ->count();
+
+        return $count;
     }
 
     public function getTotalNumberOfActiveReferralAttribute()

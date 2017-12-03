@@ -39,6 +39,6 @@ class Transaction extends Model
 
     public function scopeMonth($query, $month, $year)
     {
-        return $query->whereMonth('created_at', $month)->whereYear('created_at', $year);
+        return $query->whereMonth('date', $month)->whereYear('date', $year);
     }
 }

@@ -114,12 +114,6 @@ class User extends Authenticatable
                 ||  $this->descending_team_leader_count >= 10;
     }
 
-    public function getIsActiveThisMonthAttribute()
-    {
-        $now = Carbon::now();
-        return $this->referees()->active()->whereMonth('created_at', $now->month)->whereYear('created_at', $now->year)->count() >= 1;
-    }
-
     public function getDescendingTeamLeaderCountAttribute()
     {
         return $this->referees->filter(function($referee, $key) {return $referee->is_team_leader; })->count();
@@ -204,7 +198,7 @@ class User extends Authenticatable
 
     public function getTotalNumberOfActiveReferralAttribute()
     {
-        return $this->referees()->where('is_active')->count() + $this->referees->sum(function($referee){ return $referee->total_number_of_active_referral; });
+        return $this->referees()->where('is_active', true)->count() + $this->referees->sum(function($referee){ return $referee->total_number_of_active_referral; });
     }
 
     public function getActiveDescendentsPercentageAttribute()

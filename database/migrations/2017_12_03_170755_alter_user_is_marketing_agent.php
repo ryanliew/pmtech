@@ -14,7 +14,8 @@ class AlterUserIsMarketingAgent extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_marketing_agent');
+            $table->boolean('is_marketing_agent')->default(false);
+            $table->boolean('is_investor')->default(false);
         });
     }
 
@@ -26,7 +27,7 @@ class AlterUserIsMarketingAgent extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_marketing_agent');
+            $table->dropColumn(['is_marketing_agent', 'is_investor']);
         });
     }
 }

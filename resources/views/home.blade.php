@@ -218,7 +218,7 @@
                                     </div>
                                 </div>
                                 <div class="next-role-description text-center">
-                                    Numer of active marketing agent under me
+                                    Number of active marketing agent under me
                                 </div>
                             @endcomponent
                         </div>

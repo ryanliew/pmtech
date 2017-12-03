@@ -64,7 +64,7 @@ class EarningController extends Controller
         foreach($groupmanagers as $groupmanager)
         {
             $percentage = $groupmanager->group_manager_bonus_percentage;
-            $amount = $totalcommission * $precentage;
+            $amount = $totalcommission * $percentage;
             $description = "Group manager bonus of " . $percentage . "%";
             $groupmanager->add_bonus_transaction($description, $amount, $date);
         }

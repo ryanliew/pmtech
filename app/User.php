@@ -189,7 +189,6 @@ class User extends Authenticatable
                     ->whereNotNull('ic_image_path')
                     ->where('ic_image_path', '<>', '')
                     ->where('is_verified', true)
-                    ->where('is_active', true)
                     ->where('is_marketing_agent', true)
                     ->count();
 

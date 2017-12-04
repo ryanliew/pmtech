@@ -30,6 +30,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $casts = [
+        'confirmed' => 'boolean'
+    ];
+
     /* Relations */
     public function referrer()
     {
@@ -249,6 +253,13 @@ class User extends Authenticatable
     }
 
     /* Methods */
+    public function confirm()
+    {
+        $this->confirmed = true;
+        $this->confirmation_token = null;
+        $this->save();
+    }
+    
     public function update_referrer($referrer_id)
     {
         $referrer = User::where('username', $referrer_id)->first();

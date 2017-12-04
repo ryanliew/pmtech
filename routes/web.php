@@ -71,3 +71,6 @@ Route::patch('earnings/{earning}', 'EarningController@update')->name('earning');
 
 
 Route::get('/transactions/{user}', 'TransactionController@index')->name('transactions');
+
+
+Route::get('/register/confirm', 'Auth\VerifyEmailController@index')->name('register.confirm');

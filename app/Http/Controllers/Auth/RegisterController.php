@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use App\Mail\PleaseConfirmYourEmail;
+use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -97,10 +98,11 @@ class RegisterController extends Controller
             'ic_image_path'     =>  $ic_copy,
             'phone'             =>  $data['phone'],
             'ic'                =>  $data['ic'],
-            'username'          =>  str_random(6),
+            'username'          =>  str_limit(md5(str_random() . $data['email']), 6, ''),
             'alt_contact_name'  =>  $data['alt_contact_name'],
             'alt_contact_phone' =>  $data['alt_contact_phone'],
-            'area_id'           =>  $data['area_id']
+            'area_id'           =>  $data['area_id'],
+            'confirmation_token' => str_limit(md5($data['email'] . str_random()), 25, '')
         ]);
 
         $user->update_referrer($data['referrer_user']);
@@ -113,4 +115,18 @@ class RegisterController extends Controller
         
         return $user;
     }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        Mail::to($user)->send(new PleaseConfirmYourEmail($user));
+
+        return redirect($this->redirectPath());
+    } 
 }

@@ -98098,7 +98098,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['isdefaultpassword', 'investor', 'marketing'],
+	props: ['isdefaultpassword', 'investor', 'marketing', 'confirmed'],
 
 	data: function data() {
 		return {
@@ -98128,6 +98128,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).then(function (result) {
 				if (result) {
 					window.location = "/user/profile";
+				}
+			});
+		}
+
+		if (this.confirmed == 0) {
+			Vue.swal({
+				title: 'Email not verified',
+				text: "You have not confirmed your email. Please proceed to your registered email address and click the link on our confirmation email.",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Resend confirmation email"
+			}).then(function (result) {
+				if (result) {
+					axios.post('/resend-confirmation-email');
+					Vue.swal({
+						title: 'Confirmation email sent',
+						type: "success"
+					});
 				}
 			});
 		}

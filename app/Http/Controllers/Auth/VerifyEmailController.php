@@ -23,5 +23,12 @@ class VerifyEmailController extends Controller
 
     	return redirect(route('home'))
     			->with('flash', 'Your email is now confirmed!');
+    }
+
+    public function resend()
+    {
+        $user = auth()->user();
+        Mail::to($user)->send(new PleaseConfirmYourEmail($user));
+        return response(200);   
     }	
 }

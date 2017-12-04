@@ -1,6 +1,6 @@
 <script>
 	export default {
-		props: ['isdefaultpassword', 'investor', 'marketing'],
+		props: ['isdefaultpassword', 'investor', 'marketing', 'confirmed'],
 
 		data() {
 			return {
@@ -31,6 +31,25 @@
 				}).then((result) => {
 					if(result) {
 						window.location = "/user/profile";
+					}
+				});	
+			}
+
+			if(this.confirmed == 0)
+			{
+				Vue.swal({
+					title: 'Email not verified',
+					text: "You have not confirmed your email. Please proceed to your registered email address and click the link on our confirmation email.",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonText: "Resend confirmation email",
+				}).then((result) => {
+					if(result) {
+						axios.post('/resend-confirmation-email');
+						Vue.swal({
+							title: 'Confirmation email sent',
+							type: "success"
+						});
 					}
 				});	
 			}

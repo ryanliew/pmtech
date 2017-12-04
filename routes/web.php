@@ -74,3 +74,4 @@ Route::get('/transactions/{user}', 'TransactionController@index')->name('transac
 
 
 Route::get('/register/confirm', 'Auth\VerifyEmailController@index')->name('register.confirm');
+Route::post('/resend-confirmation-email', 'Auth\VerifyEmailController@resend')->name('register.resend');

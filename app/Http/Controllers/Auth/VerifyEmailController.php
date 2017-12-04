@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 
-class RegistrationConfirmationController extends Controller
+class VerifyEmailController extends Controller
 {
     //
     //

@@ -11,8 +11,8 @@
         </div>
         <div class="form-group mb-0 pull-right">
             <span class="inline-block pr-10">Don't have an account?</span>
-            <a class="inline-block btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=investor">Sign Up as an investor</a>
-            <a class="inline-block btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=agent">Sign Up as an agent</a>
+            <a class="inline-block btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=investor">Sign Up as customer</a>
+            <a class="inline-block btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=agent">Sign Up as agent</a>
         </div>
         <div class="clearfix"></div>
     </header>

@@ -4,6 +4,26 @@
     <link href="{{ asset('/js/vendors/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
+    <div class="row">
+        @if(!auth()->user()->confirmed)
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="fa fa-warning pr-15 pull-left"></i><p class="pull-left">Your email is not verified. Please proceed to your registered email inbox to verify it.</p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        @endif
+        @if(auth()->user()->is_default_password) 
+            <div class="col-md-12">
+                <div class="alert alert-warning alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="fa fa-warning pr-15 pull-left"></i><p class="pull-left">Your password is set as the last 6 digit of your IC number. It is recommended that you <a class="password-link" href="{{ route('user.profile') }}">change your password</a> now</p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        @endif
+    </div>
     <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" investor="{{ auth()->user()->referral_link }}" marketing="{{ auth()->user()->marketing_referral_link }}" confirmed="{{ auth()->user()->confirmed }}" inline-template>
         <div>
             <div class="row">

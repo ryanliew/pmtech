@@ -7354,6 +7354,10 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
   color: white;
 }
 
+.password-link {
+  color: #ff2a00;
+  text-decoration: underline;
+}
 .preloader-block {
   display: none;
   position: absolute;

@@ -1,21 +1,6 @@
 @extends('layouts.outer-layout')
 
 @section('content')
-<div class="wrapper pa-0">
-    <header class="sp-header">
-        <div class="sp-logo-wrap pull-left">
-            <a href="{{ url('/') }}">
-                <img class="brand-img"></img>
-                <span class="brand-text">{{ env("APP_NAME", "Welory Solution") }}</span>
-            </a>
-        </div>
-        <div class="form-group mb-0 pull-right">
-            <span class="inline-block pr-10">Already have an account?</span>
-            <a class="inline-block btn btn-info btn-rounded btn-outline" href="{{ route('login') }}">Sign In</a>
-        </div>
-        <div class="clearfix"></div>
-    </header>
-    
     <!-- Main Content -->
     <div class="page-wrapper pa-0 ma-0 auth-page">
         <div class="container-fluid">
@@ -193,8 +178,6 @@
         
     </div>
     <!-- /Main Content -->
-
-</div>
 @endsection
 
 @section('js')

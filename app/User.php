@@ -345,5 +345,10 @@ class User extends Authenticatable
         return $query->where('is_verified', true);
     }
 
+    public function scopeInactive($query)
+    {
+        return $query->where('is_verified', false);
+    }
+
 
 }

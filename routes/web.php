@@ -28,6 +28,8 @@ Route::get('/test', function() {
 	}
 });
 
+Route::get('/super/createtest', 'TestController@generate_test_data');
+
 Route::get('/repeater', 'HomeController@repeater');
 
 Route::get('/home', 'HomeController@index')->name('home');

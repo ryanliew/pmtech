@@ -73,6 +73,16 @@
 								<p>{{ $user->bank_account_number }}</p>
 							</div>
 						</div>
+						<div class="row form-group">
+							<label class="control-label col-md-3">Investor contract:</label>
+							<div class="col-md-9">
+								@if($user->investor_agreement_path !== "")
+									<a href="{{ $user->investor_agreement_path }}" target="_blank">Download</a>
+								@else
+									The user has not uploaded the agreement
+								@endif
+							</div>
+						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="row form-group">
@@ -134,6 +144,17 @@
 									@endif
 									<button type="submit" class="btn {{ $user->is_verified ? 'btn-danger' : 'btn-success' }}">
 										{{ $user->is_verified ? 'Deactivate user' : 'Verify user' }}
+									</button>
+								</form>
+							</li>
+							<li>
+								<form method="POST" action="{{ route('user.verify_marketing', $user->id) }}">
+									{{ csrf_field() }}
+									@if($user->is_verified_marketing_agent)
+										{{ method_field('DELETE') }}
+									@endif
+									<button type="submit" class="btn {{ $user->is_verified_marketing_agent ? 'btn-danger' : 'btn-success' }}">
+										{{ $user->is_verified_marketing_agent ? 'Revoke marketing agent' : 'Verify marketing agent' }}
 									</button>
 								</form>
 							</li>

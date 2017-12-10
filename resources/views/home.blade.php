@@ -288,7 +288,7 @@
                                     </div>
                                 @endcomponent
                             </div>
-                            
+                            <div class='clearfix'></div>
                             @component('components.numbers')
                                 @slot('size')
                                     col-lg-6 col-md-6 col-sm-6 col-xs-12 
@@ -337,7 +337,7 @@
                                         <div class="panel-body">
                                             <div class="flex-row flex-center">
                                                 <h6 class="flex">My referral links</h6>
-                                                @if(auth()->user()->is_verified && auth()->user()->ic_image_path !== "")
+                                                @if(auth()->user()->is_verified && auth()->user()->is_verified_marketing_agent)
                                                     <ul class="list-inline">
                                                         <li><button class="btn btn-success btn-sm" @click="copyInvestor()">Copy Investor URL</button></li>
                                                         <li><button class="btn btn-info btn-sm" @click="copyMarketing()">Copy Agent URL</button></li>

@@ -96,6 +96,11 @@ class User extends Node implements
         return !empty($ic) ? asset( 'storage/' . $ic ) : "";
     }
 
+    public function getInvestorAgreementPathAttribute($path)
+    {
+        return !empty($path) ? asset( 'storage/' . $path ) : "";
+    }
+
     public function getStatusAttribute()
     {
         return $this->is_verified ? 'Active' : 'Pending verfification';
@@ -192,7 +197,7 @@ class User extends Node implements
     public function getTotalNumberOfReferralAttribute()
     {
         $count = $this->getDescendants(2)->filter(function($referee){
-            return !empty($referee->ic_image_path)
+            return $referee->is_verified_marketing_agent
                     && $referee->is_verified
                     && $referee->is_marketing_agent;
         })->count();
@@ -203,7 +208,7 @@ class User extends Node implements
     public function getTotalNumberOfActiveReferralAttribute()
     {
         $count = $this->getDescendants(2)->filter(function($referee){
-            return !empty($referee->ic_image_path)
+            return $referee->is_verified_marketing_agent
                     && $referee->is_verified
                     && $referee->is_marketing_agent
                     && $referee->is_active;
@@ -271,6 +276,11 @@ class User extends Node implements
     public function verify()
     {
         $this->update(['is_verified' => true]);
+    }
+
+    public function verifyMarketing()
+    {
+        $this->update(['is_verified_marketing_agent' => true]);
     }
 
     public function add_payment($payment_slip_path)

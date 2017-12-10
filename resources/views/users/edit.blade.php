@@ -236,7 +236,7 @@
 				        @endif
 				    </div>
 					
-					@if( !$user->is_verified || empty( $user->ic_image_path ) )
+					@if( empty( $user->ic_image_path ) )
 				    <!-- Start agent field -->
 				        <div class="form-group mb-30">
 				            <label class="control-label mb-10 text-left">IC copy upload</label>
@@ -247,6 +247,20 @@
 				                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
 				            </div>
 				        </div>
+				        <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
+                            <div class="checkbox checkbox-primary pr-10 pull-left">
+                                <input name="terms" id="terms" type="checkbox">
+                                <label for="terms"> I have read and agree to all <a target="__blank" href="{{ url('/downloads/Marketing Structure.pdf') }}" class="txt-primary">Terms and conditions</a> </label>
+                                 @if($errors->has('terms'))
+                                    <div class="help-block with-errors">
+                                        <ul class="list-unstyled">
+                                            <li>{{ $errors->first('terms') }}</li>
+                                        </ul>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
 				    <!-- End agent field -->
 					@endif
 

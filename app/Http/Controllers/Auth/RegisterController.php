@@ -7,6 +7,7 @@ use App\Mail\PleaseConfirmYourEmail;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,26 +52,28 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $messages = [
-            'required'                  =>  'This field is required', 
-            'name.max'                  =>  'Your name should not be longer than 255 characters',
-            'email.email'               =>  'Please enter a valid email',
-            'email.unique'              =>  'This email already exists in our database',
-            'ic.unique'                 =>  'This IC number already exists in our database',
-            'ic.numeric'                =>  'Please enter your IC number without dashes. eg.800514149687',
-            'phone.unique'              =>  'This phone number already exists in our database',
-            'payment_slip.required_if'  =>  'Payment slip is required to join as an investor',
-            'ic_image.required_if'      =>  'You must upload the photocopy of your IC in order to join us as an marketing agent',
-            'area_id.numeric'           =>  'Please select a valid area'
+            'required'                      =>  'This field is required', 
+            'name.max'                      =>  'Your name should not be longer than 255 characters',
+            'email.email'                   =>  'Please enter a valid email',
+            'email.unique'                  =>  'This email already exists in our database',
+            'ic.unique'                     =>  'This IC number already exists in our database',
+            'ic.numeric'                    =>  'Please enter your IC number without dashes. eg.800514149687',
+            'phone.unique'                  =>  'This phone number already exists in our database',
+            'payment_slip.required_if'      =>  'Payment slip is required to join as an investor',
+            'contract_upload.required_if'   =>  'You must upload the signed agreenment to join as an investor',
+            'ic_image.required_if'          =>  'You must upload the photocopy of your IC in order to join us as an marketing agent',
+            'area_id.numeric'               =>  'Please select a valid area'
         ];
         return Validator::make($data, [
             'name'                  =>  'required|max:255',
             'email'                 =>  'required|email|max:255|unique:users',
-            'terms'                 =>  'accepted',
+            'terms'                 =>  'required_if:type,==,agent',
             'ic'                    =>  'required|unique:users|numeric',
             'phone'                 =>  'required|unique:users',
             'alt_contact_phone'     =>  'required',
             'alt_contact_name'      =>  'required',
             'payment_slip'          =>  'required_if:type,==,investor|image',
+            'contract_upload'       =>  'required_if:type,==,investor',
             'ic_copy'               =>  'required_if:type,==,agent|image',
             'area_id'               =>  'required|numeric',
             'bitcoin_address'       =>  'required',
@@ -119,6 +122,12 @@ class RegisterController extends Controller
         {
             $payment_slip = $data['payment_slip']->store('payments', 'public');
             $user->add_payment($payment_slip);
+        }
+
+        if(array_has($data, 'contract_upload'))
+        {
+            $contract = $data['contract_upload']->store('contracts', 'public');
+            $user->update(['investor_agreement_path' => $contract]);
         }
         
         return $user;

@@ -117,7 +117,8 @@ class UserController extends Controller
             'ic.unique'         =>  'This IC number already exists in the database',
             'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
             'phone.unique'      =>  'This phone number already exists in the database',
-            'area_id.numeric'   =>  'Please select a valid area'
+            'area_id.numeric'   =>  'Please select a valid area',
+            'terms.required_with' => 'You must read and accept the terms and conditions to become a marketing agent'
         ];
 
         if(empty($user->id)) $user = auth()->user();
@@ -130,7 +131,8 @@ class UserController extends Controller
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
             'ic_image_path'     =>  'image',
-            'area_id'           =>  'required|numeric'
+            'area_id'           =>  'required|numeric',
+            'terms'             =>  'required_with:ic_image_path'
         ], $messages);
 
         
@@ -178,6 +180,22 @@ class UserController extends Controller
     	]);
 
     	return redirect(route('users'))->with('success', $user->name . ' has been deactivated.');
+    }
+
+    public function verifyMarketing(User $user)
+    {
+        $user->verifyMarketing();
+
+        return redirect(route('users'))->with('success', $user->name . ' is now verified as marketing agent.');
+    }
+
+    public function destroyMarketing(User $user)
+    {
+        $user->update([
+            'is_verified_marketing_agent'   => false
+        ]);
+
+        return redirect(route('users'))->with('success', $user->name . ' has been revoked as a marketing agent.');
     }
 
     public function updateIdentity(User $user)

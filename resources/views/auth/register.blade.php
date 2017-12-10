@@ -15,6 +15,9 @@
                                     <h6 class="text-center nonecase-font txt-grey">Enter your details below</h6>
                                 </div>  
                                 <div class="form-wrap">
+                                    @foreach($errors as $error)
+                                        {{ $error }}
+                                        @endforeach
                                     <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                                         {{ csrf_field() }}
                                         <div class="form-group{{ $errors->has('name') ? ' has-error has-danger' : '' }}{{ $errors->has('name') ? ' has-error has-danger' : '' }}">
@@ -155,6 +158,27 @@
                                                 </div>
                                             @endif
                                             </div>
+                                            <div class="form-group{{ $errors->has('contract_upload') ? ' has-error has-danger' : '' }} mb-30">
+                                                <label class="control-label mb-10 text-left">Manageent agreement upload <span class="text-danger">*</span></label>
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                    <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                    <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+                                                    <input type="file" accept=".pdf" name="contract_upload">
+                                                    </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+                                                </div>
+                                                <div class="help block">
+                                                    <ul class="list-unstyled">
+                                                        <li>Please <a target="__blank" href="{{ url('/downloads/Management Agreement.pdf') }}" class="txt-primary">download</a> and upload the signed contract</li>
+                                                    </ul>
+                                                </div>
+                                                @if($errors->has('contract_upload'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('contract_upload') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                            </div>
                                         @endif
                                         <!-- End investor field -->
 
@@ -176,25 +200,26 @@
                                                 </div>
                                             @endif
                                             </div>
+                                            <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
+                                                <div class="checkbox checkbox-primary pr-10 pull-left">
+                                                    <input name="terms" id="terms" required="" type="checkbox">
+                                                    <label for="terms"> I have read and agree to all <a target="__blank" href="{{ url('/downloads/Marketing Structure.pdf') }}" class="txt-primary">Terms and conditions</a> <span class="text-danger">*</span></label>
+                                                     @if($errors->has('terms'))
+                                                        <div class="help-block with-errors">
+                                                            <ul class="list-unstyled">
+                                                                <li>{{ $errors->first('terms') }}</li>
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        
                                         @endif
                                         <input type="hidden" name="type" value="{{ request()->input('as') }}">
                                         <!-- End agent field -->
 
                                         <!-- End all fields -->
-                                        <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
-                                            <div class="checkbox checkbox-primary pr-10 pull-left">
-                                                <input name="terms" id="terms" required="" type="checkbox">
-                                                <label for="terms"> I agree to all <span class="txt-primary">Terms and conditions</span> <span class="text-danger">*</span></label>
-                                                 @if($errors->has('terms'))
-                                                    <div class="help-block with-errors">
-                                                        <ul class="list-unstyled">
-                                                            <li>{{ $errors->first('terms') }}</li>
-                                                        </ul>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
                                         <div class="form-group text-center">
                                             <input type="hidden" name="referrer_user" value="{{ request()->input('r') }}">
                                             <button type="submit" class="btn btn-info btn-rounded">Sign Up</button>

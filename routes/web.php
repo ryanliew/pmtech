@@ -35,6 +35,8 @@ Route::post('/settings', 'SettingController@update')->name('settings');
 
 Route::get('machines', 'MachineController@index')->name('machines');
 Route::post('machines', 'MachineController@store')->name('machines');
+Route::get('machines/available', 'MachineController@get_machines');
+Route::get('/machines/{machine}/earnings/chart', 'MachineController@get_earnings');
 Route::get('machine/{machine}', 'MachineController@show')->name('machine');
 Route::post('machine/{machine}', 'MachineController@update')->name('machine');
 Route::delete('machine/{machine}', 'MachineController@destroy')->name('machine');
@@ -44,7 +46,9 @@ Route::post('unit/{unit}', 'UnitController@update')->name('unit');
 Route::delete('unit/{unit}', 'UnitController@destroy')->name('unit');
 
 
+
 Route::get('/users', 'UserController@index')->name('users');
+Route::get('/users/payments', 'UserController@payments_index')->name('users.payments');
 Route::get('/user/new', 'UserController@create')->name('user.create');
 Route::post('/user/new', 'UserController@store')->name('user.create');
 Route::get('/user/profile', 'UserController@edit')->name('user.profile');
@@ -60,9 +64,10 @@ Route::post('/user/{user}', 'UserController@update')->name('user');
 Route::post('/user/{user}/password', 'UserController@updatePassword')->name('password');
 
 
-
+Route::get('payments/{user}', 'PaymentController@index');
 Route::post('payments', 'PaymentController@store')->name('payments');
 Route::post('/payment/{payment}', 'PaymentController@update')->name('payment');
+Route::post('/payment/{payment}/unit/assign', 'PaymentController@assign');
 
 
 Route::post('earnings/{machine}', 'EarningController@store')->name('earning');

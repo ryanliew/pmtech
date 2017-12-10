@@ -113,4 +113,31 @@ class MachineController extends Controller
 
         return back()->with('success', $name . ' has been deleted.');
     }
+
+    public function get_machines()
+    {
+        return Machine::all()->filter(function($machine){ return $machine->empty_unit_count > 0; });
+    }
+
+
+    public function get_earnings(Machine $machine)
+    {
+        $date = $machine->created_at;
+
+        if(!auth()->user()->is_admin)
+        {
+            $date = $machine->units()->where('investor_id', auth()->user()->id)->orderBy('updated_at')->first()->updated_at;
+        }
+
+        $labels = [];
+        $data = [];
+
+        foreach($machine->earnings()->after($date)->orderBy('date')->get() as $earning)
+        {
+            array_push($data, $earning->amount);
+            array_push($labels, $earning->date->toDateString());
+        }
+
+        return response(['labels' => $labels, 'data' => $data], 200);
+    }
 }

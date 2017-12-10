@@ -13,6 +13,11 @@ class PaymentController extends Controller
         $this->middleware('auth');
     }
 
+    public function index(User $user)
+    {
+        return $user->payments()->paginate(100);
+    }
+
     public function store()
     {
         $validated = request()->validate([
@@ -46,6 +51,31 @@ class PaymentController extends Controller
 
         $payment->user->update(['is_investor' => true]);
 
+        if(request()->expectsJson()){
+            return response(200);
+        }
+
     	return back()->with('success', 'Payment#' . $payment->id . ' approved.');
+    }
+
+    public function assign(Payment $payment)
+    {
+        $validated = request()->validate([
+            'id' => 'required',
+        ]);
+
+        $machine = \App\Machine::findOrFail($validated['id']);
+
+        $unit = $machine->units()->whereNull('investor_id')->first();
+
+        $payment->update([
+            'unit_id' => $unit->id
+        ]);
+
+        $unit->update([
+            'investor_id' => $payment->user_id
+        ]);
+
+        return response($unit, 200);
     }
 }

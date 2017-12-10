@@ -12,6 +12,11 @@ class Payment extends Model
     {
     	return $this->belongsTo('App\User');
     }
+
+    public function unit()
+    {
+    	return $this->belongsTo('App\Unit');
+    }
     
     public function getPaymentSlipPathAttribute($payment)
     {

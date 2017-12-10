@@ -32,6 +32,9 @@ class CreateUsersTable extends Migration
             $table->integer('rgt')->nullable();
             $table->integer('depth')->nullable();
             $table->unsignedInteger('area_id')->nullable();
+            $table->string('bank_account_number')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('bitcoin_address')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

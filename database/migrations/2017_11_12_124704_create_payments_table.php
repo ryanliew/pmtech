@@ -18,6 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->string('payment_slip_path');
             $table->float('amount')->nullable();
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('unit_id')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });

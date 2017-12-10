@@ -317,11 +317,14 @@ class User extends Node implements
 
     public function add_profit_transaction(Unit $unit, Earning $earning)
     {
-        $description = "Profit from unit " . $unit->id . " from machine " . $unit->machine->name . " for " . $earning->date->format('F Y');
+        if($unit->updated_at->lt($earning->date))
+        {
+            $description = "Profit from unit " . $unit->id . " from machine " . $unit->machine->name . " for " . $earning->date->format('F Y');
 
-        $amount = $unit->machine->latest_earning()->final_amount / 10; 
+            $amount = $unit->machine->latest_earning()->final_amount / 10; 
 
-        $this->add_transaction("profit", $description, $amount, $earning->date);
+            $this->add_transaction("profit", $description, $amount, $earning->date);
+        }
     }
 
     public function add_transaction($type, $description, $amount, $date)

@@ -120,6 +120,78 @@
 				    		@if( $user->is_verified ) true @endif
 				    	@endslot
 				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bank_name
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    		{{ $user->bank_name }}
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bank name
+				    	@endslot
+				    	
+				    	Bank name <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		@if( $user->is_verified ) true @endif
+				    	@endslot
+				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bank_account_number
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    		{{ $user->bank_account_number }}
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bank account number
+				    	@endslot
+				    	
+				    	Bank account number <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		@if( $user->is_verified ) true @endif
+				    	@endslot
+				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bitcoin_address
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    		{{ $user->bitcoin_address }}
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bitcoin address
+				    	@endslot
+				    	
+				    	Bitcoin address <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		@if( $user->is_verified ) true @endif
+				    	@endslot
+				    @endcomponent
 				    
 				    <div class="form-group{{ $errors->has('area_id') ? ' has-error has-danger' : '' }}">
 	                    <label class="pull-left control-label mb-10" for="area_id">Area <span class="text-danger">*</span></label>

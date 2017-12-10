@@ -106,6 +106,75 @@
 									false
 								@endslot
 							@endcomponent
+							@component('components.input') 
+								@slot('input_name')
+									fee_overhead_1
+								@endslot
+							
+								@slot('input_type')
+									number
+								@endslot
+							
+								@slot('input_value')
+									{{ $setting->fee_overhead_1 }}
+								@endslot
+							
+								@slot('input_placeholder')
+									Overhead fee 1
+								@endslot
+								
+								Overhead fee 1 <span class="text-danger">*</span>
+							
+								@slot('show_only')
+									false
+								@endslot
+							@endcomponent
+							@component('components.input') 
+								@slot('input_name')
+									fee_overhead_2
+								@endslot
+							
+								@slot('input_type')
+									number
+								@endslot
+							
+								@slot('input_value')
+									{{ $setting->fee_overhead_1 }}
+								@endslot
+							
+								@slot('input_placeholder')
+									Overhead fee 2
+								@endslot
+								
+								Overhead fee 2 <span class="text-danger">*</span>
+							
+								@slot('show_only')
+									false
+								@endslot
+							@endcomponent
+							@component('components.input') 
+								@slot('input_name')
+									fee_overhead_3
+								@endslot
+							
+								@slot('input_type')
+									number
+								@endslot
+							
+								@slot('input_value')
+									{{ $setting->fee_overhead_3 }}
+								@endslot
+							
+								@slot('input_placeholder')
+									Overhead fee 3
+								@endslot
+								
+								Overhead fee 3 <span class="text-danger">*</span>
+							
+								@slot('show_only')
+									false
+								@endslot
+							@endcomponent
 						</div>
 						<div class="col-md-6">
 							<h4>Incentive settings</h4>

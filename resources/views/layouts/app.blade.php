@@ -21,7 +21,7 @@
     @yield('css')
 
      <!-- Theme style -->
-    <link href="{{ asset('css/style.css?v=1.2') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css?v=1.5') }}" rel="stylesheet">
 </head>
 <body>
     <div class="preloader-it">
@@ -131,6 +131,8 @@
             <div class="page-wrapper">
                 <div class="container-fluid pt-25"> 
                     @yield('content')
+
+                    <flash message="{{ session('flash') }}"></flash>
                 </div>
 
                 <!-- Footer -->
@@ -148,7 +150,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js?v=1.3') }}"></script>
+    <script src="{{ asset('js/app.js?v=1.5') }}"></script>
     <script src="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
     <script>
         @if( $errors->any() )

@@ -13,7 +13,7 @@ class TestController extends Controller
 
         /*while($count < $numberOfGM)
         {
-            $email = 'generalmanager' . $count . '@email.com';
+            $email = 'groupmanager' . $count . '@email.com';
             $gm = factory('App\User')->create(['email' => $email, 
                                                 'is_marketing_agent' => true, 
                                                 'is_verified' => true, 
@@ -35,7 +35,7 @@ class TestController extends Controller
             $count++;
         }*/
 
-        $gms = \App\User::find(['1','12','23']);
+        /*$gms = \App\User::find(['1','12','23']);
 
         foreach($gms as $gm)
         {
@@ -52,7 +52,7 @@ class TestController extends Controller
                     $ma->makeChildOf($teamleader);
                 }
             }
-        }
+        }*/
 /*
         $email = 'generalmanager4@email.com';
         $gm = factory('App\User')->create(['email' => $email, 
@@ -94,10 +94,10 @@ class TestController extends Controller
             $count++;
         }
 */
-        /*factory('App\User')->create(['email' => 'admin@email.com',
+        factory('App\User')->create(['email' => 'admin@email.com',
     								'is_admin' => true,
                                     'confirmed' => true
-    								]);*/
+    								]);
 
         return 'Test data generated.';
     }

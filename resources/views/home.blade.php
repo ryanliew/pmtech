@@ -33,11 +33,11 @@
                     @endslot
 
                     @slot('icon')
-                        <i class="fa fa-4x fa-money text-white"></i>
+                        <i class="fa fa-4x fa-bitcoin text-white"></i>
                     @endslot
 
                     @slot('adjective')
-                        Total mined
+                        Total earning cumulated (MYR)
                     @endslot
 
                     {{ auth()->user()->transactions()->profits()->sum('amount') }}
@@ -52,10 +52,10 @@
                     @endslot
 
                     @slot('adjective')
-                        Total commision this month
+                        Total investor payment (MYR)
                     @endslot
 
-                    {{ $commision }}
+                    {{ $payments }}
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
@@ -63,14 +63,14 @@
                     @endslot
 
                     @slot('icon')
-                        <i class="fa fa-child fa-4x text-white"></i>
+                        <i class="fa fa-server fa-4x text-white"></i>
                     @endslot
 
                     @slot('adjective')
-                        Users referred
+                        Total machines running
                     @endslot
 
-                    {{ auth()->user()->getImmediateDescendants()->count() }}
+                    {{ $machines }}
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
@@ -82,7 +82,7 @@
                     @endslot
 
                     @slot('adjective')
-                        Bitcoin value
+                        Bitcoin current value (USD)
                     @endslot
 
                     <span v-text="bitcoinUSD"></span>
@@ -204,39 +204,23 @@
                         @slot('heading')
                             Units performance
                         @endslot
-                    
-                        <div class="table-wrap">
-                            <div class="table-responsive"> 
-                                <table id="units-data-table" class="table table-hover display pb-30">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Earning last month</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Earning last month</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        @forelse( auth()->user()->units as $unit )
-                                            <tr>
-                                                <td class="title">{{ $unit->id }}</td>
-                                                <td>{{ $unit->machine->latest_earning()->final_amount / 10 }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="2">
-                                                    You did not invest in any units
-                                                </td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        
+                        <ul class="unit-list">
+                            @foreach(auth()->user()->units as $unit)
+                                <li class="flex-row text-white bg-pink">
+                                    <i class="fa fa-server text-white"></i>
+                                    <a href="{{ route('machine', $unit->machine_id) }}" class="ml-10">
+                                        {{ $unit->machine->name }} - {{ $unit->id }}
+                                    </a>
+                                    <strong class="ml-10 text-bold flex text-center">
+                                        Earned MYR {{ $unit->machine->earningSumAfterDate($unit->updated_at)->aggregate / 10 }} so far
+                                    </strong>
+                                    <span class="ml-10">
+                                        Started investment on {{ $unit->updated_at->toDateString() }}
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>  
                     @endcomponent
                     @if(!auth()->user()->is_admin)
                         <div class="row">
@@ -260,12 +244,12 @@
                                     
                                     <span class="uppercase-font weight-500 font-14 block text-center txt-dark" v-text="milestoneString">
                                     </span>
-                                    <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
+                                    <div class="cus-sat-stat weight-500 text-center mt-5" :class="milestonePercentageClass">
                                         <span id="milestone-percentage" v-text="milestonePercentage"></span><span>%</span>
                                     </div>
                                     <div class="progress-anim mt-20">
                                         <div class="progress mb-5">
-                                            <div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" :aria-valuenow="milestonePercentage" aria-valuemin="0" aria-valuemax="100" :style="'width:' + milestonePercentage + '%;'"></div>
+                                            <div class="progress-bar wow animated progress-animated" :class="milestoneProgressBarClass" role="progressbar" :aria-valuenow="milestonePercentage" aria-valuemin="0" aria-valuemax="100" :style="'width:' + milestonePercentage + '%;'"></div>
                                         </div>
                                     </div>
                                     <div class="next-role-description text-center" v-text="milestoneDescription">
@@ -285,12 +269,12 @@
                                     <span class="uppercase-font weight-500 font-14 block text-center txt-dark">
                                         Active marketing agent
                                     </span>
-                                    <div class="cus-sat-stat weight-500 txt-success text-center mt-5">
+                                    <div class="cus-sat-stat weight-500 text-center mt-5" :class="descendentsPercentageClass">
                                         <span id="active-percentage" v-text="activeDescendents.toFixed(2)"></span><span>%</span>
                                     </div>
                                     <div class="progress-anim mt-20">
                                         <div class="progress mb-5">
-                                            <div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" :aria-valuenow="activeDescendents" aria-valuemin="0" aria-valuemax="100" :style="'width:' + activeDescendents + '%;'"></div>
+                                            <div class="progress-bar wow animated progress-animated" role="progressbar" :class="descendentsProgressBarClass" :aria-valuenow="activeDescendents" aria-valuemin="0" aria-valuemax="100" :style="'width:' + activeDescendents + '%;'"></div>
                                         </div>
                                     </div>
                                     <div class="next-role-description text-center">
@@ -298,19 +282,60 @@
                                     </div>
                                 @endcomponent
                             </div>
+                            
+                            @component('components.numbers')
+                                @slot('size')
+                                    col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                                @endslot
+
+                                @slot('color')
+                                    bg-blue
+                                @endslot
+
+                                @slot('icon')
+                                    <i class="fa fa-child fa-4x text-white"></i>
+                                @endslot
+
+                                @slot('adjective')
+                                    Users referred
+                                @endslot
+
+                                {{ auth()->user()->getImmediateDescendants()->count() }}
+                            @endcomponent
+                            
+                            @component('components.numbers')
+                                @slot('size')
+                                    col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                                @endslot
+
+                                @slot('color')
+                                    bg-blue
+                                @endslot
+
+                                @slot('icon')
+                                    <i class="fa fa-money fa-4x text-white"></i>
+                                @endslot
+
+                                @slot('adjective')
+                                    Total commisions this month (MYR)
+                                @endslot
+
+                                {{ $commision }}
+                            @endcomponent
+                            
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
                                         <div class="panel-body">
-                                            <div class="col-md-6 pull-left"><h6>My referral links</div>
-                                            <div class="col-md-6 pull-right">
+                                            <div class="flex-row flex-center">
+                                                <h6 class="flex">My referral links</h6>
                                                 @if(auth()->user()->is_verified && auth()->user()->ic_image_path !== "")
-                                                    <div class="row">
-                                                        <div class="col-md-6"><button class="btn btn-success btn-sm" @click="copyInvestor()">Copy Investor URL</button></div>
-                                                        <div class="col-md-6"><button class="btn btn-info btn-sm" @click="copyMarketing()">Copy Agent URL</button></div>
-                                                    </div>
+                                                    <ul class="list-inline">
+                                                        <li><button class="btn btn-success btn-sm" @click="copyInvestor()">Copy Investor URL</button></li>
+                                                        <li><button class="btn btn-info btn-sm" @click="copyMarketing()">Copy Agent URL</button></li>
+                                                    </ul>
                                                 @else
                                                     <div class="text-center text-danger">
                                                         Please consult our support team on how to become a marketing agent.

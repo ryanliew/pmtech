@@ -29,6 +29,7 @@
 						<div class="row controls">
 							<div class="col-md-12 button-list">
 								<a href="{{ route('user.create') }}" class="btn btn-info" >Add user</a>
+								<a href="{{ route('users.payments') }}" class="btn btn-success" >View payments</a>
 							</div>
 						</div>
 						<div class="table-wrap">

@@ -61,6 +61,39 @@
                                                 </div>
                                             @endif
                                         </div>
+                                        <div class="form-group{{ $errors->has('bank_account_number') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Bank account number<span class="text-danger">*</span></label>
+                                            <input value="{{ old('bank_account_number') }}" type="text" name="bank_account_number" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            @if($errors->has('bank_account_number'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('bank_account_number') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('bank_name') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Bank name <span class="text-danger">*</span></label>
+                                            <input value="{{ old('bank_name') }}" type="text" name="bank_name" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            @if($errors->has('bank_name'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('bank_name') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('bitcoin_address') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Bitcoin address <span class="text-danger">*</span></label>
+                                            <input value="{{ old('bitcoin_address') }}" type="text" name="bitcoin_address" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            @if($errors->has('bitcoin_address'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('bitcoin_address') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
                                         <div class="form-group{{ $errors->has('area_id') ? ' has-error has-danger' : '' }}">
                                             <label class="pull-left control-label mb-10" for="area_id">Area <span class="text-danger">*</span></label>
                                                 <select class="form-control select2" name="area_id" id="area_id">

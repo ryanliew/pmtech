@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Machine;
+use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', ['unverified_users' => User::inactive()->get()]);
+        $payments = Transaction::profits()->sum('amount');
+        return view('home', ['unverified_users' => User::inactive()->get(), 
+                                'payments' => $payments,
+                                'machines' => Machine::count(),
+                                'commision' => Transaction::commision()->current()->sum('amount')
+                            ]);
     }
 
     public function repeater()

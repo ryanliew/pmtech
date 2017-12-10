@@ -63,16 +63,19 @@ class RegisterController extends Controller
             'area_id.numeric'           =>  'Please select a valid area'
         ];
         return Validator::make($data, [
-            'name'              =>  'required|max:255',
-            'email'             =>  'required|email|max:255|unique:users',
-            'terms'             =>  'accepted',
-            'ic'                =>  'required|unique:users|numeric',
-            'phone'             =>  'required|unique:users',
-            'alt_contact_phone' =>  'required',
-            'alt_contact_name'  =>  'required',
-            'payment_slip'      =>  'required_if:type,==,investor|image',
-            'ic_copy'           =>  'required_if:type,==,agent|image',
-            'area_id'           =>  'required|numeric'
+            'name'                  =>  'required|max:255',
+            'email'                 =>  'required|email|max:255|unique:users',
+            'terms'                 =>  'accepted',
+            'ic'                    =>  'required|unique:users|numeric',
+            'phone'                 =>  'required|unique:users',
+            'alt_contact_phone'     =>  'required',
+            'alt_contact_name'      =>  'required',
+            'payment_slip'          =>  'required_if:type,==,investor|image',
+            'ic_copy'               =>  'required_if:type,==,agent|image',
+            'area_id'               =>  'required|numeric',
+            'bitcoin_address'       =>  'required',
+            'bank_account_number'   =>  'required',
+            'bank_name'             =>  'required',
         ], $messages);
     }
 
@@ -94,17 +97,20 @@ class RegisterController extends Controller
         $default_password =  substr($data['ic'], -6);
 
         $user = User::create([
-            'name'              =>  $data['name'],
-            'email'             =>  $data['email'],
-            'password'          =>  bcrypt($default_password),
-            'ic_image_path'     =>  $ic_copy,
-            'phone'             =>  $data['phone'],
-            'ic'                =>  $data['ic'],
-            'username'          =>  str_limit(md5(str_random() . $data['email']), 6, ''),
-            'alt_contact_name'  =>  $data['alt_contact_name'],
-            'alt_contact_phone' =>  $data['alt_contact_phone'],
-            'area_id'           =>  $data['area_id'],
-            'confirmation_token' => str_limit(md5($data['email'] . str_random()), 25, '')
+            'name'                  =>  $data['name'],
+            'email'                 =>  $data['email'],
+            'password'              =>  bcrypt($default_password),
+            'ic_image_path'         =>  $ic_copy,
+            'phone'                 =>  $data['phone'],
+            'ic'                    =>  $data['ic'],
+            'username'              =>  str_limit(md5(str_random() . $data['email']), 6, ''),
+            'alt_contact_name'      =>  $data['alt_contact_name'],
+            'alt_contact_phone'     =>  $data['alt_contact_phone'],
+            'area_id'               =>  $data['area_id'],
+            'confirmation_token'    =>  str_limit(md5($data['email'] . str_random()), 25, ''),
+            'bitcoin_address'       =>  $data['bitcoin_address'],
+            'bank_account_number'   =>  $data['bank_account_number'],
+            'bank_name'             =>  $data['bank_name'],
         ]);
 
         $user->update_referrer($data['referrer_user']);
@@ -127,7 +133,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        if(!$this->app->isLocal()) {
+        if(App::environment('production')) {
             Mail::to($user)->send(new PleaseConfirmYourEmail($user));
         }
         return redirect($this->redirectPath());

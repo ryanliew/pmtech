@@ -82,6 +82,24 @@
 			});
 		},
 
+		computed: {
+			milestoneProgressBarClass() {
+				return 'progress-bar-' + ( this.milestonePercentage >= 80 ? 'success' : this.milestonePercentage >= 50 ? 'warning' : 'danger' );
+			},
+
+			milestonePercentageClass() {
+				return 'txt-' + ( this.milestonePercentage >= 80 ? 'success' : this.milestonePercentage >= 50 ? 'warning' : 'danger' );
+			},
+
+			descendentsProgressBarClass() {
+				return 'progress-bar-' + ( this.activeDescendents >= 80 ? 'success' : this.activeDescendents >= 50 ? 'warning' : 'danger' );
+			},
+
+			descendentsPercentageClass() {
+				return 'txt-' + ( this.activeDescendents >= 80 ? 'success' : this.activeDescendents >= 50 ? 'warning' : 'danger' );
+			},
+		},
+
 		methods: {
 			copyTextToClipboard(text) {
 			  var textArea = document.createElement("textarea");

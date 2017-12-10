@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Machine extends Model
 {
@@ -38,6 +39,18 @@ class Machine extends Model
         return $this->hasOne('App\Earning')
                     ->selectRaw('machine_id, sum(amount - deduction) as aggregate')
                     ->groupBy('machine_id');
+    }
+
+    public function earningSumAfterDate($updated_at)
+    {
+        $result = DB::table('earnings')
+                    ->selectRaw('sum(amount - deduction) as aggregate')
+                    ->whereDate('date', '>=', $updated_at)
+                    ->where('machine_id', $this->id)
+                    ->groupBy('machine_id')
+                    ->first();
+
+        return $result;
     }
 
     public function emptyUnitCount()

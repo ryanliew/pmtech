@@ -7346,6 +7346,11 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
   flex: 1;
 }
 
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
 .text-white {
   color: white;
 }
@@ -7358,6 +7363,22 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
   color: #ff2a00;
   text-decoration: underline;
 }
+
+.unit-list li{
+  margin-bottom: 5px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 10px;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.unit-list li:hover{
+  background-color: #9f2850 !important;
+}
+
 .preloader-block {
   display: none;
   position: absolute;
@@ -7371,6 +7392,16 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
 
 .loading .preloader-block {
   display: block;
+}
+
+.vue-modal {
+  background: rgba(0,0,0,0.5);
+  display: block;
+}
+
+.vue-modal .modal-body {
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .spin-preloader {

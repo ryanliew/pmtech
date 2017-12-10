@@ -30,6 +30,9 @@ $factory->define(App\User::class, function (Faker $faker) {
         'username' => str_random(6),
         'area_id'  => $faker->numberBetween(1,188),
         'ic_image_path' => "identification/default.jpg",
+        'bank_name' => 'Maybank',
+        'bank_account_number' => str_random(10),
+        'bitcoin_address' => str_random(10)
     ];
 });
 

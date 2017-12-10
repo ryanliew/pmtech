@@ -57,4 +57,11 @@ class Earning extends Model
             $unit->investor->add_profit_transaction($unit, $this);
         }
     }
+
+    /* Scope */
+
+    public function scopeAfter($query, $date)
+    {
+        return $query->whereDate('date', '>=', $date);
+    }
 }

@@ -70,7 +70,7 @@
                         Users referred
                     @endslot
 
-                    {{ auth()->user()->referees()->count() }}
+                    {{ auth()->user()->getImmediateDescendants()->count() }}
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
@@ -127,7 +127,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            @forelse( auth()->user()->referees as $referee )
+                                            @forelse( auth()->user()->getDescendants(1) as $referee )
                                                 <tr>
                                                     <td class="title">{{ $referee->name }}</td>
                                                     <td>{{ $referee->role_string }}</td>

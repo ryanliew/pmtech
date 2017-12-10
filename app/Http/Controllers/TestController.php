@@ -11,7 +11,7 @@ class TestController extends Controller
         $numberOfGM = 4;
         $count = 1;
 
-        while($count < $numberOfGM)
+        /*while($count < $numberOfGM)
         {
             $email = 'generalmanager' . $count . '@email.com';
             $gm = factory('App\User')->create(['email' => $email, 
@@ -25,21 +25,35 @@ class TestController extends Controller
                                                             'is_verified' => true, 
                                                             'is_default_password' => false, 
                                                             'confirmed' => true,
-                                                            'referrer_id' => $gm->id
                                                         ]);
+
             foreach($teamleaders as $teamleader)
             {
-                $ma = factory('App\User', 5)->create(['is_marketing_agent' => true, 
-                                                        'is_verified' => true, 
-                                                        'is_default_password' => false, 
-                                                        'confirmed' => true,
-                                                        'referrer_id' => $teamleader->id
-                                                    ]);
+                $teamleader->makeChildOf($gm);
             }
 
             $count++;
-        } 
+        }*/
 
+        $gms = \App\User::find(['1','12','23']);
+
+        foreach($gms as $gm)
+        {
+            foreach($gm->getImmediateDescendants() as $teamleader)
+            {
+                $mas = factory('App\User', 5)->create(['is_marketing_agent' => true, 
+                                                        'is_verified' => true, 
+                                                        'is_default_password' => false, 
+                                                        'confirmed' => true,
+                                                    ]);
+
+                foreach($mas as $ma)
+                {
+                    $ma->makeChildOf($teamleader);
+                }
+            }
+        }
+/*
         $email = 'generalmanager4@email.com';
         $gm = factory('App\User')->create(['email' => $email, 
                                             'is_marketing_agent' => true, 
@@ -63,19 +77,27 @@ class TestController extends Controller
                                                         'referrer_id' => $gm->id
                                                     ]);
 
-            $ma = factory('App\User', 5)->create(['is_marketing_agent' => true, 
+            $teamleader->makeChildOf($gm);
+
+            $mas = factory('App\User', 5)->create(['is_marketing_agent' => true, 
 	                                                'is_verified' => true, 
 	                                                'is_default_password' => false, 
 	                                                'confirmed' => true,
 	                                                'referrer_id' => $teamleader->id
 	                                            ]);
+
+            foreach($mas as $ma)
+            {
+                $ma->makeChildOf($teamleader);
+            }
+
             $count++;
         }
-
-        factory('App\User')->create(['email' => 'admin@email.com',
+*/
+        /*factory('App\User')->create(['email' => 'admin@email.com',
     								'is_admin' => true,
                                     'confirmed' => true
-    								]);
+    								]);*/
 
         return 'Test data generated.';
     }

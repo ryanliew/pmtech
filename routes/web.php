@@ -22,10 +22,7 @@ Auth::routes();
 // });
 // 
 Route::get('/test', function() {
-	foreach(\App\Area::all() as $area)
-	{
-		echo "['name' => '{$area->name}', 'state_id' => {$area->state_id}],<br>";
-	}
+	factory('App\User')->create(['email' => 'groupmanager@email.com']);
 });
 
 Route::get('/super/createtest', 'TestController@generate_test_data');

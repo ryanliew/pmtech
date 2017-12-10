@@ -127,8 +127,9 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        Mail::to($user)->send(new PleaseConfirmYourEmail($user));
-
+        if(!$this->app->isLocal()) {
+            Mail::to($user)->send(new PleaseConfirmYourEmail($user));
+        }
         return redirect($this->redirectPath());
     } 
 }

@@ -206,7 +206,7 @@
                         @endslot
                         
                         <ul class="unit-list">
-                            @foreach(auth()->user()->units as $unit)
+                            @forelse(auth()->user()->units as $unit)
                                 <li class="flex-row text-white bg-pink">
                                     <i class="fa fa-server text-white"></i>
                                     <a href="{{ route('machine', $unit->machine_id) }}" class="ml-10">
@@ -219,7 +219,13 @@
                                         Started investment on {{ $unit->updated_at->toDateString() }}
                                     </span>
                                 </li>
-                            @endforeach
+                            @empty
+                                <li>
+                                    <span class="text-danger">
+                                        You have not invested in any units
+                                    </span>
+                                </li>
+                            @endforelse
                         </ul>  
                     @endcomponent
                     @if(!auth()->user()->is_admin)

@@ -232,8 +232,7 @@
                                 </li>
                             @endforelse
                         </ul>  
-                    @endcomponent
-                    @if(!auth()->user()->is_admin)
+                    @endcomponent 
                         <div class="row">
                             <div class="col-md-6" :class="milestoneLoadingClass">
                                 <div class="preloader-block">
@@ -358,7 +357,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    
                     <div class="row">
                         <div class="col-md-12">
                             @component('components.panel')

@@ -129,12 +129,12 @@ class User extends Node implements
 
     public function getDescendingMarketingAgentCountAttribute()
     {
-        return $this->getImmediateDescendants()->where('is_marketing_agent', true)->count();
+        return $this->immediateDescendants()->where('is_marketing_agent', true)->count();
     }
 
     public function getDescendingInvestorCountAttribute()
     {
-        return $this->getImmediateDescendants()->where('is_investor', true)->count();
+        return $this->immediateDescendants()->where('is_investor', true)->count();
     }
 
     public function getNextRoleStringAttribute()
@@ -201,23 +201,23 @@ class User extends Node implements
 
     public function getTotalNumberOfReferralAttribute()
     {
-        $count = $this->getDescendants(2)->filter(function($referee){
-            return $referee->is_verified_marketing_agent
-                    && $referee->is_verified
-                    && $referee->is_marketing_agent;
-        })->count();
+        $count = $this->descendants(2)
+                    ->where('is_verified_marketing_agent', true)
+                    ->where('is_verified', true )
+                    ->where('is_marketing_agent', true)
+                    ->count();
 
         return $count;
     }
 
     public function getTotalNumberOfActiveReferralAttribute()
     {
-        $count = $this->getDescendants(2)->filter(function($referee){
-            return $referee->is_verified_marketing_agent
-                    && $referee->is_verified
-                    && $referee->is_marketing_agent
-                    && $referee->is_active;
-        })->count();
+        $count = $this->descendants(2)
+                    ->where('is_verified_marketing_agent', true)
+                    ->where('is_verified', true)
+                    ->where('is_marketing_agent', true)
+                    ->where('is_active', true)
+                    ->count();
 
         return $count;
     }

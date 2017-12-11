@@ -93,7 +93,7 @@
                     <div :class="bitcoinHistoryLoadingClass">
                         @component('components.panel')
                             @slot('heading')
-                                Bitcoin statistics
+                                Cryptocurrency history
                             @endslot
                             <div class="preloader-block">
                                 <ul class="spin-preloader">

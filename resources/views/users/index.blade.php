@@ -37,22 +37,24 @@
 								<table id="users-data-table" class="table table-hover display pb-30">
 									<thead>
 										<tr>
+											<th>ID</th>
 										 	<th>Name</th>
+										 	<th>Email</th>
 										  	<th>IC</th>
 										  	<th>Status</th>
 										  	<th>Units owned</th>
-										  	<th>Date joined</th>
 										  	<th>Actions</th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach( $users as $user )
 											<tr>
-											  	<td class="title">{{ $user->name }}</td>
+												<td>{{ $user->username }}</td>
+											  	<td>{{ $user->name }}</td>
+											  	<td>{{ $user->email }}</td>
 											  	<td>{{ $user->ic }}</td>
 											  	<td>{{ $user->status }}</td>
 											  	<td>{{ $user->units()->count() }}</td>
-											  	<td>{{ $user->created_at->toDateString() }}</td>
 											  	<td>
 											  		<div class="button-list">
 												  		<a class="btn btn-success" href="{{ route('user', $user->id) }}">View details</a>

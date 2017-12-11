@@ -29,6 +29,11 @@ class Unit extends Model
     /* Mutators */
     public function getEarningThisMonthAttribute()
     {
-    	return $this->machine()->earnings()->last()->final_amount / 10;
+    	return $this->machine->earnings()->last()->final_amount / 10;
+    }
+
+    public function getEarningSoFarAttribute()
+    {
+        return $this->machine->earnings()->whereDate('date', '>=', $this->updated_at->toDateString())->get()->sum(function($earning){ return $earning->amount - $earning->deduction; });
     }
 }

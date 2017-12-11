@@ -248,6 +248,31 @@
 									false
 								@endslot
 							@endcomponent
+							<h4>Misc settings</h4>
+							<hr>
+							@component('components.input') 
+								@slot('input_name')
+									hashing_power
+								@endslot
+							
+								@slot('input_type')
+									number
+								@endslot
+							
+								@slot('input_value')
+									{{ $setting->hashing_power}}
+								@endslot
+							
+								@slot('input_placeholder')
+									Hashing power
+								@endslot
+								
+								Hashing power <span class="text-danger">*</span>
+							
+								@slot('show_only')
+									false
+								@endslot
+							@endcomponent
 						</div>
 					</div>
 					<button type="submit" class="btn btn-success pull-right">Change settings</button>

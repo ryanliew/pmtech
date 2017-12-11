@@ -33,11 +33,11 @@
                     @endslot
 
                     @slot('icon')
-                        <i class="fa fa-4x fa-bitcoin text-white"></i>
+                        <i class="fa fa-4x fa-usd text-white"></i>
                     @endslot
 
                     @slot('adjective')
-                        Total earning cumulated (MYR)
+                        Personal earning cumulated (MYR)
                     @endslot
 
                     {{ auth()->user()->transactions()->profits()->sum('amount') }}
@@ -48,11 +48,11 @@
                     @endslot
 
                     @slot('icon')
-                        <i class="fa fa-bitcoin fa-4x text-white"></i>
+                        <i class="fa fa-dashboard fa-4x text-white"></i>
                     @endslot
 
                     @slot('adjective')
-                        Total investors payments (MYR)
+                        PMAN all-time mined value (MYR)
                     @endslot
 
                     {{ $payments }}
@@ -67,7 +67,7 @@
                     @endslot
 
                     @slot('adjective')
-                        Total machines running
+                        PMAN Total machines running
                     @endslot
 
                     {{ $machines }}
@@ -78,14 +78,14 @@
                     @endslot
 
                     @slot('icon')
-                        <i class="fa fa-usd fa-4x text-white"></i>
+                        <i class="fa fa-flash fa-4x text-white"></i>
                     @endslot
 
                     @slot('adjective')
-                        Bitcoin current value (USD)
+                        PMAN Total hashing power (Th/S)
                     @endslot
 
-                    <span v-text="bitcoinUSD"></span>
+                    {{ $power }}
                 @endcomponent
             </div>
             <div class="row">
@@ -207,22 +207,25 @@
                         @endslot
                         
                         <ul class="unit-list">
-                            @forelse(auth()->user()->units as $unit)
-                                <li class="flex-row text-white bg-pink">
-                                    <i class="fa fa-server text-white"></i>
-                                    <a href="{{ route('machine', $unit->machine_id) }}" class="ml-10">
-                                        {{ $unit->machine->name }} - {{ $unit->id }}
+                            @forelse($units as $key => $unit)
+                                <li class="text-white bg-pink">
+                                    <a href="{{ route('machine', $key) }}" class="flex-row flex-center ml-10">
+                                        <div>
+                                            <i class="fa fa-server text-white"></i>
+                                            
+                                            {{ $unit['name'] }} - {{ $unit['count'] }} Units
+                                        </div>
+                                        <strong class="ml-10 text-bold flex text-center">
+                                            @if( $unit['total'] > 0 )
+                                                Earned MYR {{ $unit['total']}} so far
+                                            @else
+                                                Mining aggresively
+                                            @endif
+                                        </strong>
+                                        <span class="ml-10">
+                                            Started investment on {{ $unit['date']->toDateString() }}
+                                        </span>
                                     </a>
-                                    <strong class="ml-10 text-bold flex text-center">
-                                        @if( !is_null($unit->machine->earningSumAfterDate($unit->updated_at) ) )
-                                            Earned MYR {{ $unit->machine->earningSumAfterDate($unit->updated_at)->aggregate / 10 }} so far
-                                        @else
-                                            Mining aggresively
-                                        @endif
-                                    </strong>
-                                    <span class="ml-10">
-                                        Started investment on {{ $unit->updated_at->toDateString() }}
-                                    </span>
                                 </li>
                             @empty
                                 <li>
@@ -299,7 +302,7 @@
                                 @endslot
 
                                 @slot('color')
-                                    bg-blue
+                                    bg-yellow
                                 @endslot
 
                                 @slot('icon')
@@ -319,7 +322,7 @@
                                 @endslot
 
                                 @slot('color')
-                                    bg-blue
+                                    bg-yellow
                                 @endslot
 
                                 @slot('icon')
@@ -327,7 +330,7 @@
                                 @endslot
 
                                 @slot('adjective')
-                                    Total commisions this month (MYR)
+                                    Total commision payout this month (MYR)
                                 @endslot
 
                                 {{ $commision }}

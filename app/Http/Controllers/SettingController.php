@@ -27,6 +27,7 @@ class SettingController extends Controller
     		'incentive_commission_per_referee'	=> "required|numeric",
     		'incentive_bonus_per_referee_pack'	=> "required|numeric",
     		'incentive_direct_downline_commission_percentage'	=> "required|min:0|max:100|numeric"
+            'hashing_power'  => "required|numeric",
     	]);
 
     	$setting = Setting::all()->first();

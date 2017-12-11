@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Machine;
+use App\Setting;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -28,10 +30,40 @@ class HomeController extends Controller
     public function index()
     {
         $payments = Transaction::profits()->sum('amount');
+
+        $units = [];
+        foreach(Machine::whereIn('id', auth()->user()->units->pluck('machine_id'))->get() as $machine)
+        {
+            $total = 0;
+            $all = auth()->user()->units()->where('machine_id', $machine->id)->get();
+            $date = null;
+            foreach( $all as $unit)
+            {
+                $total += $machine->earnings()
+                                ->whereDate('date', '>=', $unit->updated_at)
+                                ->get()
+                                ->sum(function($earning){
+                                    return $earning->final_amount;
+                                }) / 10;
+                if($date == null or $date->gt($unit->updated_at))
+                {
+                    $date = $unit->updated_at;
+                }
+            }
+            $units[$machine->id] = [
+                "name"  => $machine->name,
+                "total" => $total,
+                "count" => $all->count(),
+                "date"  => $date
+            ];
+        }
+
         return view('home', ['unverified_users' => User::inactive()->get(), 
                                 'payments' => $payments,
                                 'machines' => Machine::count(),
-                                'commision' => Transaction::commision()->current()->sum('amount')
+                                'units' => $units,
+                                'commision' => Transaction::commision()->current()->sum('amount'),
+                                'power' => Setting::first()->hashing_power
                             ]);
     }
 

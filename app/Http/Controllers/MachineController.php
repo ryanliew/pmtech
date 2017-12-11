@@ -73,7 +73,16 @@ class MachineController extends Controller
      */
     public function show(Machine $machine)
     {
-        return view('machines.show', ['users' => User::all(), 'machine' => $machine]);
+        $date = $machine->created_at;
+
+        if(!auth()->user()->is_admin)
+        {
+            $date = $machine->units()->where('investor_id', auth()->user()->id)->orderBy('updated_at')->first()->updated_at;
+        }
+
+        $earnings = $machine->earnings()->after($date)->orderBy('date')->get();
+
+        return view('machines.show', ['users' => User::all(), 'machine' => $machine, 'earnings' => $earnings, 'total' => $earnings->sum('amount')]);
     }
 
     /**

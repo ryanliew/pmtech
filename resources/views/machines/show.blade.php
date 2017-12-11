@@ -103,28 +103,28 @@
 		<div class="col-md-6">
 			@component('components.panel')
 				@slot('heading')
-					Earnings history <small>Earned {{ $machine->total_earning }} so far</small>
+					Earnings history <small>Earned {{ $total }} so far</small>
 				@endslot
 				
 				<machine-chart class="mb-10" machine="{{ $machine->id }}"></machine-chart>
 				<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
-				<thead>
-					<tr>
-					 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Date</th>
-					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
-					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Final amount</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach( $machine->earnings as $earning )
+					<thead>
 						<tr>
-						  	<td class="title">{{ $earning->date->toDateString()  }}</td>
-						  	<td>{{ $earning->amount }}</td>
-						  	<td>{{ $earning->final_amount }}</td>
+						 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Date</th>
+						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
+						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Final amount</th>
 						</tr>
-					@endforeach
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						@foreach( $earnings as $earning )
+							<tr>
+							  	<td class="title">{{ $earning->date->toDateString()  }}</td>
+							  	<td>{{ $earning->amount }}</td>
+							  	<td>{{ $earning->final_amount }}</td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
 			@endcomponent
 		</div>
 	</div>

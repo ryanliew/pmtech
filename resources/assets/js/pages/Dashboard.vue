@@ -1,15 +1,18 @@
 <script>
+	import LineChart from "../components/LineChart.vue";
+
 	export default {
 		props: ['isdefaultpassword', 'investor', 'marketing', 'confirmed'],
+
+		components: { LineChart },
 
 		data() {
 			return {
 				bitcoinUSD: 0,
-				bitcoinURL: 'https://api.coindesk.com/v1/bpi/currentprice.json',
-				bitcoinHistoryURL: 'https://api.coindesk.com/v1/bpi/historical/close.json',
+				bitcoinURL: 'https://api.coindesk.com/v1/bpi/currentprice.json',	
 				bitcoinHistoryLoadingClass: 'loading',
 				bitcoinChartLabels: [1],
-				bitcoinChartData: [1],
+				bitcoinChartData: null,
 				milestoneLoadingClass: "loading",
 				milestonePercentage: 0,
 				milestoneString: "",
@@ -64,13 +67,14 @@
 				}
 			});
 
-			axios.get('/repeater?url=' + this.bitcoinHistoryURL).then( result => {
-				this.bitcoinChartLabels = Object.keys(result.data.bpi);
-				this.bitcoinChartData = Object.values(result.data.bpi);
-				
-				this.bitcoinHistoryLoadingClass = "";
+			axios.get('/coinhistory').then( result => {
+				console.log(result.data);
 
+				this.bitcoinChartData = result.data;
+
+				this.bitcoinHistoryLoadingClass = "";
 			});
+
 
 			axios.get('/user/next-milestone').then( data => {
 				this.milestonePercentage = data.data.percentage;

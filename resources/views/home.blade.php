@@ -89,22 +89,23 @@
                 @endcomponent
             </div>
             <div class="row">
-                <div class="col-md-6" :class="bitcoinHistoryLoadingClass">
-                    <div class="preloader-block">
-                        <ul class="spin-preloader">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
+                <div class="col-md-6" >
+                    <div :class="bitcoinHistoryLoadingClass">
+                        @component('components.panel')
+                            @slot('heading')
+                                Bitcoin statistics
+                            @endslot
+                            <div class="preloader-block">
+                                <ul class="spin-preloader">
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                            <line-chart :chart-data="this.bitcoinChartData"></line-chart>
+                        @endcomponent
                     </div>
-                    @component('components.panel')
-                        @slot('heading')
-                            Bitcoin statistics
-                        @endslot
-                    
-                        <chartjs-line :bind="true" :labels="this.bitcoinChartLabels" :data="this.bitcoinChartData" datalabel="USD"></chartjs-line>
-                    @endcomponent
                     @if(!auth()->user()->is_admin)
                         @component('components.panel')
                             @slot('heading')

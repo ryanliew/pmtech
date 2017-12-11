@@ -22,6 +22,7 @@ Auth::routes();
 // });
 // 
 Route::get('/repeater', 'HomeController@repeater');
+Route::get('/coinhistory', 'HomeController@getHistoricalData');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'SettingController@edit')->name('settings');

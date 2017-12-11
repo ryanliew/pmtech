@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Machine;
 use App\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -45,5 +46,72 @@ class HomeController extends Controller
         $response = $request->getBody();
         
         return($response);   
+    }
+
+    public function getHistoricalData()
+    {
+        $coins = ['BTC', 'DASH', 'ETH'];
+
+        $result['datasets'] = [];
+        $result['labels'] = [];
+
+        foreach($coins as $key => $coin)
+        {
+            $url = 'https://min-api.cryptocompare.com/data/histoday?fsym=' . $coin . '&tsym=USD&limit=30&aggregate=3';
+
+            $client = new \GuzzleHttp\Client();
+
+            $request = $client->get($url);
+
+            $response = $request->getBody();
+
+            $content = json_decode($response);
+
+            $prepdata = collect($content->Data)->pluck('close')->all();
+            
+            $preplabel = collect($content->Data)->pluck('time')->all();
+
+            $color = $this->getColor($key);
+            $colorvalue = "rgba(" . $color[0] . "," . $color[1] . "," . $color[2] . ",1)";
+            $result['datasets'][$key] = [
+                "label" => $coin,
+                "fill"  => false,
+                "lineTension" => 0.1,
+                "borderColor" => $colorvalue,
+                "backgroundColor" => $colorvalue,
+                "borderCapStyle" => "butt",
+                "borderDash" => [],
+                "borderJoinStyle" => 'miter',
+                "pointBorderColor" => "rgba(75,192,192,1)",
+                "pointBackgroundColor" => "#fff",
+                "pointBorderWidth" => 1,
+                "pointHoverRadius" => 5,
+                "pointHoverBackgroundColor" => "rgba(75,192,192,1)",
+                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                "pointHoverBorderWidth" => 2,
+                "pointRadius" => 1,
+                "pointHitRadius" => 10,
+                "spanGaps" => false
+            ];
+
+            $result['datasets'][$key]['data'] = $prepdata;
+
+            foreach($preplabel as $key => $time)
+            {
+                $preplabel[$key] = Carbon::createFromTimestamp($time)->toDateString();
+            }
+
+            $result['labels'] = $preplabel;
+        }
+
+        return $result;
+    }
+
+    function getColor($num) {
+        $hash = md5('colors' . $num); // modify 'color' to get a different palette
+        return array(
+            hexdec(substr($hash, 0, 2)), // r
+            hexdec(substr($hash, 2, 2)), // g
+            hexdec(substr($hash, 3, 2))); //b
     }
 }

@@ -8,7 +8,7 @@
 	<div class="row heading-bg">
 		<!-- header -->
 		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-			<h5 class="txt-dark">users</h5>
+			<h5 class="txt-dark">Payments for {{ $date }}</h5>
 		</div>
 
 		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">

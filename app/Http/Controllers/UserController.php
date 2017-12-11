@@ -28,15 +28,17 @@ class UserController extends Controller
 
     public function payments()
     {
+        $date = Carbon::now()->subMonth();
+
         $users = DB::table('users')
                     ->leftJoin('transactions', 'users.id', '=', 'transactions.user_id')
-                    ->whereRAW('MONTH(date) = ? AND YEAR(date) = ?', [Carbon::now()->subMonth()->month, Carbon::now()->subMonth()->year])
+                    ->whereRAW('MONTH(date) = ? AND YEAR(date) = ?', [$date->month, $date->year])
                     ->select(DB::raw('sum(`transactions`.`amount`) as total, name, bank_name, bank_account_number, bitcoin_address'))
                     ->groupBy('users.id')
-                    ->orderBy('total')
+                    ->orderByDesc('total')
                     ->paginate(20);
 
-        return view('users.payments', ['users' => $users]);
+        return view('users.payments', ['users' => $users, 'date' => $date->format('F Y')]);
     }
 
     public function create()

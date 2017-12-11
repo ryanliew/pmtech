@@ -68,8 +68,6 @@
 			});
 
 			axios.get('/coinhistory').then( result => {
-				console.log(result.data);
-
 				this.bitcoinChartData = result.data;
 
 				this.bitcoinHistoryLoadingClass = "";

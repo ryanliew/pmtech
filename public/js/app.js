@@ -99095,8 +99095,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		});
 
 		axios.get('/coinhistory').then(function (result) {
-			console.log(result.data);
-
 			_this.bitcoinChartData = result.data;
 
 			_this.bitcoinHistoryLoadingClass = "";

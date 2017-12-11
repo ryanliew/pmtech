@@ -46,7 +46,7 @@
 											  	<td>{{ $user->bank_name }}</td>
 											  	<td>{{ $user->bank_account_number }}</td>
 											  	<td>{{ $user->bitcoin_address }}</td>
-											  	<td>{{ $user->transactions()->current()->sum('amount') }}</td>
+											  	<td>{{ $user->total }}</td>
 											</tr>
 										@endforeach
 									</tbody>

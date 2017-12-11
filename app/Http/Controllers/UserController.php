@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -21,12 +23,20 @@ class UserController extends Controller
 
     public function index()
     {
-    	return view('users.index', ['users' => User::latest()->paginate(20)]);
+    	return view('users.index', ['users' => User::latest()->with('units')->paginate(20)]);
     }
 
-    public function payments_index()
+    public function payments()
     {
-        return view('users.payments', ['users' => User::latest()->paginate(20)]);
+        $users = DB::table('users')
+                    ->leftJoin('transactions', 'users.id', '=', 'transactions.user_id')
+                    ->whereRAW('MONTH(date) = ? AND YEAR(date) = ?', [Carbon::now()->subMonth()->month, Carbon::now()->subMonth()->year])
+                    ->select(DB::raw('sum(`transactions`.`amount`) as total, name, bank_name, bank_account_number, bitcoin_address'))
+                    ->groupBy('users.id')
+                    ->orderBy('total')
+                    ->paginate(20);
+
+        return view('users.payments', ['users' => $users]);
     }
 
     public function create()

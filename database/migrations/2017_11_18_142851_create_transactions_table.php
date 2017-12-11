@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->date('date');
-            $table->float('amount', 12, 8);
+            $table->float('amount');
             $table->string('type');
             $table->string('description')->nullable();
             $table->timestamps();

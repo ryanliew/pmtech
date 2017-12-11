@@ -81,6 +81,12 @@ class User extends Node implements
     }
 
     /* Accessors */
+
+    public function getUnitsCountAttribute()
+    {
+        return $this->units->count();
+    }
+
     public function getReferralLinkAttribute()
     {
         return url("/register?as=investor&r=" . $this->username);

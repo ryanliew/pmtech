@@ -43,7 +43,7 @@ Route::delete('unit/{unit}', 'UnitController@destroy')->name('unit');
 
 
 Route::get('/users', 'UserController@index')->name('users');
-Route::get('/users/payments', 'UserController@payments_index')->name('users.payments');
+Route::get('/users/payments', 'UserController@payments')->name('users.payments');
 Route::get('/user/new', 'UserController@create')->name('user.create');
 Route::post('/user/new', 'UserController@store')->name('user.create');
 Route::get('/user/profile', 'UserController@edit')->name('user.profile');

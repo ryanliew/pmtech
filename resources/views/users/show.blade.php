@@ -112,7 +112,7 @@
 						<div class="row form-group">
 							<label class="control-label col-md-3">Referrer:</label>
 							<div class="col-md-9">
-								<p>{{ $user->referrer ? $user->referrer->name : "-" }}</p>
+								<p>{{ is_null($user->referrer) ? "-" : $user->referrer->name }}</p>
 							</div>
 						</div>
 						<div class="row form-group">

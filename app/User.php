@@ -55,6 +55,11 @@ class User extends Node implements
     }
 
     /* Relations */
+    public function referrer()
+    {
+        return $this->parent();
+    }
+
     public function payments()
     {
         return $this->hasMany('App\Payment');
@@ -306,7 +311,7 @@ class User extends Node implements
 
         
         // 5 referee per month bonus
-        if($this->referees()->active()->whereMonth('created_at', $now->month)->count() == 4) {
+        if($this->immediateDescendants()->verified()->investor()->whereMonth('created_at', $now->month)->whereYear('created_at', $now->year)->count() == 4) {
             $description = "Gained bonus for referring 5 investor in " . $now->Format("F Y");
             $amount = $settings->incentive_bonus_per_referee_pack;
             $this->add_bonus_transaction($description, $amount, $date);
@@ -351,7 +356,7 @@ class User extends Node implements
     }
 
     /* Scopes */
-    public function scopeActive($query)
+    public function scopeVerified($query)
     {
         return $query->where('is_verified', true);
     }
@@ -359,6 +364,11 @@ class User extends Node implements
     public function scopeInactive($query)
     {
         return $query->where('is_verified', false);
+    }
+
+    public function scopeInvestor($query)
+    {
+        return $query->where('is_investor', true);
     }
 
 

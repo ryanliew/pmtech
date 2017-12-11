@@ -52,7 +52,7 @@
                     @endslot
 
                     @slot('adjective')
-                        Total investor payment (MYR)
+                        Total investors payments (MYR)
                     @endslot
 
                     {{ $payments }}
@@ -213,7 +213,11 @@
                                         {{ $unit->machine->name }} - {{ $unit->id }}
                                     </a>
                                     <strong class="ml-10 text-bold flex text-center">
-                                        Earned MYR {{ $unit->machine->earningSumAfterDate($unit->updated_at)->aggregate / 10 }} so far
+                                        @if( !is_null($unit->machine->earningSumAfterDate($unit->updated_at) ) )
+                                            Earned MYR {{ $unit->machine->earningSumAfterDate($unit->updated_at)->aggregate / 10 }} so far
+                                        @else
+                                            Mining aggresively
+                                        @endif
                                     </strong>
                                     <span class="ml-10">
                                         Started investment on {{ $unit->updated_at->toDateString() }}

@@ -27,34 +27,36 @@
 			<div class="panel panel-default card-view">
 				<div class="panel-wrapper collapse in">
 					<div class="panel-body">
-						<div class="row controls">
-							<div class="col-md-12 button-list">
-								<button class="btn btn-info" data-toggle="modal" data-target="#add-machine-modal">Add machine</button>
-								<div id="add-machine-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-												<h5 class="modal-title">Add new machine</h5>
-											</div>
-											<div class="modal-body">
-												<form id="add-machine-form" method="POST" action="{{ route('machines') }}">
-													{{ csrf_field() }}
-													<div class="form-group">
-														<label for="name" class="control-label mb-10">Name:</label>
-														<input type="text" name="name" class="form-control" id="name">
-													</div>
-												</form>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-												<button type="button" class="btn btn-danger" onclick="$('#add-machine-form').submit()">Save changes</button>
+						@if(auth()->user()->is_admin)
+							<div class="row controls">
+								<div class="col-md-12 button-list">
+									<button class="btn btn-info" data-toggle="modal" data-target="#add-machine-modal">Add machine</button>
+									<div id="add-machine-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h5 class="modal-title">Add new machine</h5>
+												</div>
+												<div class="modal-body">
+													<form id="add-machine-form" method="POST" action="{{ route('machines') }}">
+														{{ csrf_field() }}
+														<div class="form-group">
+															<label for="name" class="control-label mb-10">Name:</label>
+															<input type="text" name="name" class="form-control" id="name">
+														</div>
+													</form>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-danger" onclick="$('#add-machine-form').submit()">Save changes</button>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						@endif
 						<div class="table-wrap">
 							<div class="mt-40">
 								<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
@@ -76,6 +78,7 @@
 											  	<td>@if( null !== $machine->latest_earning() ){{ $machine->latest_earning()->date->toDateString() }} @else - @endif</td>
 											  	<td>
 											  		<ul class="list-inline">
+											  			@if(auth()->user()->is_admin)
 											  			<li>
 													  		<button class="btn btn-success" data-toggle="modal" data-target="#edit-machine-modal-{{ $machine->id }}">Edit</button>
 													  	</li>
@@ -155,6 +158,7 @@
 																</form>
 															@endcomponent
 														</li>
+														@endif
 														<li>
 															<a href="{{ route('machine', $machine->id) }}" class="btn btn-warning">
 																View details

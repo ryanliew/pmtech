@@ -21,12 +21,6 @@ Auth::routes();
 // 	phpinfo();
 // });
 // 
-Route::get('/test', function() {
-	factory('App\User')->create(['email' => 'groupmanager@email.com']);
-});
-
-Route::get('/super/createtest', 'TestController@generate_test_data');
-
 Route::get('/repeater', 'HomeController@repeater');
 
 Route::get('/home', 'HomeController@index')->name('home');

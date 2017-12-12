@@ -235,6 +235,20 @@
 				            </div>
 				        @endif
 				    </div>
+
+				    @if( empty( $user->investor_agreement_path ) )
+				    <!-- Start investor field -->
+				        <div class="form-group mb-30">
+				            <label class="control-label mb-10 text-left">Management agreement upload</label>
+				            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+				                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+				                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+				                <input type="file" accept=".pdf" name="contract_upload">
+				                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+				            </div>
+				        </div>
+				    <!-- End investor field -->
+					@endif
 					
 					@if( empty( $user->ic_image_path ) )
 				    <!-- Start agent field -->

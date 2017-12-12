@@ -62,7 +62,10 @@ class RegisterController extends Controller
             'payment_slip.required_if'      =>  'Payment slip is required to join as an investor',
             'contract_upload.required_if'   =>  'You must upload the signed agreenment to join as an investor',
             'ic_image.required_if'          =>  'You must upload the photocopy of your IC in order to join us as an marketing agent',
-            'area_id.numeric'               =>  'Please select a valid area'
+            'area_id.numeric'               =>  'Please select a valid area',
+            'contract_upload.max'           =>  'The signed agreement must not be more than 5MB',
+            'payment_slip.max'              =>  'The payment slip must not be more than 5MB',
+            'ic_copy.max'                   =>  'The photocopy of your IC must not be more than 5MB',
         ];
         return Validator::make($data, [
             'name'                  =>  'required|max:255',
@@ -72,9 +75,9 @@ class RegisterController extends Controller
             'phone'                 =>  'required|unique:users',
             'alt_contact_phone'     =>  'required',
             'alt_contact_name'      =>  'required',
-            'payment_slip'          =>  'required_if:type,==,investor|image',
-            'contract_upload'       =>  'required_if:type,==,investor',
-            'ic_copy'               =>  'required_if:type,==,agent|image',
+            'payment_slip'          =>  'required_if:type,==,investor|image|max:5000',
+            'contract_upload'       =>  'required_if:type,==,investor|max:5000',
+            'ic_copy'               =>  'required_if:type,==,agent|image|max:5000',
             'area_id'               =>  'required|numeric',
             'bitcoin_address'       =>  'required',
             'bank_account_number'   =>  'required',

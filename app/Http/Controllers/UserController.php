@@ -68,6 +68,7 @@ class UserController extends Controller
             'alt_contact_name'  =>  'required',
             'payment_slip'      =>  'image',
             'ic_copy'           =>  'image',
+            'contract_upload'   =>  'max:5000',
             'area_id'           =>  'required|numeric'
         ], $messages);
 
@@ -79,6 +80,11 @@ class UserController extends Controller
             $ic_copy = $data['ic_copy']->store('identifications', 'public');
         }
 
+        if(array_has($data, 'contract_upload'))
+        {
+            $contract = $data['contract_upload']->store('contracts', 'public');
+        }
+
         $default_password =  substr($data['ic'], -6);
 
         $user = User::create([
@@ -86,6 +92,7 @@ class UserController extends Controller
             'email'             =>  $data['email'],
             'password'          =>  bcrypt($default_password),
             'ic_image_path'     =>  $ic_copy,
+            'investor_agreement_path' => $contract,
             'phone'             =>  $data['phone'],
             'ic'                =>  $data['ic'],
             'username'          =>  str_random(6),
@@ -142,7 +149,8 @@ class UserController extends Controller
             'phone'             =>  ['sometimes', 'required', Rule::unique('users')->ignore($user->id)],
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
-            'ic_image_path'     =>  'image',
+            'ic_image_path'     =>  'image|max:5000',
+            'contract_upload'   =>  'max:5000',
             'area_id'           =>  'required|numeric',
             'terms'             =>  'required_with:ic_image_path'
         ], $messages);
@@ -154,7 +162,14 @@ class UserController extends Controller
             $data['ic_image_path'] = $data['ic_image_path']->store('identifications', 'public');
         }
 
+        if(array_has($data, 'contract_upload'))
+        {
+            $data['investor_agreement_path'] = $contract = $data['contract_upload']->store('contracts', 'public');
+        }
+
         $user->update($data);
+
+
 
         return back()->with('success', 'Your profile has been updated');
     }

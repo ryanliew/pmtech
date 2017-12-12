@@ -51,6 +51,9 @@ class PaymentController extends Controller
 
         $payment->user->update(['is_investor' => true]);
 
+        if(!is_null($payment->user->parent))
+            $payment->user->parent->update(['is_marketing_agent' => true]);
+
         if(request()->expectsJson()){
             return response(200);
         }

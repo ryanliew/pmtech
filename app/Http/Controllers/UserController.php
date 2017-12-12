@@ -66,6 +66,9 @@ class UserController extends Controller
             'phone'             =>  'required|unique:users',
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
+            'bank_name'         =>  'required',
+            'bank_account_number'   =>  'required',
+            'bitcoin_address'   =>  'required',
             'payment_slip'      =>  'image',
             'ic_copy'           =>  'image',
             'contract_upload'   =>  'max:5000',
@@ -74,6 +77,7 @@ class UserController extends Controller
 
     	$ic_copy = ""; 
         $payment_slip = "";
+        $contract = "";
 
         if(array_has($data, 'ic_copy'))
         {
@@ -99,6 +103,9 @@ class UserController extends Controller
             'alt_contact_name'  =>  $data['alt_contact_name'],
             'alt_contact_phone' =>  $data['alt_contact_phone'],
             'area_id'           =>  $data['area_id'],
+            'bitcoin_address'   =>  $data['bitcoin_address'],
+            'bank_name'         =>  $data['bank_name'],
+            'bank_account_number'   =>  $data['bank_account_number'],
             'is_verified'		=> 	true
         ]);
 
@@ -149,8 +156,11 @@ class UserController extends Controller
             'phone'             =>  ['sometimes', 'required', Rule::unique('users')->ignore($user->id)],
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
+            'bank_name'         =>  'required', 
+            'bank_account_number'   => 'required',
+            'bitcoin_address'   =>  'required',
             'ic_image_path'     =>  'image|max:5000',
-            'contract_upload'   =>  'max:5000',
+            'investor_agreement_path'   =>  'max:5000',
             'area_id'           =>  'required|numeric',
             'terms'             =>  'required_with:ic_image_path'
         ], $messages);
@@ -162,16 +172,16 @@ class UserController extends Controller
             $data['ic_image_path'] = $data['ic_image_path']->store('identifications', 'public');
         }
 
-        if(array_has($data, 'contract_upload'))
+        if(array_has($data, 'investor_agreement_path'))
         {
-            $data['investor_agreement_path'] = $contract = $data['contract_upload']->store('contracts', 'public');
+            $data['investor_agreement_path'] = $data['investor_agreement_path']->store('contracts', 'public');
         }
 
         $user->update($data);
 
 
 
-        return back()->with('success', 'Your profile has been updated');
+        return back()->with('success', 'Profile has been updated');
     }
 
     public function updatePassword(User $user)

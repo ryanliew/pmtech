@@ -23,7 +23,7 @@
 					Information
 				@endslot
 
-				<form action="{{ route('user.profile') }}" method="POST" enctype="multipart/form-data">
+				<form action="@if(auth()->user()->is_admin){{ route('user.edit', $user->id) }} @else {{ route('user.profile') }} @endif" method="POST" enctype="multipart/form-data">
 				    {{ csrf_field() }}
 				   	@component('components.input') 
 						@slot('input_name')
@@ -45,7 +45,7 @@
 						Full name <span class="text-danger">*</span>
 
 						@slot('show_only')
-							@if( $user->is_verified ) true @endif
+							@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 						@endslot
 				   	@endcomponent
 
@@ -69,7 +69,7 @@
 				   		Email address <span class="text-danger">*</span>
 
 				   		@slot('show_only')
-							@if( $user->is_verified ) true @endif
+							@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 						@endslot
 				   	@endcomponent
 				    
@@ -93,7 +93,7 @@
 				    	IC number <span class="text-danger">*</span>
 				    
 				    	@slot('show_only')
-				    		@if( $user->is_verified ) true @endif
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 				    	@endslot
 				    @endcomponent
 
@@ -117,7 +117,7 @@
 				    	Phone number <span class="text-danger">*</span>
 				    
 				    	@slot('show_only')
-				    		@if( $user->is_verified ) true @endif
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 				    	@endslot
 				    @endcomponent
 
@@ -141,7 +141,7 @@
 				    	Bank name <span class="text-danger">*</span>
 				    
 				    	@slot('show_only')
-				    		@if( $user->is_verified ) true @endif
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 				    	@endslot
 				    @endcomponent
 
@@ -165,7 +165,7 @@
 				    	Bank account number <span class="text-danger">*</span>
 				    
 				    	@slot('show_only')
-				    		@if( $user->is_verified ) true @endif
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 				    	@endslot
 				    @endcomponent
 
@@ -189,7 +189,7 @@
 				    	Bitcoin address <span class="text-danger">*</span>
 				    
 				    	@slot('show_only')
-				    		@if( $user->is_verified ) true @endif
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 				    	@endslot
 				    @endcomponent
 				    
@@ -243,7 +243,7 @@
 				            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 				                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
 				                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
-				                <input type="file" accept=".pdf" name="contract_upload">
+				                <input type="file" accept=".pdf" name="investor_agreement_path">
 				                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
 				            </div>
 				        </div>

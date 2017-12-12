@@ -17,9 +17,9 @@ Route::get('/', function(){
 
 Auth::routes();
 
-Route::get('/phpinfo', function() {
-	phpinfo();
-});
+// Route::get('/phpinfo', function() {
+// 	phpinfo();
+// });
 
 Route::get('/repeater', 'HomeController@repeater');
 Route::get('/coinhistory', 'HomeController@getHistoricalData');

@@ -207,7 +207,7 @@ class UserController extends Controller
     {
     	$user->verify();
 
-    	return redirect(route('users'))->with('success', $user->name . ' is now verified.');
+    	return back()->with('success', $user->name . ' is now verified.');
     }
 
     public function destroy(User $user)
@@ -216,14 +216,14 @@ class UserController extends Controller
     		'is_verified'	=> false
     	]);
 
-    	return redirect(route('users'))->with('success', $user->name . ' has been deactivated.');
+    	return back()->with('success', $user->name . ' has been deactivated.');
     }
 
     public function verifyMarketing(User $user)
     {
         $user->verifyMarketing();
 
-        return redirect(route('users'))->with('success', $user->name . ' is now verified as marketing agent.');
+        return back()->with('success', $user->name . ' is now verified as marketing agent.');
     }
 
     public function destroyMarketing(User $user)
@@ -232,7 +232,7 @@ class UserController extends Controller
             'is_verified_marketing_agent'   => false
         ]);
 
-        return redirect(route('users'))->with('success', $user->name . ' has been revoked as a marketing agent.');
+        return back()->with('success', $user->name . ' has been revoked as a marketing agent.');
     }
 
     public function updateIdentity(User $user)

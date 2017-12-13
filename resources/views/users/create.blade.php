@@ -132,22 +132,18 @@
 				    		false
 				    	@endslot
 				    @endcomponent
-			    <div class="form-group{{ $errors->has('area_id') ? ' has-error has-danger' : '' }}">
-                    <label class="pull-left control-label mb-10" for="area_id">Area <span class="text-danger">*</span></label>
-                    <select class="form-control select2" name="area_id" id="area_id">
+			    <div class="form-group{{ $errors->has('state_id') ? ' has-error has-danger' : '' }}">
+                    <label class="pull-left control-label mb-10" for="state_id">Area <span class="text-danger">*</span></label>
+                    <select class="form-control select2" name="state_id" id="state_id">
                         <option>Select area</option>
                         @foreach( $states as $state )
-                            <optgroup label="{{ $state->name }}">
-                                @foreach( $state->areas as $area )
-                                    <option value="{{ $area->id }}">{{ $area->name }}</option>
-                                @endforeach
-                            </optgroup>
+                            <option value="{{ $state->id }}">{{ $state->name }}</option>
                         @endforeach
                     </select>
-                    @if($errors->has('area_id'))
+                    @if($errors->has('state_id'))
                         <div class="help-block with-errors">
                             <ul class="list-unstyled">
-                                <li>{{ $errors->first('area_id') }}</li>
+                                <li>{{ $errors->first('state_id') }}</li>
                             </ul>
                         </div>
                     @endif

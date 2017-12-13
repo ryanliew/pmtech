@@ -70,6 +70,11 @@ class User extends Node implements
         return $this->belongsTo('App\Area');
     }
 
+    public function state()
+    {
+        return $this->belongsTo('App\State');
+    }
+
     public function transactions()
     {
         return $this->hasMany('App\Transaction');

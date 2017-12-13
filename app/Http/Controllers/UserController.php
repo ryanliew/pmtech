@@ -56,7 +56,7 @@ class UserController extends Controller
             'ic.unique'         =>  'This IC number already exists in the database',
             'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
             'phone.unique'      =>  'This phone number already exists in the database',
-            'area_id.numeric'   =>  'Please select a valid area'
+            'state_id.numeric'  =>  'Please select a valid state'
         ];
 
         $data = request()->validate([
@@ -72,7 +72,7 @@ class UserController extends Controller
             'payment_slip'      =>  'image',
             'ic_copy'           =>  'image',
             'contract_upload'   =>  'max:5000',
-            'area_id'           =>  'required|numeric'
+            'state_id'          =>  'required|numeric'
         ], $messages);
 
     	$ic_copy = ""; 
@@ -102,7 +102,7 @@ class UserController extends Controller
             'username'          =>  str_random(6),
             'alt_contact_name'  =>  $data['alt_contact_name'],
             'alt_contact_phone' =>  $data['alt_contact_phone'],
-            'area_id'           =>  $data['area_id'],
+            'state_id'           =>  $data['state_id'],
             'bitcoin_address'   =>  $data['bitcoin_address'],
             'bank_name'         =>  $data['bank_name'],
             'bank_account_number'   =>  $data['bank_account_number'],
@@ -144,7 +144,7 @@ class UserController extends Controller
             'ic.unique'         =>  'This IC number already exists in the database',
             'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
             'phone.unique'      =>  'This phone number already exists in the database',
-            'area_id.numeric'   =>  'Please select a valid area',
+            'state_id.numeric'   =>  'Please select a valid state',
             'terms.required_with' => 'You must read and accept the terms and conditions to become a marketing agent'
         ];
 
@@ -162,7 +162,7 @@ class UserController extends Controller
             'bitcoin_address'   =>  'required',
             'ic_image_path'     =>  'image|max:5000',
             'investor_agreement_path'   =>  'max:5000',
-            'area_id'           =>  'required|numeric',
+            'state_id'           =>  'required|numeric',
             'terms'             =>  'required_with:ic_image_path'
         ], $messages);
 

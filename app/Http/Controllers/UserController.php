@@ -106,7 +106,8 @@ class UserController extends Controller
             'bitcoin_address'   =>  $data['bitcoin_address'],
             'bank_name'         =>  $data['bank_name'],
             'bank_account_number'   =>  $data['bank_account_number'],
-            'is_verified'		=> 	true
+            'is_verified'		=> 	true,
+            'confirmation_token'    =>  str_limit(md5($data['email'] . str_random()), 25, ''),
         ]);
 
         if(array_has($data, 'payment_slip'))

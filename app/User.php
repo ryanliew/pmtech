@@ -5,14 +5,23 @@ namespace App;
 use App\Setting;
 use App\Transaction;
 use App\Unit;
+use Baum\Node;
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
-class User extends Authenticatable
+class User extends Node implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
-    use Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,15 +43,21 @@ class User extends Authenticatable
         'confirmed' => 'boolean'
     ];
 
+    protected $parentColumn = 'referrer_id';
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($user) {
+            $user->update(['username' => 'P' . ( 100 + $user->id )]);
+        });
+    }
+
     /* Relations */
     public function referrer()
     {
-        return $this->belongsTo('App\User', 'referrer_id');
-    }
-
-    public function referees()
-    {
-        return $this->hasMany('App\User', 'referrer_id');
+        return $this->parent();
     }
 
     public function payments()
@@ -53,6 +68,11 @@ class User extends Authenticatable
     public function area()
     {
         return $this->belongsTo('App\Area');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo('App\State');
     }
 
     public function transactions()
@@ -66,6 +86,12 @@ class User extends Authenticatable
     }
 
     /* Accessors */
+
+    public function getUnitsCountAttribute()
+    {
+        return $this->units->count();
+    }
+
     public function getReferralLinkAttribute()
     {
         return url("/register?as=investor&r=" . $this->username);
@@ -76,11 +102,6 @@ class User extends Authenticatable
         return url("/register?as=marketing&r=" . $this->username);
     }
 
-    public function getRefereesCountAttribute()
-    {
-        return $this->referees->count();
-    }
-
     public function getPaymentSlipPathAttribute($payment)
     {
         return asset( $payment ? 'storage/' . $payment : "" );
@@ -89,6 +110,11 @@ class User extends Authenticatable
     public function getIcImagePathAttribute($ic)
     {
         return !empty($ic) ? asset( 'storage/' . $ic ) : "";
+    }
+
+    public function getInvestorAgreementPathAttribute($path)
+    {
+        return !empty($path) ? asset( 'storage/' . $path ) : "";
     }
 
     public function getStatusAttribute()
@@ -109,17 +135,17 @@ class User extends Authenticatable
 
     public function getDescendingTeamLeaderCountAttribute()
     {
-        return $this->referees->filter(function($referee, $key) {return $referee->is_team_leader; })->count();
+        return $this->getImmediateDescendants()->filter(function($referee, $key) {return $referee->is_team_leader; })->count();
     }
 
     public function getDescendingMarketingAgentCountAttribute()
     {
-        return $this->referees()->where('is_marketing_agent', true)->count();
+        return $this->immediateDescendants()->where('is_marketing_agent', true)->count();
     }
 
     public function getDescendingInvestorCountAttribute()
     {
-        return $this->referees()->where('is_investor', true)->count();
+        return $this->immediateDescendants()->where('is_investor', true)->count();
     }
 
     public function getNextRoleStringAttribute()
@@ -186,13 +212,9 @@ class User extends Authenticatable
 
     public function getTotalNumberOfReferralAttribute()
     {
-        $in_id = $this->referees->pluck('id')->push($this->id);
-
-        $count = DB::table('users')
-                    ->whereIn('referrer_id', $in_id)
-                    ->whereNotNull('ic_image_path')
-                    ->where('ic_image_path', '<>', '')
-                    ->where('is_verified', true)
+        $count = $this->descendants(2)
+                    ->where('is_verified_marketing_agent', true)
+                    ->where('is_verified', true )
                     ->where('is_marketing_agent', true)
                     ->count();
 
@@ -201,15 +223,11 @@ class User extends Authenticatable
 
     public function getTotalNumberOfActiveReferralAttribute()
     {
-        $in_id = $this->referees->pluck('id')->push($this->id);
-
-        $count = DB::table('users')
-                    ->whereIn('referrer_id', $in_id)
-                    ->whereNotNull('ic_image_path')
-                    ->where('ic_image_path', '<>', '')
+        $count = $this->descendants(2)
+                    ->where('is_verified_marketing_agent', true)
                     ->where('is_verified', true)
-                    ->where('is_active', true)
                     ->where('is_marketing_agent', true)
+                    ->where('is_active', true)
                     ->count();
 
         return $count;
@@ -266,13 +284,19 @@ class User extends Authenticatable
 
         if( !is_null( $referrer ) )
         {
-            $this->update(['referrer_id' => $referrer->id]);
+            //$this->update(['referrer_id' => $referrer->id]);
+            $this->makeChildOf($referrer);
         }
     }
 
     public function verify()
     {
         $this->update(['is_verified' => true]);
+    }
+
+    public function verifyMarketing()
+    {
+        $this->update(['is_verified_marketing_agent' => true]);
     }
 
     public function add_payment($payment_slip_path)
@@ -298,7 +322,7 @@ class User extends Authenticatable
 
         
         // 5 referee per month bonus
-        if($this->referees()->active()->whereMonth('created_at', $now->month)->count() == 4) {
+        if($this->immediateDescendants()->verified()->investor()->whereMonth('created_at', $now->month)->whereYear('created_at', $now->year)->count() == 4) {
             $description = "Gained bonus for referring 5 investor in " . $now->Format("F Y");
             $amount = $settings->incentive_bonus_per_referee_pack;
             $this->add_bonus_transaction($description, $amount, $date);
@@ -319,11 +343,14 @@ class User extends Authenticatable
 
     public function add_profit_transaction(Unit $unit, Earning $earning)
     {
-        $description = "Profit from unit " . $unit->id . " from machine " . $unit->machine->name . " for " . $earning->date->format('F Y');
+        if($unit->updated_at->lt($earning->date))
+        {
+            $description = "Profit from unit " . $unit->id . " from machine " . $unit->machine->name . " for " . $earning->date->format('F Y');
 
-        $amount = $unit->machine->latest_earning()->final_amount / 10; 
+            $amount = $unit->machine->latest_earning()->final_amount / 10; 
 
-        $this->add_transaction("profit", $description, $amount, $earning->date);
+            $this->add_transaction("profit", $description, $amount, $earning->date);
+        }
     }
 
     public function add_transaction($type, $description, $amount, $date)
@@ -340,9 +367,19 @@ class User extends Authenticatable
     }
 
     /* Scopes */
-    public function scopeActive($query)
+    public function scopeVerified($query)
     {
         return $query->where('is_verified', true);
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('is_verified', false);
+    }
+
+    public function scopeInvestor($query)
+    {
+        return $query->where('is_investor', true);
     }
 
 

@@ -28,7 +28,11 @@ $factory->define(App\User::class, function (Faker $faker) {
         'alt_contact_phone' => str_random(13),
         'remember_token' => str_random(10),
         'username' => str_random(6),
-        'area_id'  => $faker->numberBetween(1,188) 
+        'area_id'  => $faker->numberBetween(1,188),
+        'ic_image_path' => "identification/default.jpg",
+        'bank_name' => 'Maybank',
+        'bank_account_number' => str_random(10),
+        'bitcoin_address' => str_random(10)
     ];
 });
 

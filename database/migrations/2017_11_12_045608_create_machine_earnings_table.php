@@ -16,8 +16,8 @@ class CreateMachineEarningsTable extends Migration
         Schema::create('earnings', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
-            $table->float('amount', 12, 4);
-            $table->float('deduction', 12, 4)->default(0);
+            $table->float('amount');
+            $table->float('deduction')->default(0);
             $table->unsignedInteger('machine_id');
             $table->timestamps();
 

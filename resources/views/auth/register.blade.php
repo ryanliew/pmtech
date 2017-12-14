@@ -1,21 +1,6 @@
 @extends('layouts.outer-layout')
 
 @section('content')
-<div class="wrapper pa-0">
-    <header class="sp-header">
-        <div class="sp-logo-wrap pull-left">
-            <a href="{{ url('/') }}">
-                <img class="brand-img"></img>
-                <span class="brand-text">{{ env("APP_NAME", "Welory Solution") }}</span>
-            </a>
-        </div>
-        <div class="form-group mb-0 pull-right">
-            <span class="inline-block pr-10">Already have an account?</span>
-            <a class="inline-block btn btn-info btn-rounded btn-outline" href="{{ route('login') }}">Sign In</a>
-        </div>
-        <div class="clearfix"></div>
-    </header>
-    
     <!-- Main Content -->
     <div class="page-wrapper pa-0 ma-0 auth-page">
         <div class="container-fluid">
@@ -30,6 +15,9 @@
                                     <h6 class="text-center nonecase-font txt-grey">Enter your details below</h6>
                                 </div>  
                                 <div class="form-wrap">
+                                    @foreach($errors as $error)
+                                        {{ $error }}
+                                        @endforeach
                                     <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                                         {{ csrf_field() }}
                                         <div class="form-group{{ $errors->has('name') ? ' has-error has-danger' : '' }}{{ $errors->has('name') ? ' has-error has-danger' : '' }}">
@@ -76,22 +64,51 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        <div class="form-group{{ $errors->has('area_id') ? ' has-error has-danger' : '' }}">
-                                            <label class="pull-left control-label mb-10" for="area_id">Area <span class="text-danger">*</span></label>
-                                                <select class="form-control select2" name="area_id" id="area_id">
-                                                <option>Select area</option>
-                                                @foreach( $states as $state )
-                                                    <optgroup label="{{ $state->name }}">
-                                                        @foreach( $state->areas as $area )
-                                                            <option value="{{ $area->id }}">{{ $area->name }}</option>
-                                                        @endforeach
-                                                    </optgroup>
-                                                @endforeach
-                                            </select>
-                                            @if($errors->has('area_id'))
+                                        <div class="form-group{{ $errors->has('bank_account_number') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Bank account number<span class="text-danger">*</span></label>
+                                            <input value="{{ old('bank_account_number') }}" type="text" name="bank_account_number" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            @if($errors->has('bank_account_number'))
                                                 <div class="help-block with-errors">
                                                     <ul class="list-unstyled">
-                                                        <li>{{ $errors->first('area_id') }}</li>
+                                                        <li>{{ $errors->first('bank_account_number') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('bank_name') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Bank name <span class="text-danger">*</span></label>
+                                            <input value="{{ old('bank_name') }}" type="text" name="bank_name" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            @if($errors->has('bank_name'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('bank_name') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('bitcoin_address') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="alt-name">Bitcoin address <span class="text-danger">*</span></label>
+                                            <input value="{{ old('bitcoin_address') }}" type="text" name="bitcoin_address" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            @if($errors->has('bitcoin_address'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('bitcoin_address') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-group{{ $errors->has('state_id') ? ' has-error has-danger' : '' }}">
+                                            <label class="pull-left control-label mb-10" for="state_id">State <span class="text-danger">*</span></label>
+                                                <select class="form-control select2" name="state_id" id="state_id">
+                                                <option>Select area</option>
+                                                @foreach( $states as $state )
+                                                    <option value="{{ $state->id}}">{{ $state->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @if($errors->has('state_id'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('state_id') }}</li>
                                                     </ul>
                                                 </div>
                                             @endif
@@ -137,6 +154,27 @@
                                                 </div>
                                             @endif
                                             </div>
+                                            <div class="form-group{{ $errors->has('contract_upload') ? ' has-error has-danger' : '' }} mb-30">
+                                                <label class="control-label mb-10 text-left">Management agreement upload <span class="text-danger">*</span></label>
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                    <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                    <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+                                                    <input type="file" accept=".pdf" name="contract_upload">
+                                                    </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+                                                </div>
+                                                <div class="help block">
+                                                    <ul class="list-unstyled">
+                                                        <li>Please <a target="__blank" href="{{ url('/downloads/Management Agreement.pdf') }}" class="txt-primary">download</a> and upload the signed agreement</li>
+                                                    </ul>
+                                                </div>
+                                                @if($errors->has('contract_upload'))
+                                                <div class="help-block with-errors">
+                                                    <ul class="list-unstyled">
+                                                        <li>{{ $errors->first('contract_upload') }}</li>
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                            </div>
                                         @endif
                                         <!-- End investor field -->
 
@@ -158,25 +196,26 @@
                                                 </div>
                                             @endif
                                             </div>
+                                            <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
+                                                <div class="checkbox checkbox-primary pr-10 pull-left">
+                                                    <input name="terms" id="terms" required="" type="checkbox">
+                                                    <label for="terms"> I have read and agree to all <a target="__blank" href="{{ url('/downloads/Marketing Structure.pdf') }}" class="txt-primary">Terms and conditions</a> <span class="text-danger">*</span></label>
+                                                     @if($errors->has('terms'))
+                                                        <div class="help-block with-errors">
+                                                            <ul class="list-unstyled">
+                                                                <li>{{ $errors->first('terms') }}</li>
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        
                                         @endif
                                         <input type="hidden" name="type" value="{{ request()->input('as') }}">
                                         <!-- End agent field -->
 
                                         <!-- End all fields -->
-                                        <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
-                                            <div class="checkbox checkbox-primary pr-10 pull-left">
-                                                <input name="terms" id="terms" required="" type="checkbox">
-                                                <label for="terms"> I agree to all <span class="txt-primary">Terms and conditions</span> <span class="text-danger">*</span></label>
-                                                 @if($errors->has('terms'))
-                                                    <div class="help-block with-errors">
-                                                        <ul class="list-unstyled">
-                                                            <li>{{ $errors->first('terms') }}</li>
-                                                        </ul>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
                                         <div class="form-group text-center">
                                             <input type="hidden" name="referrer_user" value="{{ request()->input('r') }}">
                                             <button type="submit" class="btn btn-info btn-rounded">Sign Up</button>
@@ -193,8 +232,6 @@
         
     </div>
     <!-- /Main Content -->
-
-</div>
 @endsection
 
 @section('js')

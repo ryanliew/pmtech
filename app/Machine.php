@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Machine extends Model
 {
-	protected $fillable = ['name'];
-    
+	protected $guarded = [];
+   
+    protected $dates = ['arrival_date'] ;
+
     protected static function boot()
     {
         parent::boot();
@@ -40,6 +43,18 @@ class Machine extends Model
                     ->groupBy('machine_id');
     }
 
+    public function earningSumAfterDate($updated_at)
+    {
+        $result = DB::table('earnings')
+                    ->selectRaw('sum(amount - deduction) as aggregate')
+                    ->whereDate('date', '>=', $updated_at)
+                    ->where('machine_id', $this->id)
+                    ->groupBy('machine_id')
+                    ->first();
+
+        return $result;
+    }
+
     public function emptyUnitCount()
     {
         return $this->hasOne('App\Unit')
@@ -69,5 +84,10 @@ class Machine extends Model
         return ($related) ? $related->aggregate : 0;
     }
 
+    /* Scopes */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'like', '%mining%')->orWhere('status', 'like', '%Mining%');
+    }
 
 }

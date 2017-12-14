@@ -21,9 +21,13 @@ class SettingController extends Controller
     		'fee_electric_per_month'			=> "required|numeric",
     		'fee_admin_percentage_per_month' 	=> "required|min:0|max:100|numeric",
     		'fee_internet_per_month'			=> "required|numeric",
+            'fee_overhead_1'                    => "required|numeric",
+            'fee_overhead_2'                    => "required|numeric",
+            'fee_overhead_3'                    => "required|numeric",
     		'incentive_commission_per_referee'	=> "required|numeric",
     		'incentive_bonus_per_referee_pack'	=> "required|numeric",
-    		'incentive_direct_downline_commission_percentage'	=> "required|min:0|max:100|numeric"
+    		'incentive_direct_downline_commission_percentage'	=> "required|min:0|max:100|numeric",
+            'hashing_power'  => "required|numeric",
     	]);
 
     	$setting = Setting::all()->first();

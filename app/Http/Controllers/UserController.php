@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -21,7 +23,22 @@ class UserController extends Controller
 
     public function index()
     {
-    	return view('users.index', ['users' => User::latest()->paginate(20)]);
+    	return view('users.index', ['users' => User::latest()->with('units')->paginate(20)]);
+    }
+
+    public function payments()
+    {
+        $date = Carbon::now()->subMonth();
+
+        $users = DB::table('users')
+                    ->leftJoin('transactions', 'users.id', '=', 'transactions.user_id')
+                    ->whereRAW('MONTH(date) = ? AND YEAR(date) = ?', [$date->month, $date->year])
+                    ->select(DB::raw('sum(`transactions`.`amount`) as total, name, bank_name, bank_account_number, bitcoin_address'))
+                    ->groupBy('users.id')
+                    ->orderByDesc('total')
+                    ->paginate(20);
+
+        return view('users.payments', ['users' => $users, 'date' => $date->format('F Y')]);
     }
 
     public function create()
@@ -39,7 +56,7 @@ class UserController extends Controller
             'ic.unique'         =>  'This IC number already exists in the database',
             'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
             'phone.unique'      =>  'This phone number already exists in the database',
-            'area_id.numeric'   =>  'Please select a valid area'
+            'state_id.numeric'  =>  'Please select a valid state'
         ];
 
         $data = request()->validate([
@@ -49,17 +66,27 @@ class UserController extends Controller
             'phone'             =>  'required|unique:users',
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
+            'bank_name'         =>  'required',
+            'bank_account_number'   =>  'required',
+            'bitcoin_address'   =>  'required',
             'payment_slip'      =>  'image',
             'ic_copy'           =>  'image',
-            'area_id'           =>  'required|numeric'
+            'contract_upload'   =>  'max:5000',
+            'state_id'          =>  'required|numeric'
         ], $messages);
 
     	$ic_copy = ""; 
         $payment_slip = "";
+        $contract = "";
 
         if(array_has($data, 'ic_copy'))
         {
             $ic_copy = $data['ic_copy']->store('identifications', 'public');
+        }
+
+        if(array_has($data, 'contract_upload'))
+        {
+            $contract = $data['contract_upload']->store('contracts', 'public');
         }
 
         $default_password =  substr($data['ic'], -6);
@@ -69,13 +96,18 @@ class UserController extends Controller
             'email'             =>  $data['email'],
             'password'          =>  bcrypt($default_password),
             'ic_image_path'     =>  $ic_copy,
+            'investor_agreement_path' => $contract,
             'phone'             =>  $data['phone'],
             'ic'                =>  $data['ic'],
             'username'          =>  str_random(6),
             'alt_contact_name'  =>  $data['alt_contact_name'],
             'alt_contact_phone' =>  $data['alt_contact_phone'],
-            'area_id'           =>  $data['area_id'],
-            'is_verified'		=> 	true
+            'state_id'           =>  $data['state_id'],
+            'bitcoin_address'   =>  $data['bitcoin_address'],
+            'bank_name'         =>  $data['bank_name'],
+            'bank_account_number'   =>  $data['bank_account_number'],
+            'is_verified'		=> 	true,
+            'confirmation_token'    =>  str_limit(md5($data['email'] . str_random()), 25, ''),
         ]);
 
         if(array_has($data, 'payment_slip'))
@@ -112,7 +144,8 @@ class UserController extends Controller
             'ic.unique'         =>  'This IC number already exists in the database',
             'ic.numeric'        =>  'Please enter your IC number without dashes. eg.800514149687',
             'phone.unique'      =>  'This phone number already exists in the database',
-            'area_id.numeric'   =>  'Please select a valid area'
+            'state_id.numeric'   =>  'Please select a valid state',
+            'terms.required_with' => 'You must read and accept the terms and conditions to become a marketing agent'
         ];
 
         if(empty($user->id)) $user = auth()->user();
@@ -124,8 +157,13 @@ class UserController extends Controller
             'phone'             =>  ['sometimes', 'required', Rule::unique('users')->ignore($user->id)],
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
-            'ic_image_path'     =>  'image',
-            'area_id'           =>  'required|numeric'
+            'bank_name'         =>  'required', 
+            'bank_account_number'   => 'required',
+            'bitcoin_address'   =>  'required',
+            'ic_image_path'     =>  'image|max:5000',
+            'investor_agreement_path'   =>  'max:5000',
+            'state_id'           =>  'required|numeric',
+            'terms'             =>  'required_with:ic_image_path'
         ], $messages);
 
         
@@ -135,9 +173,16 @@ class UserController extends Controller
             $data['ic_image_path'] = $data['ic_image_path']->store('identifications', 'public');
         }
 
+        if(array_has($data, 'investor_agreement_path'))
+        {
+            $data['investor_agreement_path'] = $data['investor_agreement_path']->store('contracts', 'public');
+        }
+
         $user->update($data);
 
-        return back()->with('success', 'Your profile has been updated');
+
+
+        return back()->with('success', 'Profile has been updated');
     }
 
     public function updatePassword(User $user)
@@ -163,7 +208,7 @@ class UserController extends Controller
     {
     	$user->verify();
 
-    	return redirect(route('users'))->with('success', $user->name . ' is now verified.');
+    	return back()->with('success', $user->name . ' is now verified.');
     }
 
     public function destroy(User $user)
@@ -172,7 +217,23 @@ class UserController extends Controller
     		'is_verified'	=> false
     	]);
 
-    	return redirect(route('users'))->with('success', $user->name . ' has been deactivated.');
+    	return back()->with('success', $user->name . ' has been deactivated.');
+    }
+
+    public function verifyMarketing(User $user)
+    {
+        $user->verifyMarketing();
+
+        return back()->with('success', $user->name . ' is now verified as marketing agent.');
+    }
+
+    public function destroyMarketing(User $user)
+    {
+        $user->update([
+            'is_verified_marketing_agent'   => false
+        ]);
+
+        return back()->with('success', $user->name . ' has been revoked as a marketing agent.');
     }
 
     public function updateIdentity(User $user)

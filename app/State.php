@@ -10,4 +10,9 @@ class State extends Model
     {
     	return $this->hasMany('App\Area');
     }
+
+    public function users()
+    {
+    	return $this->hasMany('App\User');
+    }
 }

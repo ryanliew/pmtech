@@ -37,7 +37,8 @@ class EarningController extends Controller
             'amount'    => $data['amount']
         ]);
 
-        $this->sendGMBonus($date);
+        if(Transaction::whereDate('date', $date)->count() == 0)
+            $this->sendGMBonus($date);
 
         return back()->with('success', "Added earning to " . $machine->name);
     }
@@ -57,7 +58,7 @@ class EarningController extends Controller
 
     public function sendGMBonus($date)
     {
-        $groupmanagers = User::all()->filter(function($user){ return $user->is_group_manager; });
+        $groupmanagers = User::all()->filter(function($user){ return $user->is_group_manager && $user->group_manager_bonus_percentage > 0; });
         $totalpercentage = $groupmanagers->sum(function($user){ return $user->group_manager_bonus_percentage; });
         $totalcommision = $totalpercentage > 0 ? Transaction::month($date->month, $date->year)->commision()->sum('amount') * 10 / 100 / $totalpercentage : 0;
 

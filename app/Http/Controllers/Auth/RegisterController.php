@@ -7,6 +7,7 @@ use App\Mail\PleaseConfirmYourEmail;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,28 +52,36 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $messages = [
-            'required'                  =>  'This field is required', 
-            'name.max'                  =>  'Your name should not be longer than 255 characters',
-            'email.email'               =>  'Please enter a valid email',
-            'email.unique'              =>  'This email already exists in our database',
-            'ic.unique'                 =>  'This IC number already exists in our database',
-            'ic.numeric'                =>  'Please enter your IC number without dashes. eg.800514149687',
-            'phone.unique'              =>  'This phone number already exists in our database',
-            'payment_slip.required_if'  =>  'Payment slip is required to join as an investor',
-            'ic_image.required_if'      =>  'You must upload the photocopy of your IC in order to join us as an marketing agent',
-            'area_id.numeric'           =>  'Please select a valid area'
+            'required'                      =>  'This field is required', 
+            'name.max'                      =>  'Your name should not be longer than 255 characters',
+            'email.email'                   =>  'Please enter a valid email',
+            'email.unique'                  =>  'This email already exists in our database',
+            'ic.unique'                     =>  'This IC number already exists in our database',
+            'ic.numeric'                    =>  'Please enter your IC number without dashes. eg.800514149687',
+            'phone.unique'                  =>  'This phone number already exists in our database',
+            'payment_slip.required_if'      =>  'Payment slip is required to join as an investor',
+            'contract_upload.required_if'   =>  'You must upload the signed agreenment to join as an investor',
+            'ic_image.required_if'          =>  'You must upload the photocopy of your IC in order to join us as an marketing agent',
+            'state_id.numeric'               =>  'Please select a valid state',
+            'contract_upload.max'           =>  'The signed agreement must not be more than 5MB',
+            'payment_slip.max'              =>  'The payment slip must not be more than 5MB',
+            'ic_copy.max'                   =>  'The photocopy of your IC must not be more than 5MB',
         ];
         return Validator::make($data, [
-            'name'              =>  'required|max:255',
-            'email'             =>  'required|email|max:255|unique:users',
-            'terms'             =>  'accepted',
-            'ic'                =>  'required|unique:users|numeric',
-            'phone'             =>  'required|unique:users',
-            'alt_contact_phone' =>  'required',
-            'alt_contact_name'  =>  'required',
-            'payment_slip'      =>  'required_if:type,==,investor|image',
-            'ic_copy'           =>  'required_if:type,==,agent|image',
-            'area_id'           =>  'required|numeric'
+            'name'                  =>  'required|max:255',
+            'email'                 =>  'required|email|max:255|unique:users',
+            'terms'                 =>  'required_if:type,==,agent',
+            'ic'                    =>  'required|unique:users|numeric',
+            'phone'                 =>  'required|unique:users',
+            'alt_contact_phone'     =>  'required',
+            'alt_contact_name'      =>  'required',
+            'payment_slip'          =>  'required_if:type,==,investor|image|max:5000',
+            'contract_upload'       =>  'required_if:type,==,investor|max:5000',
+            'ic_copy'               =>  'required_if:type,==,agent|image|max:5000',
+            'state_id'               =>  'required|numeric',
+            'bitcoin_address'       =>  'required',
+            'bank_account_number'   =>  'required',
+            'bank_name'             =>  'required',
         ], $messages);
     }
 
@@ -94,17 +103,20 @@ class RegisterController extends Controller
         $default_password =  substr($data['ic'], -6);
 
         $user = User::create([
-            'name'              =>  $data['name'],
-            'email'             =>  $data['email'],
-            'password'          =>  bcrypt($default_password),
-            'ic_image_path'     =>  $ic_copy,
-            'phone'             =>  $data['phone'],
-            'ic'                =>  $data['ic'],
-            'username'          =>  str_limit(md5(str_random() . $data['email']), 6, ''),
-            'alt_contact_name'  =>  $data['alt_contact_name'],
-            'alt_contact_phone' =>  $data['alt_contact_phone'],
-            'area_id'           =>  $data['area_id'],
-            'confirmation_token' => str_limit(md5($data['email'] . str_random()), 25, '')
+            'name'                  =>  $data['name'],
+            'email'                 =>  $data['email'],
+            'password'              =>  bcrypt($default_password),
+            'ic_image_path'         =>  $ic_copy,
+            'phone'                 =>  $data['phone'],
+            'ic'                    =>  $data['ic'],
+            'username'              =>  str_limit(md5(str_random() . $data['email']), 6, ''),
+            'alt_contact_name'      =>  $data['alt_contact_name'],
+            'alt_contact_phone'     =>  $data['alt_contact_phone'],
+            'state_id'              =>  $data['state_id'],
+            'confirmation_token'    =>  str_limit(md5($data['email'] . str_random()), 25, ''),
+            'bitcoin_address'       =>  $data['bitcoin_address'],
+            'bank_account_number'   =>  $data['bank_account_number'],
+            'bank_name'             =>  $data['bank_name'],
         ]);
 
         $user->update_referrer($data['referrer_user']);
@@ -113,6 +125,12 @@ class RegisterController extends Controller
         {
             $payment_slip = $data['payment_slip']->store('payments', 'public');
             $user->add_payment($payment_slip);
+        }
+
+        if(array_has($data, 'contract_upload'))
+        {
+            $contract = $data['contract_upload']->store('contracts', 'public');
+            $user->update(['investor_agreement_path' => $contract]);
         }
         
         return $user;
@@ -127,8 +145,9 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        Mail::to($user)->send(new PleaseConfirmYourEmail($user));
-
+        if(App::environment('production')) {
+            Mail::to($user)->send(new PleaseConfirmYourEmail($user));
+        }
         return redirect($this->redirectPath());
     } 
 }

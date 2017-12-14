@@ -28,7 +28,10 @@ class Earning extends Model
             $deduction = ($earning->amount * $setting->fee_admin_percentage_per_month / 100) 
                         + $setting->fee_rental_per_month 
                         + $setting->fee_internet_per_month 
-                        + $setting->fee_electric_per_month;
+                        + $setting->fee_electric_per_month
+                        + $setting->fee_overhead_1
+                        + $setting->fee_overhead_2
+                        + $setting->fee_overhead_3;
 
             $earning->update(['deduction' => $deduction]);
 
@@ -56,5 +59,12 @@ class Earning extends Model
         {
             $unit->investor->add_profit_transaction($unit, $this);
         }
+    }
+
+    /* Scope */
+
+    public function scopeAfter($query, $date)
+    {
+        return $query->whereDate('date', '>=', $date);
     }
 }

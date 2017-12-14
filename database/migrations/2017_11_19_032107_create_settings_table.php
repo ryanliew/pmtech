@@ -19,6 +19,9 @@ class CreateSettingsTable extends Migration
             $table->float('fee_internet_per_month', 8, 4)->default(150);
             $table->float('fee_electric_per_month', 8, 4)->default(150);
             $table->unsignedInteger('fee_admin_percentage_per_month')->default(4);
+            $table->float('fee_overhead_1', 8, 4)->default(0);
+            $table->float('fee_overhead_2', 8, 4)->default(0);
+            $table->float('fee_overhead_3', 8, 4)->default(0);
             $table->unsignedInteger('pagination_per_page')->default(20);
             $table->float('incentive_commission_per_referee', 8, 4)->default(300);
             $table->float('incentive_bonus_per_referee_pack', 8, 4)->default(250);

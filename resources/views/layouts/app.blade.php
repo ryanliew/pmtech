@@ -21,7 +21,7 @@
     @yield('css')
 
      <!-- Theme style -->
-    <link href="{{ asset('css/style.css?v=1.2') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css?v=2.0') }}" rel="stylesheet">
 </head>
 <body>
     <div class="preloader-it">
@@ -68,7 +68,11 @@
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
-
+                                <li>
+                                    <a href="https://www.facebook.com/pmantech/">
+                                        <i class="fa fa-facebook" target="_blank"></i><span>Connect to Facebook</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -107,6 +111,11 @@
                             {{ csrf_field() }}
                         </form>
                     </li>
+                    <li>
+                        <a href="https://www.facebook.com/pmantech/" target="_blank">
+                            <i class="fa fa-facebook mr-20"></i><span>Connect to Facebook</span>
+                        </a>
+                    </li>
                     @if(auth()->user()->is_admin)
                         <li class="navigation-header">
                             <span>Main</span> 
@@ -131,6 +140,8 @@
             <div class="page-wrapper">
                 <div class="container-fluid pt-25"> 
                     @yield('content')
+
+                    <flash message="{{ session('flash') }}"></flash>
                 </div>
 
                 <!-- Footer -->
@@ -148,7 +159,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js?v=1.3') }}"></script>
+    <script src="{{ asset('js/app.js?v=2.0') }}"></script>
     <script src="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
     <script>
         @if( $errors->any() )

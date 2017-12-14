@@ -61,8 +61,36 @@
 								<p>{{ $user->username }}</p>
 							</div>
 						</div>
+						<div class="row form-group">
+							<label class="control-label col-md-3">Bank name:</label>
+							<div class="col-md-9">
+								<p>{{ $user->bank_name }}</p>
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class="control-label col-md-3">Bank account number:</label>
+							<div class="col-md-9">
+								<p>{{ $user->bank_account_number }}</p>
+							</div>
+						</div>
+						<div class="row form-group">
+							<label class="control-label col-md-3">Investor contract:</label>
+							<div class="col-md-9">
+								@if($user->investor_agreement_path !== "")
+									<a href="{{ $user->investor_agreement_path }}" target="_blank">Download</a>
+								@else
+									The user has not uploaded the agreement
+								@endif
+							</div>
+						</div>
 					</div>
 					<div class="col-md-6">
+						<div class="row form-group">
+							<label class="control-label col-md-3">Bitcoin address:</label>
+							<div class="col-md-9">
+								<p>{{ $user->bitcoin_address }}</p>
+							</div>
+						</div>
 						<div class="row form-group">
 							<label class="control-label col-md-3">Role:</label>
 							<div class="col-md-9">
@@ -70,9 +98,9 @@
 							</div>
 						</div>
 						<div class="row form-group">
-							<label class="control-label col-md-3">Area:</label>
+							<label class="control-label col-md-3">State:</label>
 							<div class="col-md-9">
-								<p>{{ $user->area->name }}, {{ $user->area->state->name }}</p>
+								<p>{{ $user->state->name }}</p>
 							</div>
 						</div>
 						<div class="row form-group">
@@ -84,7 +112,7 @@
 						<div class="row form-group">
 							<label class="control-label col-md-3">Referrer:</label>
 							<div class="col-md-9">
-								<p>{{ $user->referrer ? $user->referrer->name : "-" }}</p>
+								<p>{{ is_null($user->referrer) ? "-" : $user->referrer->name }}</p>
 							</div>
 						</div>
 						<div class="row form-group">
@@ -116,6 +144,17 @@
 									@endif
 									<button type="submit" class="btn {{ $user->is_verified ? 'btn-danger' : 'btn-success' }}">
 										{{ $user->is_verified ? 'Deactivate user' : 'Verify user' }}
+									</button>
+								</form>
+							</li>
+							<li>
+								<form method="POST" action="{{ route('user.verify_marketing', $user->id) }}">
+									{{ csrf_field() }}
+									@if($user->is_verified_marketing_agent)
+										{{ method_field('DELETE') }}
+									@endif
+									<button type="submit" class="btn {{ $user->is_verified_marketing_agent ? 'btn-danger' : 'btn-success' }}">
+										{{ $user->is_verified_marketing_agent ? 'Revoke marketing agent' : 'Verify marketing agent' }}
 									</button>
 								</form>
 							</li>
@@ -222,69 +261,7 @@
 
 				<div class="table-wrap">
 					<div class="mt-40">
-						<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
-							<thead>
-								<tr>
-								 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Payment ID</th>
-								  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
-								  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Date</th>
-								  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach( $user->payments as $payment )
-									<tr>
-									  	<td class="title">{{ $payment->id }}</td>
-									  	<td>{{ $payment->amount }}</td>
-									  	<td>{{ $payment->created_at->toDateString() }}</td>
-									  	<td>
-									  		<div class="button-list">
-									  			@component('components.modal')
-													@slot('button')
-														@if(!$payment->is_verified)
-											  				Approve
-											  			@else
-											  				View details
-											  			@endif
-													@endslot
-
-													@slot('modal_id')
-														payment-modal-{{ $payment->id }}
-													@endslot
-
-													@slot('title')
-														Payment {{ $payment->id }}
-													@endslot
-
-													<div class="row">
-														<div class="col-md-12">
-															<img src="{{ $payment->payment_slip_path }}" class="img-responsive">
-															<div class="clearfix"></div>
-															<form id="payment-form-{{ $payment->id }}" action="{{ route('payment', $payment->id) }}" method="POST" class="form-horizontal mt-10">
-																{{ csrf_field() }}
-																<div class="form-group">
-																	<label for="amount" class="control-label col-sm-3">Amount</label>
-																	<div class="col-sm-9">
-																		<input class="form-control" name="amount" id="amount" type="text" value="{{ $payment->amount }}">
-																	</div>
-																	
-																</div>		
-															</form>
-														</div>
-													</div>
-
-													@slot('action_button')
-														@if(!$payment->is_verified)
-															<button type="button" class="btn btn-danger" onclick="$('#payment-form-{{ $payment->id }}').submit()">Verify payment</button>
-														@endif
-													@endslot
-									  			@endcomponent
-											</div>
-									  	</td>
-									</tr>
-								@endforeach
-							</tbody>
-						</table>
+						<payments user="{{ $user->id }}"></payments>
 					</div>
 				</div>
 			@endcomponent

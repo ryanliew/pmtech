@@ -23,7 +23,7 @@
 					Information
 				@endslot
 
-				<form action="{{ route('user.profile') }}" method="POST" enctype="multipart/form-data">
+				<form action="@if(auth()->user()->is_admin){{ route('user.edit', $user->id) }} @else {{ route('user.profile') }} @endif" method="POST" enctype="multipart/form-data">
 				    {{ csrf_field() }}
 				   	@component('components.input') 
 						@slot('input_name')
@@ -45,7 +45,7 @@
 						Full name <span class="text-danger">*</span>
 
 						@slot('show_only')
-							@if( $user->is_verified ) true @endif
+							@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 						@endslot
 				   	@endcomponent
 
@@ -69,7 +69,7 @@
 				   		Email address <span class="text-danger">*</span>
 
 				   		@slot('show_only')
-							@if( $user->is_verified ) true @endif
+							@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 						@endslot
 				   	@endcomponent
 				    
@@ -93,7 +93,7 @@
 				    	IC number <span class="text-danger">*</span>
 				    
 				    	@slot('show_only')
-				    		@if( $user->is_verified ) true @endif
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 				    	@endslot
 				    @endcomponent
 
@@ -117,26 +117,94 @@
 				    	Phone number <span class="text-danger">*</span>
 				    
 				    	@slot('show_only')
-				    		@if( $user->is_verified ) true @endif
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
+				    	@endslot
+				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bank_name
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    		{{ $user->bank_name }}
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bank name
+				    	@endslot
+				    	
+				    	Bank name <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
+				    	@endslot
+				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bank_account_number
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    		{{ $user->bank_account_number }}
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bank account number
+				    	@endslot
+				    	
+				    	Bank account number <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
+				    	@endslot
+				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bitcoin_address
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    		{{ $user->bitcoin_address }}
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bitcoin address
+				    	@endslot
+				    	
+				    	Bitcoin address <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		@if( $user->is_verified && !auth()->user()->is_admin ) true @endif
 				    	@endslot
 				    @endcomponent
 				    
-				    <div class="form-group{{ $errors->has('area_id') ? ' has-error has-danger' : '' }}">
-	                    <label class="pull-left control-label mb-10" for="area_id">Area <span class="text-danger">*</span></label>
-	                    <select class="form-control select2" name="area_id" id="area_id">
+				    <div class="form-group{{ $errors->has('state_id') ? ' has-error has-danger' : '' }}">
+	                    <label class="pull-left control-label mb-10" for="state_id">Area <span class="text-danger">*</span></label>
+	                    <select class="form-control select2" name="state_id" id="state_id">
 	                        <option>Select area</option>
 	                        @foreach( $states as $state )
-	                            <optgroup label="{{ $state->name }}">
-	                                @foreach( $state->areas as $area )
-	                                    <option value="{{ $area->id }}" @if(isset($user->area) && $user->area->id == $area->id) selected @endif>{{ $area->name }}</option>
-	                                @endforeach
-	                            </optgroup>
+	                            <option @if(isset($user) && $user->state_id == $state->id) selected @endif value="{{ $state->id }}">{{ $state->name }}</option>
 	                        @endforeach
 	                    </select>
-	                    @if($errors->has('area_id'))
+	                    @if($errors->has('state_id'))
 	                        <div class="help-block with-errors">
 	                            <ul class="list-unstyled">
-	                                <li>{{ $errors->first('area_id') }}</li>
+	                                <li>{{ $errors->first('state_id') }}</li>
 	                            </ul>
 	                        </div>
 	                    @endif
@@ -163,8 +231,22 @@
 				            </div>
 				        @endif
 				    </div>
+
+				    @if( empty( $user->investor_agreement_path ) )
+				    <!-- Start investor field -->
+				        <div class="form-group mb-30">
+				            <label class="control-label mb-10 text-left">Management agreement upload</label>
+				            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+				                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+				                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+				                <input type="file" accept=".pdf" name="investor_agreement_path">
+				                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+				            </div>
+				        </div>
+				    <!-- End investor field -->
+					@endif
 					
-					@if( !$user->is_verified || empty( $user->ic_image_path ) )
+					@if( empty( $user->ic_image_path ) )
 				    <!-- Start agent field -->
 				        <div class="form-group mb-30">
 				            <label class="control-label mb-10 text-left">IC copy upload</label>
@@ -175,6 +257,20 @@
 				                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
 				            </div>
 				        </div>
+				        <div class="form-group{{ $errors->has('terms') ? ' has-error has-danger' : '' }}">
+                            <div class="checkbox checkbox-primary pr-10 pull-left">
+                                <input name="terms" id="terms" type="checkbox">
+                                <label for="terms"> I have read and agree to all <a target="__blank" href="{{ url('/downloads/Marketing Structure.pdf') }}" class="txt-primary">Terms and conditions</a> </label>
+                                 @if($errors->has('terms'))
+                                    <div class="help-block with-errors">
+                                        <ul class="list-unstyled">
+                                            <li>{{ $errors->first('terms') }}</li>
+                                        </ul>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
 				    <!-- End agent field -->
 					@endif
 

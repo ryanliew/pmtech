@@ -64,22 +64,86 @@
 			            </div>
 			        @endif
 			    </div>
-			    <div class="form-group{{ $errors->has('area_id') ? ' has-error has-danger' : '' }}">
-                    <label class="pull-left control-label mb-10" for="area_id">Area <span class="text-danger">*</span></label>
-                    <select class="form-control select2" name="area_id" id="area_id">
+			    @component('components.input') 
+				    	@slot('input_name')
+				    		bank_name
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bank name
+				    	@endslot
+				    	
+				    	Bank name <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		false
+				    	@endslot
+				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bank_account_number
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bank account number
+				    	@endslot
+				    	
+				    	Bank account number <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		false
+				    	@endslot
+				    @endcomponent
+
+				    @component('components.input') 
+				    	@slot('input_name')
+				    		bitcoin_address
+				    	@endslot
+				    
+				    	@slot('input_type')
+				    		text
+				    	@endslot
+				    
+				    	@slot('input_value')
+				    	@endslot
+				    
+				    	@slot('input_placeholder')
+				    		Enter bitcoin address
+				    	@endslot
+				    	
+				    	Bitcoin address <span class="text-danger">*</span>
+				    
+				    	@slot('show_only')
+				    		false
+				    	@endslot
+				    @endcomponent
+			    <div class="form-group{{ $errors->has('state_id') ? ' has-error has-danger' : '' }}">
+                    <label class="pull-left control-label mb-10" for="state_id">Area <span class="text-danger">*</span></label>
+                    <select class="form-control select2" name="state_id" id="state_id">
                         <option>Select area</option>
                         @foreach( $states as $state )
-                            <optgroup label="{{ $state->name }}">
-                                @foreach( $state->areas as $area )
-                                    <option value="{{ $area->id }}">{{ $area->name }}</option>
-                                @endforeach
-                            </optgroup>
+                            <option value="{{ $state->id }}">{{ $state->name }}</option>
                         @endforeach
                     </select>
-                    @if($errors->has('area_id'))
+                    @if($errors->has('state_id'))
                         <div class="help-block with-errors">
                             <ul class="list-unstyled">
-                                <li>{{ $errors->first('area_id') }}</li>
+                                <li>{{ $errors->first('state_id') }}</li>
                             </ul>
                         </div>
                     @endif
@@ -117,6 +181,20 @@
 		                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
 		            </div>
 		        </div>
+
+		        @if( empty( $user->investor_agreement_path ) )
+
+			        <div class="form-group mb-30">
+			            <label class="control-label mb-10 text-left">Management agreement upload</label>
+			            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+			                <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+			                <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>
+			                <input type="file" accept=".pdf" name="contract_upload">
+			                </span> <a href="#" class="input-group-addon btn btn-danger btn-anim fileinput-exists" data-dismiss="fileinput"><i class="fa fa-trash"></i><span class="btn-text"> Remove</span></a> 
+			            </div>
+			        </div>
+
+				@endif
 			    <!-- End investor field -->
 
 			    <!-- Start agent field -->

@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class Machine extends Model
 {
-	protected $fillable = ['name'];
-    
+	protected $guarded = [];
+   
+    protected $dates = ['arrival_date'] ;
+
     protected static function boot()
     {
         parent::boot();
@@ -82,5 +84,10 @@ class Machine extends Model
         return ($related) ? $related->aggregate : 0;
     }
 
+    /* Scopes */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'like', '%mining%')->orWhere('status', 'like', '%Mining%');
+    }
 
 }

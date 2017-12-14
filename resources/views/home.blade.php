@@ -70,6 +70,10 @@
                         PMAN Total machines running
                     @endslot
 
+                    @slot('link')
+                        {{ route('machines') }}
+                    @endslot
+
                     {{ $machines }}
                 @endcomponent
                 @component('components.numbers')
@@ -104,6 +108,7 @@
                                 </ul>
                             </div>
                             <line-chart :chart-data="this.bitcoinChartData"></line-chart>
+                            <p class="text-right"><i>Disclaimer: Data provided by <a target="_blank" href="https://www.cryptocompare.com">Crypto Compare</a></i></p>
                         @endcomponent
                     </div>
                     @if(!auth()->user()->is_admin)
@@ -219,7 +224,7 @@
                                             @if( $unit['total'] > 0 )
                                                 Earned MYR {{ $unit['total']}} so far
                                             @else
-                                                Mining aggresively
+                                                {{ $unit['status'] }}
                                             @endif
                                         </strong>
                                         <span class="ml-10">

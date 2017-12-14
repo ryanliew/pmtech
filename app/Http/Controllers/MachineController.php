@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Machine;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
@@ -30,7 +31,7 @@ class MachineController extends Controller
         else
             $machine = Machine::with('earningSum')->with('emptyUnitCount')->get();
 
-        return view('machines.index', ["machines" => $machine]);
+        return view('machines.index', ["machines" => $machine, "today" => Carbon::now()]);
     }
 
     /**
@@ -52,7 +53,9 @@ class MachineController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-                        'name' => 'required'
+                        'name'      => 'required',
+                        'status'    => 'required',
+                        'arrival_date' => 'date'
                     ]);
         
         Machine::create($validated);
@@ -106,7 +109,9 @@ class MachineController extends Controller
     public function update(Request $request, Machine $machine)
     {
         $validated = $request->validate([
-                        'name' => 'required'
+                        'name' => 'required',
+                        'status' => 'required',
+                        'arrival_date' => 'date'
                     ]);
 
         $machine->update($validated);

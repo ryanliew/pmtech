@@ -1,4 +1,7 @@
 <div class="{{ isset($size) ? $size : 'col-lg-3 col-md-6 col-sm-6 col-xs-12' }}">
+	@if( isset($link) )
+		<a href="{{ $link }}">
+	@endif
 	<div class="panel panel-default card-view pa-0">
 		<div class="panel-wrapper collapse in">
 			<div class="panel-body pa-0">
@@ -18,4 +21,7 @@
 			</div>
 		</div>
 	</div>
+	@if( isset($link) )
+		</a>
+	@endif
 </div>

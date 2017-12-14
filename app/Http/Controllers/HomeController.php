@@ -52,6 +52,7 @@ class HomeController extends Controller
             }
             $units[$machine->id] = [
                 "name"  => $machine->name,
+                "status" => $machine->status,
                 "total" => $total,
                 "count" => $all->count(),
                 "date"  => $date
@@ -60,7 +61,7 @@ class HomeController extends Controller
 
         return view('home', ['unverified_users' => User::inactive()->get(), 
                                 'payments' => $payments,
-                                'machines' => Machine::count(),
+                                'machines' => Machine::active()->count(),
                                 'units' => $units,
                                 'commision' => Transaction::commision()->current()->sum('amount'),
                                 'power' => Setting::first()->hashing_power

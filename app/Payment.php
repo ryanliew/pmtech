@@ -17,6 +17,11 @@ class Payment extends Model
     {
     	return $this->belongsTo('App\Unit');
     }
+
+    public function units()
+    {
+        return $this->belongsToMany('App\Unit')->withTimestamps();
+    }
     
     public function getPaymentSlipPathAttribute($payment)
     {

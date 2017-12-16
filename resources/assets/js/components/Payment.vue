@@ -39,20 +39,16 @@
 								<h5 class="modal-title" v-text="'Payment #' + payment.id"></h5>
 							</div>
 							<div class="modal-body">
-								<div class="flex-row">
-									<div class="mr-15">Amount: <span v-text="amount"></span></div>
-									<div>Machine: <span v-text="assignedMachineName"></span></div>
+								<div class="flex-row mb-5">
+									<h4 class="mr-15">Amount: <span v-text="amount"></span></h4>
 								</div>
 								<ul>
-									<li class="flex-row flex-center" v-for="(machine, index) in machines" :key="machine.id">
-										<div class="flex"><i class="fa fa-server mr-5"></i><span v-text="machine.name"></span></div>
-										<div><button class="btn btn-info" @click="assign(machine)">Assign machine</button></div>
-									</li>
+									<machine-assignment v-for="(machine, index) in machines" :key="machine.id" :machine="machine" :payment="payment.id">
+									</machine-assignment>
 								</ul>	
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" @click="assigning = false">Close</button>
-								<button type="button" class="btn btn-danger" @click="confirmAssign">Confirm assign</button>
 							</div>
 						</div>
 					</div>
@@ -64,8 +60,10 @@
 
 <script>
 	import moment from 'moment';
+	import MachineAssignment from './MachineAssignment.vue';
 	export default {
 		props: ['data', 'machines'],
+		components: { MachineAssignment },
 		data() {
 			return {
 				payment: this.data,
@@ -73,12 +71,10 @@
 				assigning: false,
 				assignedMachineID: false,
 				assignedMachineName: '',
-				amount: 0
+				amount: this.data.amount,
+				assignedMachines: false,
+				localMachines: this.machines
 			};
-		},
-
-		created() {
-			this.amount = this.data.amount;
 		},
 
 		methods: {
@@ -93,23 +89,6 @@
 						this.assigning = true;
 						this.payment.amount = this.amount;
 						flash('Payment approved');
-					});
-			},
-
-			assign(machine) {
-				this.assignedMachineID = machine.id;
-				this.assignedMachineName = machine.name;
-			},
-
-			confirmAssign() {
-				axios.post('/payment/' + this.payment.id + '/unit/assign', {'id': this.assignedMachineID})
-					.catch(error => {
-						flash("Something went wrong, please try again later", 'danger');
-					})
-					.then(({data}) => {
-						this.payment.unit_id = this.assignedMachineID;
-						this.assigning = false;
-						flash('Unit assign successful');
 					});
 			},
 		},

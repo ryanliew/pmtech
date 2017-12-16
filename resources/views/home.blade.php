@@ -37,7 +37,7 @@
                     @endslot
 
                     @slot('adjective')
-                        Personal earning cumulated (MYR)
+                        Personal Mined Earning Cumulated (MYR)
                     @endslot
 
                     {{ auth()->user()->transactions()->profits()->sum('amount') }}
@@ -242,6 +242,7 @@
                         </ul>  
                     @endcomponent 
                         <div class="row">
+                            <!-- Marketing section -->
                             <div class="col-md-6" :class="milestoneLoadingClass">
                                 <div class="preloader-block">
                                     <ul class="spin-preloader">
@@ -335,11 +336,12 @@
                                 @endslot
 
                                 @slot('adjective')
-                                    Total commision payout this month (MYR)
+                                    PMAN total payout this month (MYR)
                                 @endslot
 
                                 {{ $commision }}
                             @endcomponent
+                            <!-- end marketing section -->
                             
                         </div>
                         <div class="row">

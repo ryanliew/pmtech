@@ -12,7 +12,6 @@ window.Vue = require('vue');
 window.events = new Vue();
 
 window.flash = function(message, level = 'success'){
-	console.log("Flashed!");
  	window.events.$emit('flash', {message, level});
 };
 

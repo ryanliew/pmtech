@@ -23,7 +23,7 @@ class Unit extends Model
 
     public function payments()
     {
-        return $this->hasMany('App\Payment');
+        return $this->belongsToMany('App\Payment');
     }
 
     /* Mutators */

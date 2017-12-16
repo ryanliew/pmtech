@@ -45,7 +45,7 @@
 							  	<td>@if(isset($unit->investor_id)){{ $unit->investor->name }}@else No investor @endif</td>
 							  	<td>
 							  		<ul class="list-inline">
-							  			<li>
+							  			{{-- <li>
 									  		@component('components.modal')
 									  			@slot('button')
 									  				@if(isset($unit->investor_id))Edit investor @else Add investor @endif
@@ -80,7 +80,7 @@
 									                </div>
 									            </form>
 									  		@endcomponent
-									  	</li>
+									  	</li> --}}
 									  	@if( null !== $unit->investor)
 										  	<li>
 												<form method="POST" action="{{ route('unit', $unit->id) }}">

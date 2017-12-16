@@ -63,22 +63,20 @@ class PaymentController extends Controller
 
     public function assign(Payment $payment)
     {
+
+        $machine = \App\Machine::findOrFail(request()->id);
+
         $validated = request()->validate([
-            'id' => 'required',
+            'amount' => 'numeric|between:0,' . $machine->empty_unit_count,
         ]);
 
-        $machine = \App\Machine::findOrFail($validated['id']);
+        $units = $machine->units()->whereNull('investor_id')->take($validated['amount']);
 
-        $unit = $machine->units()->whereNull('investor_id')->first();
+        $payment->units()->attach($units->pluck('id'));
 
-        $payment->update([
-            'unit_id' => $unit->id
-        ]);
+        $units->update(['investor_id' => $payment->user_id]);
 
-        $unit->update([
-            'investor_id' => $payment->user_id
-        ]);
 
-        return response($unit, 200);
+        return response(200);
     }
 }

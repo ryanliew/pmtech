@@ -26,10 +26,8 @@ class MachineController extends Controller
      */
     public function index()
     {
-        if(!auth()->user()->is_admin)
-            $machine = Machine::whereIn('id', auth()->user()->units->pluck('machine_id'))->with('earningSum')->with('emptyUnitCount')->get();
-        else
-            $machine = Machine::with('earningSum')->with('emptyUnitCount')->get();
+
+        $machine = Machine::with('earningSum')->with('emptyUnitCount')->get();
 
         return view('machines.index', ["machines" => $machine, "today" => Carbon::now()]);
     }

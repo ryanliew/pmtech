@@ -72,10 +72,15 @@ class Earning extends Model
     public function distribute_marketing_agent_profit($amount)
     {
         $description = "Profit sharing from " . $this->machine->name . " earning for " . $this->date->toDateString();
-        foreach(User::marketingAgent()->get() as $marketing_agent)
-        {
 
-            $marketing_agent->add_bonus_transaction($description, $amount, $this->date);
+        $investors = \App\User::whereIn( 'id', $this->units->unique('investor_id')->pluck('investor_id')->filter());
+
+        foreach( $investors as $investor)
+        {
+            $referrer = $investor->referrer;
+            $number_of_units = $this->machine()->units()->where('investor_id', $investor->id)->count();
+            $amount = $amount / 10 * $number_of_units;
+            if($referrer !== null) $referrer->add_bonus_transaction($description, $amount, $this->date);
         }
     }
 

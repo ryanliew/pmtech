@@ -178,6 +178,7 @@ class UserController extends Controller
             $data['investor_agreement_path'] = $data['investor_agreement_path']->store('contracts', 'public');
         }
 
+        $data['terms'] = true;
         $user->update($data);
 
 

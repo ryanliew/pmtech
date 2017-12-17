@@ -27,6 +27,7 @@ Route::get('/coinhistory', 'HomeController@getHistoricalData');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'SettingController@edit')->name('settings');
 Route::post('/settings', 'SettingController@update')->name('settings');
+Route::post('/settings/deductions', 'SettingController@calculateDeduction');
 
 Route::get('machines', 'MachineController@index')->name('machines');
 Route::post('machines', 'MachineController@store')->name('machines');

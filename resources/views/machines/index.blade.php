@@ -148,29 +148,44 @@
 																			@endslot
 																		@endcomponent
 
-																		@component('components.input') 
-																			@slot('input_name')
-																				amount
-																			@endslot
-																		
-																			@slot('input_type')
-																				number
-																			@endslot
-																		
-																			@slot('input_value')
-																				
-																			@endslot
-																		
-																			@slot('input_placeholder')
-																				Insert earning for the month (MYR)
-																			@endslot
+																		<earning-calculator inline-template>
+																			@component('components.input') 
+																				@slot('input_name')
+																					amount
+																				@endslot
 																			
-																			Amount mined (MYR)
-																		
-																			@slot('show_only')
-																				false
-																			@endslot
-																		@endcomponent
+																				@slot('input_type')
+																					number
+																				@endslot
+																			
+																				@slot('input_value')
+																					
+																				@endslot
+																			
+																				@slot('input_placeholder')
+																					Insert earning for the month (MYR)
+																				@endslot
+																				
+																				Amount mined (MYR)
+																			
+																				@slot('show_only')
+																					false
+																				@endslot
+
+																				@slot('extra_information')
+																					<div class="help-block">
+																						After deduction: RM<span v-text="finalAmount"></span> <i class="fa fa-circle-o-notch fa-spin fa-fw text-white" v-if="calculating"></i>
+																					</div>
+																				@endslot
+																				
+																				@slot('actions')
+																					@change="getTotalDeduction"
+																				@endslot
+																				@slot('vmodel')
+																					amountMyr
+																				@endslot
+																			@endcomponent
+																		</earning-calculator>
 
 																		@component('components.input') 
 																			@slot('input_name')

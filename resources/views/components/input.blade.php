@@ -3,7 +3,18 @@
     @if($show_only->toHtml() == "true")
 		<p class="form-control-static">{{ $input_value }}</p>
     @else
-    	<input value="{{ $input_value }}" type="{{ $input_type }}" name="{{ $input_name }}" class="form-control" required="" id="{{ $input_name }}" placeholder="{{ $input_placeholder }}">
+    	<input value="{{ $input_value }}" 
+                type="{{ $input_type }}" 
+                name="{{ $input_name }}" 
+                class="form-control" 
+                required="" 
+                id="{{ $input_name }}" 
+                placeholder="{{ $input_placeholder }}" 
+                @if(isset($vmodel)) v-model="{{ $vmodel->toHtml() }}" @endif
+                @if(isset($actions)) {{ $actions }} @endif >
+    @endif
+    @if(isset($extra_information))
+        {{ $extra_information }}
     @endif
     @if($errors->has($input_name->toHtml()))
         <div class="help-block with-errors">

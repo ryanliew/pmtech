@@ -94,6 +94,44 @@
             </div>
             <div class="row">
                 <div class="col-md-6" >
+                    <div class="row">
+                        @component('components.numbers')
+                            @slot('size')
+                                col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                            @endslot
+                            @slot('color')
+                                bg-red
+                            @endslot
+
+                            @slot('icon')
+                                <i class="fa fa-4x fa-bitcoin text-white"></i>
+                            @endslot
+
+                            @slot('adjective')
+                                Personal Total Mined Bitcoin (BTC)
+                            @endslot
+
+                            {{ $personaltotalbitcoins }}
+                        @endcomponent
+                        @component('components.numbers')
+                            @slot('size')
+                                col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                            @endslot
+                            @slot('color')
+                                bg-pink
+                            @endslot
+
+                            @slot('icon')
+                                <i class="fa fa-bitcoin fa-4x text-white"></i>
+                            @endslot
+
+                            @slot('adjective')
+                                PMAN All-time mined (BTC)
+                            @endslot
+
+                            {{ $totalbitcoins }}
+                        @endcomponent
+                    </div>
                     <div :class="bitcoinHistoryLoadingClass">
                         @component('components.panel')
                             @slot('heading')
@@ -340,6 +378,46 @@
                                 @endslot
 
                                 {{ $commision }}
+                            @endcomponent
+
+                            @component('components.numbers')
+                                @slot('size')
+                                    col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                                @endslot
+
+                                @slot('color')
+                                    bg-yellow
+                                @endslot
+
+                                @slot('icon')
+                                    <i class="fa fa-money fa-4x text-white"></i>
+                                @endslot
+
+                                @slot('adjective')
+                                    Personal Sales revenue this month (MYR)
+                                @endslot
+
+                                {{ auth()->user()->transactions()->commision()->current()->sum('amount') }}
+                            @endcomponent
+
+                            @component('components.numbers')
+                                @slot('size')
+                                    col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                                @endslot
+
+                                @slot('color')
+                                    bg-yellow
+                                @endslot
+
+                                @slot('icon')
+                                    <i class="fa fa-server fa-4x text-white"></i>
+                                @endslot
+
+                                @slot('adjective')
+                                    units sold this month
+                                @endslot
+
+                                {{ auth()->user()->transactions()->commision()->current()->sum('unit_sold') }}
                             @endcomponent
                             <!-- end marketing section -->
                             

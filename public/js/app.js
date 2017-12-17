@@ -44642,6 +44642,7 @@ Vue.component('transactions', __webpack_require__(345));
 Vue.component('flash', __webpack_require__(353));
 Vue.component('payments', __webpack_require__(356));
 Vue.component('machine-chart', __webpack_require__(365));
+Vue.component('earning-calculator', __webpack_require__(395));
 
 Vue.component('dashboard', __webpack_require__(368));
 Vue.use(VueCharts);
@@ -102540,6 +102541,97 @@ module.exports = {"_from":"vue-chartjs","_id":"vue-chartjs@3.0.2","_inBundle":fa
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(7)
+/* script */
+var __vue_script__ = __webpack_require__(396)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\EarningCalculator.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ba080976", Component.options)
+  } else {
+    hotAPI.reload("data-v-ba080976", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 396 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			amountMyr: 0,
+			totalDeduction: 0,
+			calculating: false
+		};
+	},
+
+
+	methods: {
+		getTotalDeduction: function getTotalDeduction() {
+			var _this = this;
+
+			this.calculating = true;
+			axios.post('/settings/deductions', { amount: this.amount }).then(function (response) {
+				_this.totalDeduction = response.data;
+				_this.calculating = false;
+			});
+		}
+	},
+
+	computed: {
+		finalAmount: function finalAmount() {
+			return this.amountMyr - this.totalDeduction;
+		}
+	}
+});
 
 /***/ })
 /******/ ]);

@@ -30,7 +30,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $payments = Transaction::profits()->sum('amount');
         $personal_bitcoins = 0.00;
         $units = [];
         foreach(Machine::whereIn('id', auth()->user()->units->pluck('machine_id'))->get() as $machine)
@@ -65,7 +64,7 @@ class HomeController extends Controller
         }
 
         return view('home', ['unverified_users' => User::inactive()->get(), 
-                                'payments' => $payments,
+                                'payments' => Earning::all()->sum('final_amount'),
                                 'machines' => Machine::active()->count(),
                                 'units' => $units,
                                 'personaltotalbitcoins' => $personal_bitcoins,

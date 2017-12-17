@@ -73,14 +73,17 @@ class Earning extends Model
     {
         $description = "Profit sharing from " . $this->machine->name . " earning for " . $this->date->toDateString();
 
-        $investors = \App\User::whereIn( 'id', $this->units->unique('investor_id')->pluck('investor_id')->filter());
-
+        $investors = \App\User::whereIn( 'id', $this->machine->units->unique('investor_id')->pluck('investor_id')->filter())->get();
         foreach( $investors as $investor)
         {
             $referrer = $investor->referrer;
-            $number_of_units = $this->machine()->units()->where('investor_id', $investor->id)->count();
-            $amount = $amount / 10 * $number_of_units;
-            if($referrer !== null) $referrer->add_bonus_transaction($description, $amount, $this->date);
+            
+            if($referrer !== null) 
+            {
+                $number_of_units = $this->machine->units()->where('investor_id', $investor->id)->count();
+                $amount = $amount / 10 * $number_of_units;
+                $referrer->add_bonus_transaction($description, $amount, $this->date);
+            }
         }
     }
 

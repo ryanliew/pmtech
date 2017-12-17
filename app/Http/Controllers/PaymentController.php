@@ -63,7 +63,6 @@ class PaymentController extends Controller
 
     public function assign(Payment $payment)
     {
-
         $machine = \App\Machine::findOrFail(request()->id);
 
         $validated = request()->validate([
@@ -76,6 +75,10 @@ class PaymentController extends Controller
 
         $units->update(['investor_id' => $payment->user_id]);
 
+        if( $payment->user->referrer !== null )
+        {
+            $payment->user->referrer->add_referrer_bonus_transaction($payment, $validated['amount'], $machine->name);
+        }
 
         return response(200);
     }

@@ -26,7 +26,7 @@ class Unit extends Model
         return $this->belongsToMany('App\Payment');
     }
 
-    /* Mutators */
+    /* Accessors */
     public function getEarningThisMonthAttribute()
     {
     	return $this->machine->earnings()->last()->final_amount / 10;
@@ -36,4 +36,6 @@ class Unit extends Model
     {
         return $this->machine->earnings()->whereDate('date', '>=', $this->updated_at->toDateString())->get()->sum(function($earning){ return $earning->amount - $earning->deduction; });
     }
+
+
 }

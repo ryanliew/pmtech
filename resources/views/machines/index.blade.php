@@ -162,10 +162,34 @@
 																			@endslot
 																		
 																			@slot('input_placeholder')
-																				Insert earning for the month
+																				Insert earning for the month (MYR)
 																			@endslot
 																			
-																			Amount mined
+																			Amount mined (MYR)
+																		
+																			@slot('show_only')
+																				false
+																			@endslot
+																		@endcomponent
+
+																		@component('components.input') 
+																			@slot('input_name')
+																				cryptocurrency_amount
+																			@endslot
+																		
+																			@slot('input_type')
+																				number
+																			@endslot
+																		
+																			@slot('input_value')
+																				
+																			@endslot
+																		
+																			@slot('input_placeholder')
+																				Insert earning for the month (Cryptocurrency)
+																			@endslot
+																			
+																			Amount mined (Crypocurrency)
 																		
 																			@slot('show_only')
 																				false

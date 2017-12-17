@@ -15,7 +15,8 @@ class EarningController extends Controller
     {
     	$data = request()->validate([
     		'month'		=> 	'required|numeric|min:1|max:12',
-    		'amount'	=>	'required|numeric'
+    		'amount'	=>	'required|numeric',
+            'cryptocurrency_amount' => 'required|numeric'
     	]);
 
     	$now = Carbon::now();
@@ -34,7 +35,8 @@ class EarningController extends Controller
 
         $machine->earnings()->create([
             'date'      => $date,
-            'amount'    => $data['amount']
+            'amount'    => $data['amount'],
+            'cryptocurrency_amount' => $data['cryptocurrency_amount']
         ]);
 
         if(Transaction::whereDate('date', $date)->count() == 0)
@@ -43,18 +45,18 @@ class EarningController extends Controller
         return back()->with('success', "Added earning to " . $machine->name);
     }
 
-    public function update(Earning $earning)
-    {
-        $data = request()->validate([
-            'amount'    => 'required|numeric'
-        ]);
+    // public function update(Earning $earning)
+    // {
+    //     $data = request()->validate([
+    //         'amount'    => 'required|numeric'
+    //     ]);
 
-        $earning->update([
-            'amount'    => $data['amount']
-        ]);
+    //     $earning->update([
+    //         'amount'    => $data['amount']
+    //     ]);
 
-        return back()->with('success', "Edited earning for " . $earning->date->toDateString());
-    }
+    //     return back()->with('success', "Edited earning for " . $earning->date->toDateString());
+    // }
 
     public function sendGMBonus($date)
     {

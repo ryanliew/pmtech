@@ -166,7 +166,7 @@
 																					Insert earning for the month (MYR)
 																				@endslot
 																				
-																				Amount mined (MYR)
+																				Gross Amount mined (MYR)
 																			
 																				@slot('show_only')
 																					false
@@ -204,7 +204,7 @@
 																				Insert earning for the month (Cryptocurrency)
 																			@endslot
 																			
-																			Amount mined (Crypocurrency)
+																			Nett Amount mined (Crypocurrency)
 																		
 																			@slot('show_only')
 																				false

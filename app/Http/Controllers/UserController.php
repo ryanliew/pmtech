@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function index()
     {
-    	return view('users.index', ['users' => User::latest()->with('units')->paginate(20)]);
+    	return view('users.index', ['users' => User::latest()->with('units')->get()]);
     }
 
     public function payments()

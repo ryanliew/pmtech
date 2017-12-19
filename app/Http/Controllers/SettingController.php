@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Earning;
 use App\Setting;
 use Illuminate\Http\Request;
 
@@ -39,22 +40,6 @@ class SettingController extends Controller
 
     public function calculateDeduction()
     {
-        $setting = Setting::all()->first();
-
-        $deduction = $setting->fee_rental_per_month 
-                        + $setting->fee_internet_per_month 
-                        + $setting->fee_electric_per_month
-                        + $setting->fee_overhead_1
-                        + $setting->fee_overhead_2
-                        + $setting->fee_overhead_3;
-
-        $final_amount = request()->amount - $deduction;
-        
-        $admin_fee = $final_amount * ( $setting->fee_admin_percentage_per_month - 1 ) / 100;
-        $marketing_agent_share = $final_amount * 1 / 100;
-
-        $deduction += $admin_fee + $marketing_agent_share;
-
-        return $deduction;
+        return Earning::calculateDeduction(request()->amount);
     }
 }

@@ -11,7 +11,7 @@
 		methods: {
 			getTotalDeduction() {
 				this.calculating = true;
-				axios.post('/settings/deductions', { amount: this.amount })
+				axios.post('/settings/deductions', { amount: this.amountMyr })
 					.then(response => {
 						this.totalDeduction = response.data;
 						this.calculating = false;

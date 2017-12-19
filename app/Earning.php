@@ -26,11 +26,11 @@ class Earning extends Model
             
             $deduction = Earning::calculateDeduction($earning->amount);
 
-            $earning->update(['deduction' => $deduction]);
+            $earning->update(['deduction' => $deduction[0]]);
 
             $earning->distribute_profit();
 
-            $earning->distribute_marketing_agent_profit($marketing_agent_share);
+            $earning->distribute_marketing_agent_profit($deduction[1]);
         });
     }
 
@@ -87,14 +87,13 @@ class Earning extends Model
 
         $final_amount = $amount - $deduction;
         
-
         $admin_fee = $final_amount * ( $setting->fee_admin_percentage_per_month - 1 ) / 100;
 
         $marketing_agent_share = $final_amount / 100;
 
         $deduction = $deduction + $admin_fee + $marketing_agent_share;
 
-        return $deduction;
+        return [$deduction, $marketing_agent_share];
     }
 
     /* Scope */

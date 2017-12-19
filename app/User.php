@@ -351,7 +351,17 @@ class User extends Node implements
         {
             $description = "Profit from unit " . $unit->id . " from machine " . $unit->machine->name . " for " . $earning->date->format('F Y');
 
-            $amount = $unit->machine->latest_earning()->final_amount / 10; 
+            $amount = $unit->machine->latest_earning()->final_amount / 10;
+
+            $mining_start = max( $unit->machine->arrival_date, $earning->date->startOfMonth() );
+            
+            if($unit->updated_at->gt($mining_start))
+            {
+                $total_days = $earning->date->endOfMonth()->addDay()->diffInDays($mining_start);
+                $actual_days = $earning->date->endOfMonth()->diffInDays($unit->updated_at);
+
+                $amount = $amount / $total_days * $actual_days;
+            }
 
             $this->add_transaction("profit", $description, $amount, $earning->date, 0);
         }

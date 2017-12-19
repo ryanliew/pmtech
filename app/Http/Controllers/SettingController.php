@@ -40,6 +40,6 @@ class SettingController extends Controller
 
     public function calculateDeduction()
     {
-        return Earning::calculateDeduction(request()->amount);
+        return Earning::calculateDeduction(request()->amount)[0];
     }
 }

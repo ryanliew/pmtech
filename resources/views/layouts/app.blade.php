@@ -159,7 +159,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js?v=2.0') }}"></script>
+    <script src="{{ asset('js/app.js?v=2.1') }}"></script>
     <script src="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
     <script>
         @if( $errors->any() )

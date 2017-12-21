@@ -97421,6 +97421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -97572,6 +97573,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -97586,6 +97588,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		date: function date() {
 			return __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.transaction.created_at).format('YYYY-MM-DD');
+		},
+		bitcoin_value: function bitcoin_value() {
+			return this.transaction.bitcoin_earning > 0 ? this.transaction.bitcoin_earning : "-";
 		}
 	}
 });
@@ -97865,6 +97870,10 @@ var render = function() {
     _vm._v(" "),
     _c("td", { domProps: { textContent: _vm._s(_vm.transaction.amount) } }),
     _vm._v(" "),
+    _c("td", {
+      domProps: { textContent: _vm._s(_vm.transaction.bitcoin_earning) }
+    }),
+    _vm._v(" "),
     _c("td", { domProps: { textContent: _vm._s(_vm.date) } })
   ])
 }
@@ -98025,7 +98034,7 @@ var staticRenderFns = [
             attrs: {
               scope: "col",
               "data-tablesaw-sortable-col": "",
-              "data-tablesaw-priority": "3"
+              "data-tablesaw-priority": "4"
             }
           },
           [_vm._v("Description")]
@@ -98037,10 +98046,22 @@ var staticRenderFns = [
             attrs: {
               scope: "col",
               "data-tablesaw-sortable-col": "",
-              "data-tablesaw-priority": "2"
+              "data-tablesaw-priority": "3"
             }
           },
           [_vm._v("Amount")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            attrs: {
+              scope: "col",
+              "data-tablesaw-sortable-col": "",
+              "data-tablesaw-priority": "2"
+            }
+          },
+          [_vm._v("Bitcoin")]
         ),
         _vm._v(" "),
         _c(

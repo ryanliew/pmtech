@@ -36,7 +36,8 @@
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6">Bank name</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="5">Bank account number</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Bitcoin address</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount (MYR)</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Amount (Bitcoin)</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -47,6 +48,7 @@
 											  	<td>{{ $user->bank_account_number }}</td>
 											  	<td>{{ $user->bitcoin_address }}</td>
 											  	<td>{{ $user->total }}</td>
+											  	<td>{{ $user->bitcoin_total }}</td>
 											</tr>
 										@endforeach
 									</tbody>

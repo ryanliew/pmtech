@@ -33,7 +33,7 @@ class UserController extends Controller
         $users = DB::table('users')
                     ->leftJoin('transactions', 'users.id', '=', 'transactions.user_id')
                     ->whereRAW('MONTH(date) = ? AND YEAR(date) = ?', [$date->month, $date->year])
-                    ->select(DB::raw('sum(`transactions`.`amount`) as total, name, bank_name, bank_account_number, bitcoin_address'))
+                    ->select(DB::raw('sum(`transactions`.`amount`) as total, name, bank_name, bank_account_number, bitcoin_address, sum(transactions.amount / transactions.conversion_rate) as bitcoin_total'))
                     ->groupBy('users.id')
                     ->orderByDesc('total')
                     ->paginate(20);

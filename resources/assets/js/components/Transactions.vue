@@ -37,8 +37,9 @@
 					<tr>
 					 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Type</th>
 					  	
-					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Description</th>
-					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Amount</th>
+					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Description</th>
+					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
+					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Bitcoin</th>
 					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Date</th>
 					</tr>
 				</thead>

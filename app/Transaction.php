@@ -9,7 +9,7 @@ class Transaction extends Model
 {
 	protected $guarded = [];
 
-	protected $appends = ['type_name'];
+	protected $appends = ['type_name', 'bitcoin_earning'];
 	
     public function user()
     {
@@ -28,7 +28,7 @@ class Transaction extends Model
 
     public function getBitcoinEarningAttribute()
     {
-        return $this->amount / $this->conversion_rate;
+        return $this->conversion_rate > 0 ? $this->amount / $this->conversion_rate : 0;
     }
 
     /* Scope */

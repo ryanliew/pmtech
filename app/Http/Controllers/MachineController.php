@@ -74,7 +74,7 @@ class MachineController extends Controller
      */
     public function show(Machine $machine)
     {
-        $date = $machine->created_at;
+        $date = Carbon::createFromDate(2017, 1, 1);
 
         if(!auth()->user()->is_admin)
         {
@@ -139,7 +139,7 @@ class MachineController extends Controller
 
     public function get_earnings(Machine $machine)
     {
-        $date = $machine->created_at;
+        $date = Carbon::createFromDate(2017, 1, 1);
 
         if(!auth()->user()->is_admin)
         {

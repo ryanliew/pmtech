@@ -36,7 +36,7 @@ class EarningController extends Controller
         $machine->earnings()->create([
             'date'      => $date,
             'amount'    => $data['amount'],
-            'cryptocurrency_amount' => $data['cryptocurrency_amount']
+            'cryptocurrency_amount' => $data['cryptocurrency_amount'],
         ]);
 
         if(Transaction::whereDate('date', $date)->count() == 0)

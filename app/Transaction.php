@@ -16,9 +16,19 @@ class Transaction extends Model
     	return $this->belongsTo('App\User');
     }
 
+    public function earning()
+    {
+        return $this->belongsTo('App\Earning');
+    }
+
     public function getTypeNameAttribute()
     {
     	return trans( 'pmentech.' . $this->type );
+    }
+
+    public function getBitcoinEarningAttribute()
+    {
+        return $this->amount / $this->conversion_rate;
     }
 
     /* Scope */

@@ -4,7 +4,9 @@
 			return {
 				amountMyr: 0,
 				totalDeduction: 0,
-				calculating: false
+				amountCrypto: 1,
+				calculating: false,
+
 			};
 		},
 
@@ -22,6 +24,10 @@
 		computed: {
 			finalAmount() {
 				return this.amountMyr - this.totalDeduction;
+			},
+
+			conversionRate() {
+				return this.finalAmount / this.amountCrypto;
 			}
 		}	
 	}

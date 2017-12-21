@@ -328,7 +328,7 @@ class User extends Node implements
             if( $this->transactions()->where('description', $description)->count() == 0 )
             {
                 $amount = $settings->incentive_bonus_per_referee_pack;
-                $this->add_bonus_transaction($description, $amount, $date, 0);
+                $this->add_bonus_transaction($description, $amount, $date);
             }
         }
 
@@ -340,9 +340,9 @@ class User extends Node implements
         }
     }
 
-    public function add_bonus_transaction($description, $amount, $date)
+    public function add_bonus_transaction($description, $amount, $date, $earning = null)
     {
-        $this->add_transaction("bonus", $description, $amount, $date, 0);
+        $this->add_transaction("bonus", $description, $amount, $date, 0, $earning);
     }
 
     public function add_profit_transaction(Unit $unit, Earning $earning)
@@ -363,19 +363,23 @@ class User extends Node implements
                 $amount = $amount / $total_days * $actual_days;
             }
 
-            $this->add_transaction("profit", $description, $amount, $earning->date, 0);
+            $this->add_transaction("profit", $description, $amount, $earning->date, 0, $earning);
         }
     }
 
-    public function add_transaction($type, $description, $amount, $date, $unit)
+    public function add_transaction($type, $description, $amount, $date, $unit, $earning = null)
     {
-        return $this->transactions()->create([
+        $transaction = $this->transactions()->create([
             "type"  => $type,
             "date"  => $date,
             "description"   => $description,
             "amount"    => $amount,
             "unit_sold"  => $unit
         ]);
+
+        if(!is_null($earning)) $transaction->update(['earning_id' => $earning->id, 'conversion_rate' => $earning->conversion_rate]);
+
+        return $transaction;
     }
 
     /* Scopes */

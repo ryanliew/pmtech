@@ -18,6 +18,11 @@ class Earning extends Model
     	return $this->belongsTo('App\Machine');
     }
 
+    public function transactions()
+    {
+        return $this->hasMany('App\Transaction');
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -30,7 +35,7 @@ class Earning extends Model
 
             $earning->distribute_profit();
 
-            $earning->distribute_marketing_agent_profit($deduction[1]);
+            $earning->distribute_marketing_agent_profit($deduction[1], $earning);
         });
     }
 
@@ -46,6 +51,11 @@ class Earning extends Model
         return $this->amount - $this->deduction;
     }
 
+    public function getConversionRateAttribute()
+    {
+        return $this->final_amount / $this->cryptocurrency_amount;
+    }
+
     /* Methods */
 
     public function distribute_profit()
@@ -56,7 +66,7 @@ class Earning extends Model
         }
     }
 
-    public function distribute_marketing_agent_profit($amount)
+    public function distribute_marketing_agent_profit($amount, $earning)
     {
         $description = "Profit sharing from " . $this->machine->name . " earning for " . $this->date->toDateString();
 
@@ -69,7 +79,7 @@ class Earning extends Model
             {
                 $number_of_units = $this->machine->units()->where('investor_id', $investor->id)->count();
                 $amount = $amount / 10 * $number_of_units;
-                $referrer->add_bonus_transaction($description, $amount, $this->date);
+                $referrer->add_bonus_transaction($description, $amount, $this->date, $earning);
             }
         }
     }

@@ -35,20 +35,16 @@ class HomeController extends Controller
         foreach(Machine::whereIn('id', auth()->user()->units->pluck('machine_id'))->get() as $machine)
         {
             $total = 0;
+            foreach($machine->earnings as $earning)
+            {
+                $total += $earning->transactions()->profits()->where('user_id', auth()->id())->sum('amount');
+                $personal_bitcoins += $earning->transactions()->profits()->where('user_id', auth()->id())->get()->sum(function($transaction){ return $transaction->bitcoin_earning; });
+            }
             $all = auth()->user()->units()->where('machine_id', $machine->id)->get();
             $date = null;
-            foreach( $all as $unit)
-            {
-                $total += $machine->earnings()
-                                    ->whereDate('date', '>=', $unit->updated_at)
-                                    ->get()
-                                    ->sum(function($earning){
-                                        return $earning->final_amount;
-                                    }) / 10;
-                $personal_bitcoins += $machine->earnings()
-                                            ->whereDate('date', '>=', $unit->updated_at)
-                                            ->sum('cryptocurrency_amount');
 
+            foreach( $all as $unit )
+            {
                 if($date == null or $date->gt($unit->updated_at))
                 {
                     $date = $unit->updated_at;

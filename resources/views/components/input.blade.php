@@ -11,7 +11,7 @@
                 id="{{ $input_name }}" 
                 placeholder="{{ $input_placeholder }}" 
                 @if(isset($vmodel)) v-model="{{ $vmodel->toHtml() }}" @endif
-                @if(isset($actions)) {{ $actions }} @endif >
+                @if(isset($actions)) {{ $actions }} @endif />
     @endif
     @if(isset($extra_information))
         {{ $extra_information }}

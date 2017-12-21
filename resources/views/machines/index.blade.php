@@ -149,67 +149,80 @@
 																		@endcomponent
 
 																		<earning-calculator inline-template>
-																			@component('components.input') 
-																				@slot('input_name')
-																					amount
-																				@endslot
-																			
-																				@slot('input_type')
-																					number
-																				@endslot
-																			
-																				@slot('input_value')
+																			<div>
+																				@component('components.input') 
+																					@slot('input_name')
+																						amount
+																					@endslot
+																				
+																					@slot('input_type')
+																						number
+																					@endslot
+																				
+																					@slot('input_value')
+																						
+																					@endslot
+																				
+																					@slot('input_placeholder')
+																						Insert earning for the month (MYR)
+																					@endslot
 																					
-																				@endslot
-																			
-																				@slot('input_placeholder')
-																					Insert earning for the month (MYR)
-																				@endslot
+																					Gross Amount mined (MYR)
 																				
-																				Gross Amount mined (MYR)
-																			
-																				@slot('show_only')
-																					false
-																				@endslot
+																					@slot('show_only')
+																						false
+																					@endslot
 
-																				@slot('extra_information')
-																					<div class="help-block">
-																						After deduction: RM<span v-text="finalAmount"></span> <i class="fa fa-circle-o-notch fa-spin fa-fw text-white" v-if="calculating"></i>
-																					</div>
-																				@endslot
+																					@slot('extra_information')
+																						<div class="help-block">
+																							After deduction: RM<span v-text="finalAmount"></span> <i class="fa fa-circle-o-notch fa-spin fa-fw text-white" v-if="calculating"></i>
+																						</div>
+																					@endslot
+																					
+																					@slot('actions')
+																						@change="getTotalDeduction"
+																					@endslot
+
+																					@slot('vmodel')
+																						amountMyr
+																					@endslot
+																				@endcomponent
+																			
+																				@component('components.input') 
+																					@slot('input_name')
+																						cryptocurrency_amount
+																					@endslot
 																				
-																				@slot('actions')
-																					@change="getTotalDeduction"
-																				@endslot
-																				@slot('vmodel')
-																					amountMyr
-																				@endslot
-																			@endcomponent
+																					@slot('input_type')
+																						number
+																					@endslot
+																				
+																					@slot('input_value')
+																						
+																					@endslot
+																				
+																					@slot('input_placeholder')
+																						Insert earning for the month (Cryptocurrency)
+																					@endslot
+																					
+																					Nett Amount mined (Crypocurrency)
+																				
+																					@slot('show_only')
+																						false
+																					@endslot
+
+																					@slot('vmodel')
+																						amountCrypto
+																					@endslot
+
+																					@slot('extra_information')
+																						<div class="help-block">
+																							Conversion rate: RM<span v-text="conversionRate"></span> per cryptocurrency
+																						</div>
+																					@endslot
+																				@endcomponent
+																			</div>
 																		</earning-calculator>
-
-																		@component('components.input') 
-																			@slot('input_name')
-																				cryptocurrency_amount
-																			@endslot
-																		
-																			@slot('input_type')
-																				number
-																			@endslot
-																		
-																			@slot('input_value')
-																				
-																			@endslot
-																		
-																			@slot('input_placeholder')
-																				Insert earning for the month (Cryptocurrency)
-																			@endslot
-																			
-																			Nett Amount mined (Crypocurrency)
-																		
-																			@slot('show_only')
-																				false
-																			@endslot
-																		@endcomponent
 																	</form>
 																@endcomponent
 															</li>

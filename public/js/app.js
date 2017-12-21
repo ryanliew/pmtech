@@ -99147,7 +99147,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			amountMyr: 0,
 			totalDeduction: 0,
+			amountCrypto: 1,
 			calculating: false
+
 		};
 	},
 
@@ -99167,6 +99169,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		finalAmount: function finalAmount() {
 			return this.amountMyr - this.totalDeduction;
+		},
+		conversionRate: function conversionRate() {
+			return this.finalAmount / this.amountCrypto;
 		}
 	}
 });

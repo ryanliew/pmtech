@@ -48,7 +48,7 @@
 
 
 					<tr v-if="items.length == 0">
-						<td colspan="4">No transaction for selected period</td>
+						<td colspan="5">No transaction for selected period</td>
 					</tr>
 
 				</tbody>

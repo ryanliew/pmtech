@@ -97973,7 +97973,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.items.length == 0
                   ? _c("tr", [
-                      _c("td", { attrs: { colspan: "4" } }, [
+                      _c("td", { attrs: { colspan: "5" } }, [
                         _vm._v("No transaction for selected period")
                       ])
                     ])

@@ -78,8 +78,8 @@ class Earning extends Model
             if($referrer !== null) 
             {
                 $number_of_units = $this->machine->units()->where('investor_id', $investor->id)->count();
-                $amount = $amount / 10 * $number_of_units;
-                $referrer->add_bonus_transaction($description, $amount, $this->date, $earning);
+                $final_amount = $amount / 10 * $number_of_units;
+                $referrer->add_bonus_transaction($description, $final_amount, $this->date, $earning);
             }
         }
     }
@@ -99,7 +99,7 @@ class Earning extends Model
         
         $admin_fee = $final_amount * ( $setting->fee_admin_percentage_per_month - 1 ) / 100;
 
-        $marketing_agent_share = $final_amount / 100;
+        $marketing_agent_share = $final_amount / 100; // final amount * 1 / 100 (1%)
 
         $deduction = $deduction + $admin_fee + $marketing_agent_share;
 

@@ -27,24 +27,10 @@
     <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" investor="{{ auth()->user()->referral_link }}" marketing="{{ auth()->user()->marketing_referral_link }}" confirmed="{{ auth()->user()->confirmed }}" inline-template>
         <div>
             <div class="row">
+                
                 @component('components.numbers')
                     @slot('color')
-                        bg-red
-                    @endslot
-
-                    @slot('icon')
-                        <i class="fa fa-4x fa-usd text-white"></i>
-                    @endslot
-
-                    @slot('adjective')
-                        Personal Mined Earning Cumulated (MYR)
-                    @endslot
-
-                    {{ number_format( auth()->user()->transactions()->profits()->sum('amount'), 2 ) }}
-                @endcomponent
-                @component('components.numbers')
-                    @slot('color')
-                        bg-pink
+                        bg-green
                     @endslot
 
                     @slot('icon')
@@ -59,7 +45,22 @@
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
-                        bg-blue
+                        bg-orange
+                    @endslot
+
+                    @slot('icon')
+                        <i class="fa fa-bitcoin fa-4x text-white"></i>
+                    @endslot
+
+                    @slot('adjective')
+                        PMAN All-time mined (BTC)
+                    @endslot
+
+                    {{ $totalbitcoins }}
+                @endcomponent
+                @component('components.numbers')
+                    @slot('color')
+                        bg-tiffanyblue
                     @endslot
 
                     @slot('icon')
@@ -78,7 +79,7 @@
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
-                        bg-green
+                        bg-purple
                     @endslot
 
                     @slot('icon')
@@ -100,7 +101,25 @@
                                 col-lg-6 col-md-6 col-sm-6 col-xs-12 
                             @endslot
                             @slot('color')
-                                bg-red
+                                bg-green
+                            @endslot
+
+                            @slot('icon')
+                                <i class="fa fa-4x fa-usd text-white"></i>
+                            @endslot
+
+                            @slot('adjective')
+                                Personal Mined Earning Cumulated (MYR)
+                            @endslot
+
+                            {{ number_format( auth()->user()->transactions()->profits()->sum('amount'), 2 ) }}
+                        @endcomponent
+                        @component('components.numbers')
+                            @slot('size')
+                                col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                            @endslot
+                            @slot('color')
+                                bg-orange
                             @endslot
 
                             @slot('icon')
@@ -112,24 +131,6 @@
                             @endslot
 
                             {{ number_format( $personaltotalbitcoins, 2 ) }}
-                        @endcomponent
-                        @component('components.numbers')
-                            @slot('size')
-                                col-lg-6 col-md-6 col-sm-6 col-xs-12 
-                            @endslot
-                            @slot('color')
-                                bg-pink
-                            @endslot
-
-                            @slot('icon')
-                                <i class="fa fa-bitcoin fa-4x text-white"></i>
-                            @endslot
-
-                            @slot('adjective')
-                                PMAN All-time mined (BTC)
-                            @endslot
-
-                            {{ $totalbitcoins }}
                         @endcomponent
                     </div>
                     <div :class="bitcoinHistoryLoadingClass">
@@ -251,7 +252,7 @@
                         
                         <ul class="unit-list">
                             @forelse($units as $key => $unit)
-                                <li class="text-white bg-pink">
+                                <li class="text-white bg-blue">
                                     <a href="{{ route('machine', $key) }}" class="flex-row flex-center ml-10">
                                         <div>
                                             <i class="fa fa-server text-white"></i>

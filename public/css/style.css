@@ -587,6 +587,17 @@ code {
 .bg-green {
   background: #01c853 !important; }
 
+.bg-orange {
+  background: orange !important; }
+
+.bg-lightblue {
+  background: #7ff2f6 !important;
+}
+
+.bg-purple {
+  background: #ee00e5 !important;
+}
+
 .bg-grey {
   background: #878787 !important; }
 
@@ -599,6 +610,9 @@ code {
 .bg-blue {
   background: #2879ff !important; }
 
+.bg-tiffanyblue {
+  background: #40e0d0 !important;
+}
 .bg-pink {
   background: #e91e63 !important; }
 

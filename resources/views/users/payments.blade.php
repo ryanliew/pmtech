@@ -45,7 +45,7 @@
 									<tbody>
 										@foreach( $users as $user )
 											<tr>
-											  	<td class="title">{{ $user->name }}</td>
+											  	<td class="title"><a href="{{ route('transactions', $user->id) }}">{{ $user->name }}</a></td>
 											  	<td>{{ $user->bank_name }}</td>
 											  	<td>{{ $user->bank_account_number }}</td>
 											  	<td>{{ $user->bitcoin_address }}</td>

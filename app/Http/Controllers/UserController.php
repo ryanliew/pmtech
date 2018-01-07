@@ -26,6 +26,11 @@ class UserController extends Controller
     	return view('users.index', ['users' => User::latest()->with('units')->get()]);
     }
 
+    public function tree()
+    {
+        return view('users.tree', ['roots' => User::get()->toHierarchy()]);
+    }
+
     public function payments()
     {
         $date = Carbon::now()->subMonth();

@@ -7408,6 +7408,12 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
   overflow-y: scroll;
 }
 
+/* Tree view */
+.node-users-treeview .badge {
+  background: #01c853;
+  color: #fff;
+}
+
 .spin-preloader {
   /* Size and position */
     font-size: 100px; /* 1em */

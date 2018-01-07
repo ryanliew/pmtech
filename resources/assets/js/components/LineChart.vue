@@ -4,7 +4,33 @@
 
 	export default {
 		extends: Line,
-		props: ['options'],
+		data() {
+			return {
+				options: {
+					defaultFontColor: '#fff',
+					tooltips: {
+						mode: 'nearest'
+					},
+					legend: {
+						labels: {
+							fontColor: 'white'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								fontColor: 'white'
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								fontColor: 'white'
+							}
+						}],
+					}
+				}
+			};
+		},
 		mixins: [reactiveProp],
 		mounted() {
 			this.renderChart(this.chartData, this.options)

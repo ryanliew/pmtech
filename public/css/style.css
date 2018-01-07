@@ -93,7 +93,7 @@ strong {
   font-weight: bold; }
 
 body {
-  color: #878787;
+  color: #fff;
   font-family: "Roboto", sans-serif;
   font-size: 14px;
   font-style: normal;
@@ -152,7 +152,8 @@ h5 {
 h6, .panel-title {
   font-size: 16px;
   line-height: 24px;
-  text-transform: capitalize; }
+  text-transform: capitalize;
+  font-weight: bold; }
 
 p {
   font-size: 14px;
@@ -724,7 +725,7 @@ code {
   border: none !important; }
 
 small {
-  color: #878787;
+  color: #fff;
   padding-left: 5px; }
 
 .text-muted {
@@ -866,7 +867,7 @@ button.fc-agendaWeek-button, .fc-prev-button, .fc-next-button, .fc-today-button 
   button.btn-default.fc-agendaWeek-button, .btn-default.fc-prev-button, .btn-default.fc-next-button, .btn-default.fc-today-button {
     background: gainsboro;
     border: solid 1px gainsboro;
-    color: #878787 !important; }
+    color: white !important; }
     .btn.btn-default:hover, .wizard > .actions a.btn-default:hover, .dt-buttons .btn-default.dt-button:hover, .tablesaw-sortable th.tablesaw-sortable-head button:hover, .sweet-alert button.btn-default:hover, .owl-theme .owl-nav [class*="owl-"]:hover, button.btn-default.fc-agendaDay-button.fc-state-default.fc-corner-right:hover,
     button.btn-default.fc-month-button.fc-state-default.fc-corner-left:hover,
     button.btn-default.fc-agendaWeek-button:hover, .btn-default.fc-prev-button:hover, .btn-default.fc-next-button:hover, .btn-default.fc-today-button:hover, .btn.btn-default:active, .wizard > .actions a.btn-default:active, .dt-buttons .btn-default.dt-button:active, .tablesaw-sortable th.tablesaw-sortable-head button:active, .sweet-alert button.btn-default:active, .owl-theme .owl-nav [class*="owl-"]:active, button.btn-default.fc-agendaDay-button.fc-state-default.fc-corner-right:active,
@@ -2238,11 +2239,11 @@ button.fc-agendaWeek-button, .fc-prev-button, .fc-next-button, .fc-today-button 
       .fixed-sidebar-left .side-nav li.navigation-header > span, .fixed-sidebar-left .side-nav li.navigation-header > i {
         padding: 11px 15px; }
       .fixed-sidebar-left .side-nav li.navigation-header > span {
-        font-size: 11px;
+        font-size: 14px;
         display: block;
         text-transform: uppercase;
         font-weight: 500;
-        color: #ff2a00; }
+        color: orange; }
       .fixed-sidebar-left .side-nav li.navigation-header > i {
         display: none;
         font-size: 16px; }
@@ -2743,7 +2744,7 @@ a#toggle_mobile_nav {
     .navbar.navbar-inverse.navbar-fixed-top .nav > li.full-width-drp {
       position: static; }
     .navbar.navbar-inverse.navbar-fixed-top .nav > li > a {
-      color: #878787;
+      color: #fff;
       background: transparent !important;
       -webkit-transition: 0.3s ease;
       -moz-transition: 0.3s ease;
@@ -3752,7 +3753,7 @@ ul.wysihtml5-toolbar a.btn.wysihtml5-command-active, ul.wysihtml5-toolbar .wizar
       .accordion-struct.panel-group .panel .panel-heading.activestate a {
         color: #fff; }
     .accordion-struct.panel-group .panel .panel-heading a {
-      color: #878787;
+      color: #fff;
       text-transform: capitalize;
       padding: 10px 20px;
       width: 100%;
@@ -4304,7 +4305,7 @@ table.footable > tbody > tr.footable-empty > td {
   .tablesaw td, .tablesaw tbody th {
     vertical-align: middle;
     font-size: inherit;
-    color: #878787 !important; }
+    color: #fff !important; }
 
 .tablesaw-toolbar {
   font-size: 100%;

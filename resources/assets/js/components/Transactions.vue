@@ -11,13 +11,14 @@
 						:interval="interval"
 						:piecewise="piecewise"
 						:piecewiseLabel="piecewiseLabel"
+						:clickable="true"
 						tooltip="hover"
 						:data="availableDates"
 						:piecewiseStyle="piecewiseStyle"
 						:labelStyle="labelStyle"
 						:piecewiseActiveStyle="piecewiseActiveStyle"
 						:labelActiveStyle="labelActiveStyle"
-						@drag-end="triggerChange">
+						@input="triggerChange">
 				
 					</vue-slider>
 				</div>

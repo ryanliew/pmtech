@@ -45,7 +45,7 @@
                 <div id="mobile_only_nav" class="mobile-only-nav pull-right">
                     <ul class="nav navbar-right top-nav pull-right">
                         <li class="dropdown auth-drp">
-                            <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">Welcome, {{ auth()->user()->name }} <i class="fa fa-caret-down"></i></a>
+                            <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">Welcome <i class="fa fa-caret-down"></i></a>
                             <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
                                 <li>
                                     <a href="{{ route('user.profile') }}">
@@ -83,7 +83,7 @@
             <div class="fixed-sidebar-left">
                 <ul class="nav navbar-nav side-nav nicescroll-bar">
                     <li class="navigation-header">
-                        <span>Welcome, {{ auth()->user()->name }}</span>
+                        <span>{{ auth()->user()->name }}</span>
                     </li>
                     <li>
                         <a href="{{ route('home') }}">

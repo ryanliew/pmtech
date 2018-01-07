@@ -97422,6 +97422,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -97921,6 +97922,7 @@ var render = function() {
                   interval: _vm.interval,
                   piecewise: _vm.piecewise,
                   piecewiseLabel: _vm.piecewiseLabel,
+                  clickable: true,
                   tooltip: "hover",
                   data: _vm.availableDates,
                   piecewiseStyle: _vm.piecewiseStyle,
@@ -97928,7 +97930,7 @@ var render = function() {
                   piecewiseActiveStyle: _vm.piecewiseActiveStyle,
                   labelActiveStyle: _vm.labelActiveStyle
                 },
-                on: { "drag-end": _vm.triggerChange },
+                on: { input: _vm.triggerChange },
                 model: {
                   value: _vm.value,
                   callback: function($$v) {
@@ -99480,7 +99482,34 @@ var reactiveProp = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["b" /* mixins */].r
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	extends: __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["a" /* Line */],
-	props: ['options'],
+	data: function data() {
+		return {
+			options: {
+				defaultFontColor: '#fff',
+				tooltips: {
+					mode: 'nearest'
+				},
+				legend: {
+					labels: {
+						fontColor: 'white'
+					}
+				},
+				scales: {
+					xAxes: [{
+						ticks: {
+							fontColor: 'white'
+						}
+					}],
+					yAxes: [{
+						ticks: {
+							fontColor: 'white'
+						}
+					}]
+				}
+			}
+		};
+	},
+
 	mixins: [reactiveProp],
 	mounted: function mounted() {
 		this.renderChart(this.chartData, this.options);

@@ -40,7 +40,7 @@
                         Personal Mined Earning Cumulated (MYR)
                     @endslot
 
-                    {{ auth()->user()->transactions()->profits()->sum('amount') }}
+                    {{ number_format( auth()->user()->transactions()->profits()->sum('amount'), 2 ) }}
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
@@ -55,7 +55,7 @@
                         PMAN all-time mined value (MYR)
                     @endslot
 
-                    {{ $payments }}
+                    {{ number_format( $payments, 2 ) }}
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
@@ -89,7 +89,7 @@
                         PMAN Total hashing power (Th/S)
                     @endslot
 
-                    {{ $power }}
+                    {{ number_format( $power, 2 ) }}
                 @endcomponent
             </div>
             <div class="row">
@@ -111,7 +111,7 @@
                                 Personal Total Mined Bitcoin (BTC)
                             @endslot
 
-                            {{ $personaltotalbitcoins }}
+                            {{ number_format( $personaltotalbitcoins, 2 ) }}
                         @endcomponent
                         @component('components.numbers')
                             @slot('size')

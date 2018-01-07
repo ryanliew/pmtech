@@ -30,11 +30,6 @@
                         <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
                     </a>
                 </div>
-                <div class="form-group mb-0 pull-right">
-                    <span class="inline-block pr-10">Don't have an account?</span>
-                    <a class="inline-block btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=investor">Sign Up as customer</a>
-                    <a class="inline-block btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=agent">Sign Up as agent</a>
-                </div>
                 <div class="clearfix"></div>
             </header>
             <div class="visible-xs text-center">
@@ -44,9 +39,6 @@
                         <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
                     </a>
                 </div>
-                <p class="pr-10">Don't have an account?</p>
-                <a class="btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=investor">Sign Up as customer</a><br>
-                <a class="btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=agent">Sign Up as agent</a>
             </div>
             @yield('content')
 

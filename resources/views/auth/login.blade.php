@@ -50,6 +50,11 @@
                                     </div>
                                     <div class="form-group text-center">
                                         <button type="submit" class="btn btn-info btn-rounded">sign in</button>
+                                        <p class="mt-10">Don't have an account?</p>
+                                        <ul class="list-inline">
+                                            <li><a class="btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=investor">Sign Up as customer</a></li>
+                                            <li><a class="btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=agent">Sign Up as agent</a></li>
+                                        </ul>
                                     </div>
                                 </form>
                             </div>

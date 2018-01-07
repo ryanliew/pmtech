@@ -49,7 +49,7 @@
 		var users = [
 			@foreach($roots as $user)
 				{
-					text: "{{ $user->name }}",
+					text: "{{ $user->name }} ({{ $user->email }})",
 					href: "{{ $user->id }}",
 					selectable: false,
 					state: {

@@ -1,6 +1,6 @@
 @foreach($childs as $child)
 	{
-		text: "{{ $child->name }}",
+		text: "{{ $child->name }} ({{ $child->email }})",
 		href: "{{ $child->id }}",
 		selectable: false,
 		state: {

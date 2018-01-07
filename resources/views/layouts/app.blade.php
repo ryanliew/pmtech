@@ -125,6 +125,9 @@
                             <a href="{{ route('users') }}"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Users</span></div><div class="clearfix"></div></a>
                         </li> 
                         <li>
+                            <a href="{{ route('tree') }}"><div class="pull-left"><i class="fa fa-sitemap mr-20"></i><span class="right-nav-text">Users tree</span></div><div class="clearfix"></div></a>
+                        </li> 
+                        <li>
                             <a href="{{ route('machines') }}"><div class="pull-left"><i class="fa fa-server mr-20"></i><span class="right-nav-text">Machines</span></div><div class="clearfix"></div></a>
                         </li>
                         <li>

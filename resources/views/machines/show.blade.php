@@ -73,8 +73,8 @@
 					<thead>
 						<tr>
 						 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Date</th>
-						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
-						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Final amount</th>
+						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Gross income</th>
+						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Nett income</th>
 						</tr>
 					</thead>
 					<tbody>

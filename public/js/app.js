@@ -99068,7 +99068,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			data: [],
-			labels: []
+			labels: [],
+			option: {
+				defaultFontColor: '#fff',
+				tooltips: {
+					mode: 'nearest'
+				},
+				legend: {
+					labels: {
+						fontColor: 'white'
+					}
+				},
+				scales: {
+					xAxes: [{
+						ticks: {
+							fontColor: 'white'
+						}
+					}],
+					yAxes: [{
+						ticks: {
+							fontColor: 'white'
+						}
+					}]
+				}
+			}
 		};
 	},
 	created: function created() {
@@ -99097,7 +99120,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("chartjs-line", {
-    attrs: { bind: true, labels: _vm.labels, data: _vm.data, datalabel: "MYR" }
+    attrs: {
+      bind: true,
+      labels: _vm.labels,
+      data: _vm.data,
+      datalabel: "MYR",
+      option: _vm.option
+    }
   })
 }
 var staticRenderFns = []

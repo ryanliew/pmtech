@@ -595,7 +595,7 @@ code {
 }
 
 .bg-purple {
-  background: #ee00e5 !important;
+  background: #f34cec !important;
 }
 
 .bg-grey {
@@ -7424,6 +7424,22 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
 
 .dialog-table-coltoggle .btn-group label {
   color: black;
+}
+
+.social-medias a.facebook {
+  background: #3b5998;
+  display: block;
+  text-align: center;
+  padding: 10px;
+  -webkit-transition: background 0.5s ease-in;
+  -moz-transition: background 0.5s ease-in;
+  -ms-transition: background 0.5s ease-in;
+  -o-transition: background 0.5s ease-in;
+  transition: background 0.5s ease-in;
+}
+
+.social-medias a.facebook:hover {
+  background: #0084ff;
 }
 
 /* Tree view */

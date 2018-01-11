@@ -21,7 +21,7 @@
     @yield('css')
 
      <!-- Theme style -->
-    <link href="{{ asset('css/style.css?v=2.0') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css?v=2.1') }}" rel="stylesheet">
 </head>
 <body>
     <div class="preloader-it">

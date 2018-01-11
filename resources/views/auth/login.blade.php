@@ -56,6 +56,10 @@
                                             <li><a class="btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=agent">Sign Up as agent</a></li>
                                         </ul>
                                     </div>
+
+                                    <div class="social-medias">
+                                        <a class="facebook" href="https://www.facebook.com/pmantech/" _target="blank"><i class="fa fa-facebook mr-5"></i> Connect to our facebook</a>
+                                    </div>
                                 </form>
                             </div>
                         </div>  

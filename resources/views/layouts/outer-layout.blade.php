@@ -26,8 +26,7 @@
             <header class="sp-header hidden-xs">
                 <div class="sp-logo-wrap pull-left">
                     <a href="{{ url('/') }}">
-                        <img class="brand-img"></img>
-                        <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
+                        <img class="brand-img" src="{{ asset('img/logo-text.png') }}"></img>
                     </a>
                 </div>
                 <div class="clearfix"></div>

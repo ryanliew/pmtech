@@ -7397,6 +7397,21 @@ ul.inbox-nav li a:hover, ul.inbox-nav li.active a, ul.inbox-nav li a:focus {
   background-color: #9f2850 !important;
 }
 
+.login-brand {
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.brand-img {
+  max-width: 200px;
+}
+
+.brand-text {
+  max-width: 155px;
+  padding-bottom: 9px;
+}
+
 .preloader-block {
   display: none;
   position: absolute;

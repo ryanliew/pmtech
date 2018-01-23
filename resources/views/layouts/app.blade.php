@@ -35,8 +35,8 @@
                     <div class="nav-header pull-left">
                         <div class="logo-wrap">
                             <a href="{{ url('/home') }}">
-                                <img class="brand-img"/>
-                                <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
+                                <img class="brand-img" style="max-height: 45px;" src="{{ asset('img/logo-vertical.png') }}"/>
+                                <img class="brand-text"src="{{ asset('img/logo-text.png') }}"/>
                             </a>
                         </div>
                     </div>  

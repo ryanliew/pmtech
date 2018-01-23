@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css?v=1.0') }}" rel="stylesheet">
     
     <!-- Toast style -->
     <link href="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.css') }}" rel="stylesheet">

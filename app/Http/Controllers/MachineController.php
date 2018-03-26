@@ -26,10 +26,8 @@ class MachineController extends Controller
      */
     public function index()
     {
-        if(!auth()->user()->is_admin)
-            $machine = Machine::whereIn('id', auth()->user()->units->pluck('machine_id'))->with('earningSum')->with('emptyUnitCount')->get();
-        else
-            $machine = Machine::with('earningSum')->with('emptyUnitCount')->get();
+
+        $machine = Machine::with('earningSum')->with('emptyUnitCount')->get();
 
         return view('machines.index', ["machines" => $machine, "today" => Carbon::now()]);
     }
@@ -76,7 +74,7 @@ class MachineController extends Controller
      */
     public function show(Machine $machine)
     {
-        $date = $machine->created_at;
+        $date = Carbon::createFromDate(2017, 1, 1);
 
         if(!auth()->user()->is_admin)
         {
@@ -141,7 +139,7 @@ class MachineController extends Controller
 
     public function get_earnings(Machine $machine)
     {
-        $date = $machine->created_at;
+        $date = Carbon::createFromDate(2017, 1, 1);
 
         if(!auth()->user()->is_admin)
         {

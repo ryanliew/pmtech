@@ -244,6 +244,30 @@
 				            </div>
 				        </div>
 				    <!-- End investor field -->
+				    @else
+					    @component('components.input') 
+					    	@slot('input_name')
+					    		bitcoin_address
+					    	@endslot
+					    
+					    	@slot('input_type')
+					    		text
+					    	@endslot
+					    
+					    	@slot('input_value')
+					    		<a href="{{ $user->investor_agreement_path }}" class="text-primary" target="_blank">Download</a>
+					    	@endslot
+					    
+					    	@slot('input_placeholder')
+					    		Enter bitcoin address
+					    	@endslot
+					    	
+					    	Management agreement
+					    
+					    	@slot('show_only')
+					    		true
+					    	@endslot
+				    	@endcomponent
 					@endif
 					
 					@if( empty( $user->ic_image_path ) )

@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css?v=1.0') }}" rel="stylesheet">
     
     <!-- Toast style -->
     <link href="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.css') }}" rel="stylesheet">
@@ -21,7 +21,7 @@
     @yield('css')
 
      <!-- Theme style -->
-    <link href="{{ asset('css/style.css?v=2.0') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css?v=2.1') }}" rel="stylesheet">
 </head>
 <body>
     <div class="preloader-it">
@@ -35,8 +35,8 @@
                     <div class="nav-header pull-left">
                         <div class="logo-wrap">
                             <a href="{{ url('/home') }}">
-                                <img class="brand-img"/>
-                                <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
+                                <img class="brand-img" style="max-height: 45px;" src="{{ asset('img/logo-vertical.png') }}"/>
+                                <img class="brand-text"src="{{ asset('img/logo-text.png') }}"/>
                             </a>
                         </div>
                     </div>  
@@ -45,7 +45,7 @@
                 <div id="mobile_only_nav" class="mobile-only-nav pull-right">
                     <ul class="nav navbar-right top-nav pull-right">
                         <li class="dropdown auth-drp">
-                            <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">Welcome, {{ auth()->user()->name }} <i class="fa fa-caret-down"></i></a>
+                            <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown">Welcome <i class="fa fa-caret-down"></i></a>
                             <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
                                 <li>
                                     <a href="{{ route('user.profile') }}">
@@ -83,7 +83,7 @@
             <div class="fixed-sidebar-left">
                 <ul class="nav navbar-nav side-nav nicescroll-bar">
                     <li class="navigation-header">
-                        <span>Welcome, {{ auth()->user()->name }}</span>
+                        <span>{{ auth()->user()->name }}</span>
                     </li>
                     <li>
                         <a href="{{ route('home') }}">
@@ -125,6 +125,9 @@
                             <a href="{{ route('users') }}"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Users</span></div><div class="clearfix"></div></a>
                         </li> 
                         <li>
+                            <a href="{{ route('tree') }}"><div class="pull-left"><i class="fa fa-sitemap mr-20"></i><span class="right-nav-text">Users tree</span></div><div class="clearfix"></div></a>
+                        </li> 
+                        <li>
                             <a href="{{ route('machines') }}"><div class="pull-left"><i class="fa fa-server mr-20"></i><span class="right-nav-text">Machines</span></div><div class="clearfix"></div></a>
                         </li>
                         <li>
@@ -159,7 +162,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js?v=2.0') }}"></script>
+    <script src="{{ asset('js/app.js?v=2.1') }}"></script>
     <script src="{{ asset('js/vendors/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
     <script>
         @if( $errors->any() )

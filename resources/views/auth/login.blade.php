@@ -10,7 +10,10 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
                             <div class="mb-30">
-                                <h3 class="text-center txt-dark mb-10">Sign in to {{ config('app.name', 'Welory Solution') }}</h3>
+                                <div class="text-center">
+                                    <img class="img-responsive login-brand" alt="PManTech" src="{{ asset('img/logo-vertical.png') }}" />
+                                </div>
+                                <h3 class="text-center txt-dark mb-10">Sign in</h3>
                                 <h6 class="text-center nonecase-font txt-grey">Enter your details below</h6>
                             </div>  
                             <div class="form-wrap">
@@ -50,6 +53,15 @@
                                     </div>
                                     <div class="form-group text-center">
                                         <button type="submit" class="btn btn-info btn-rounded">sign in</button>
+                                        <p class="mt-10">Don't have an account?</p>
+                                        <ul class="list-inline">
+                                            <li><a class="btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=investor">Sign Up as customer</a></li>
+                                            <li><a class="btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=agent">Sign Up as agent</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="social-medias">
+                                        <a class="facebook" href="https://www.facebook.com/pmantech/" _target="blank"><i class="fa fa-facebook mr-5"></i> Connect to our facebook</a>
                                     </div>
                                 </form>
                             </div>

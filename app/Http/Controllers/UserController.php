@@ -23,7 +23,12 @@ class UserController extends Controller
 
     public function index()
     {
-    	return view('users.index', ['users' => User::latest()->with('units')->paginate(20)]);
+    	return view('users.index', ['users' => User::latest()->with('units')->get()]);
+    }
+
+    public function tree()
+    {
+        return view('users.tree', ['roots' => User::get()->toHierarchy()]);
     }
 
     public function payments()
@@ -33,7 +38,7 @@ class UserController extends Controller
         $users = DB::table('users')
                     ->leftJoin('transactions', 'users.id', '=', 'transactions.user_id')
                     ->whereRAW('MONTH(date) = ? AND YEAR(date) = ?', [$date->month, $date->year])
-                    ->select(DB::raw('sum(`transactions`.`amount`) as total, name, bank_name, bank_account_number, bitcoin_address'))
+                    ->select(DB::raw('sum(`transactions`.`amount`) as total, users.id, name, email, phone, bank_name, bank_account_number, bitcoin_address, sum(transactions.amount / transactions.conversion_rate) as bitcoin_total'))
                     ->groupBy('users.id')
                     ->orderByDesc('total')
                     ->paginate(20);
@@ -157,9 +162,9 @@ class UserController extends Controller
             'phone'             =>  ['sometimes', 'required', Rule::unique('users')->ignore($user->id)],
             'alt_contact_phone' =>  'required',
             'alt_contact_name'  =>  'required',
-            'bank_name'         =>  'required', 
-            'bank_account_number'   => 'required',
-            'bitcoin_address'   =>  'required',
+            'bank_name'         =>  'sometimes|required', 
+            'bank_account_number'   => 'sometimes|required',
+            'bitcoin_address'   =>  'sometimes|required',
             'ic_image_path'     =>  'image|max:5000',
             'investor_agreement_path'   =>  'max:5000',
             'state_id'           =>  'required|numeric',
@@ -178,6 +183,7 @@ class UserController extends Controller
             $data['investor_agreement_path'] = $data['investor_agreement_path']->store('contracts', 'public');
         }
 
+        $data['terms'] = true;
         $user->update($data);
 
 

@@ -21,73 +21,35 @@
 		</div>
 	</div>
 	<!-- end header -->
-	<div class="row">
+	<div class="flex-row">
 		@if(auth()->user()->is_admin)
-			<div class="col-md-6">
+			<div class="col-md-3">
 				@component('components.panel')
 				@slot('heading')
-					Units @if( null !== $machine->latest_earning() )<small>earning {{ $machine->latest_earning()->final_amount / 10 }} per unit last month </small>@endif
+					Units
 				@endslot
 			
 				<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 					<thead>
 						<tr>
-						 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">ID</th>
 						  	
-						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Investor</th>
+						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Investor</th>
 						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach( $machine->units as $unit )
 							<tr>
-							  	<td class="title">{{ $unit->id }}</td>
 							  	<td>@if(isset($unit->investor_id)){{ $unit->investor->name }}@else No investor @endif</td>
 							  	<td>
 							  		<ul class="list-inline">
-							  			<li>
-									  		@component('components.modal')
-									  			@slot('button')
-									  				@if(isset($unit->investor_id))Edit investor @else Add investor @endif
-									  			@endslot
-									  			@slot('title')
-									  				@if(isset($unit->investor_id))Edit investor @else Add investor @endif
-									  			@endslot
-									  			@slot('modal_id')
-									  				unit-{{ $unit->id }}-modal
-									  			@endslot
-									  			@slot('action_button')
-									  				<button type="button" class="btn btn-success" onclick="$('#unit-{{ $unit->id }}-form').submit()">Confirm</button>
-									  			@endslot
-									  		
-									  			<form method="POST" action="{{ route("unit", $unit->id) }}" id="unit-{{ $unit->id }}-form">
-									  				{{ csrf_field() }}
-									  				<div class="form-group{{ $errors->has('investor_id') ? ' has-error has-danger' : '' }}">
-									                    <label class="pull-left control-label mb-10" for="investor_id">Investor <span class="text-danger">*</span></label>
-									                    <select class="form-control select2" name="investor_id" id="investor_id">
-									                        <option>Select investor</option>
-									                        @foreach($users as $user)
-																<option value="{{ $user->id }}" @if(isset($unit->investor_id) && $unit->investor_id == $user->id) selected @endif>{{ $user->name }}</option>
-										  					@endforeach
-									                    </select>
-									                    @if($errors->has('investor_id'))
-									                        <div class="help-block with-errors">
-									                            <ul class="list-unstyled">
-									                                <li>{{ $errors->first('investor_id') }}</li>
-									                            </ul>
-									                        </div>
-									                    @endif
-									                </div>
-									            </form>
-									  		@endcomponent
-									  	</li>
 									  	@if( null !== $unit->investor)
 										  	<li>
 												<form method="POST" action="{{ route('unit', $unit->id) }}">
 													{{ csrf_field() }}
 													{{ method_field('DELETE') }}
 
-													<button type="submit" class="btn btn-danger">Remove investor</button>
+													<button type="submit" class="btn btn-danger btn-small"><i class="fa fa-times"></i></button>
 												</form>
 										  	</li>
 									  	@endif
@@ -100,10 +62,10 @@
 				@endcomponent
 			</div>
 		@endif
-		<div class="col-md-6">
+		<div class="{{ auth()->user()->is_admin ? 'col-md-9' : 'col-md-12' }}">
 			@component('components.panel')
 				@slot('heading')
-					Earnings history <small>Earned {{ $total }} so far</small>
+					Earnings history 
 				@endslot
 				
 				<machine-chart class="mb-10" machine="{{ $machine->id }}"></machine-chart>
@@ -111,8 +73,8 @@
 					<thead>
 						<tr>
 						 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Date</th>
-						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
-						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Final amount</th>
+						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Gross income</th>
+						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Nett income</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -124,6 +86,16 @@
 							</tr>
 						@endforeach
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="text-right">Last earning per unit:</td>
+							<td><b>{{ null !== $machine->latest_earning() ? number_format($machine->latest_earning()->final_amount  / 10, 2) : 0.00 }}</b></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="text-right">Total earned:</td>
+							<td>{{ number_format($total, 2) }}</td>
+						</tr>
+					</tfoot>
 				</table>
 			@endcomponent
 		</div>

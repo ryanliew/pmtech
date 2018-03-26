@@ -24,7 +24,6 @@
 
         methods: {
             flash(data) {
-                console.log('something');
                 if(data) {
                     this.body = data.message;
                     this.level = data.level;

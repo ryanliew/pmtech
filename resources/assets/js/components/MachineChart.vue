@@ -1,5 +1,5 @@
 <template>
-	<chartjs-line :bind="true" :labels="labels" :data="data" datalabel="MYR"></chartjs-line>
+	<chartjs-line :bind="true" :labels="labels" :data="data" datalabel="MYR" :option="option"></chartjs-line>
 </template>
 
 <script>
@@ -8,7 +8,30 @@
 		data() {
 			return {
 				data: [],
-				labels: []
+				labels: [],
+				option: {
+					defaultFontColor: '#fff',
+					tooltips: {
+						mode: 'nearest'
+					},
+					legend: {
+						labels: {
+							fontColor: 'white'
+						}
+					},
+					scales: {
+						xAxes: [{
+							ticks: {
+								fontColor: 'white'
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								fontColor: 'white'
+							}
+						}],
+					}
+				}
 			};
 		},
 

@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css?v=1.0') }}" rel="stylesheet">
 
     <!-- Theme style -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -26,14 +26,8 @@
             <header class="sp-header hidden-xs">
                 <div class="sp-logo-wrap pull-left">
                     <a href="{{ url('/') }}">
-                        <img class="brand-img"></img>
-                        <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
+                        <img class="brand-img" src="{{ asset('img/logo-text.png') }}"></img>
                     </a>
-                </div>
-                <div class="form-group mb-0 pull-right">
-                    <span class="inline-block pr-10">Don't have an account?</span>
-                    <a class="inline-block btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=investor">Sign Up as customer</a>
-                    <a class="inline-block btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=agent">Sign Up as agent</a>
                 </div>
                 <div class="clearfix"></div>
             </header>
@@ -44,9 +38,6 @@
                         <span class="brand-text">{{ config('app.name', 'Welory Solution') }}</span>
                     </a>
                 </div>
-                <p class="pr-10">Don't have an account?</p>
-                <a class="btn btn-info btn-rounded btn-outline mb-10" href="{{ route('register') }}?as=investor">Sign Up as customer</a><br>
-                <a class="btn btn-info btn-rounded btn-outline" href="{{ route('register') }}?as=agent">Sign Up as agent</a>
             </div>
             @yield('content')
 

@@ -265,7 +265,7 @@ class User extends Node implements
 
         if( $value == 1 && $this->is_investor && null !== $this->referrer )
         {
-            $this->referrer->add_referrer_bonus_transaction($this);
+            // $this->referrer->add_referrer_bonus_transaction($this);
             $this->referrer->update(['is_marketing_agent' => true, 'is_active' => true]);
         }
     }
@@ -306,39 +306,43 @@ class User extends Node implements
         ]);
     }
 
-    public function add_referrer_bonus_transaction(User $user)
+    public function add_referrer_bonus_transaction(Payment $payment, $units_amount, $machine_name)
     {
         $settings = Setting::all()->first();
 
-        $amount = $settings->incentive_commission_per_referee;
+        $amount = $settings->incentive_commission_per_referee * $units_amount;
 
-        $description = "Successfully referred a new investor " . $user->name . ' at ' . $user->created_at->toDateString();
+        $description = "Sold " . $units_amount . " units of " . $machine_name . " to " . $payment->user->name . ' at ' . $payment->created_at->toDateString();
 
-        $date = $user->created_at;
+        $date = $payment->created_at;
 
-        $this->add_transaction("one-time-commision", $description, $amount, $date);
+        $this->add_transaction("one-time-commision", $description, $amount, $date, $units_amount);
 
         $now = Carbon::now();
 
+        $total_units_sold = $this->transactions()->commision()->whereMonth('date', $now->month)->whereYear('date', $now->year)->sum('unit_sold');
         
-        // 5 referee per month bonus
-        if($this->immediateDescendants()->verified()->investor()->whereMonth('created_at', $now->month)->whereYear('created_at', $now->year)->count() == 4) {
-            $description = "Gained bonus for referring 5 investor in " . $now->Format("F Y");
-            $amount = $settings->incentive_bonus_per_referee_pack;
-            $this->add_bonus_transaction($description, $amount, $date);
+        // 5 units per month bonus
+        if($this->transactions()->commision()->whereMonth('date', $now->month)->whereYear('date', $now->year)->sum('unit_sold') >= 5) {
+            $description = "Gained bonus for selling 5 or more units in " . $now->Format("F Y");
+            if( $this->transactions()->where('description', $description)->count() == 0 )
+            {
+                $amount = $settings->incentive_bonus_per_referee_pack;
+                $this->add_bonus_transaction($description, $amount, $date);
+            }
         }
 
         // Team leader commission
         if(isset($this->referrer) && $this->referrer->is_team_leader) {
-            $description = "Gained team leader commission from " . $this->name;
-            $amount = $settings->incentive_commission_per_referee * $settings->incentive_direct_downline_commission_percentage / 100; 
+            $description = $this->name . " sold " . $units_amount . " units of " . $machine_name . " on " . $date->toDateString();
+            $amount = $amount * $settings->incentive_direct_downline_commission_percentage / 100; 
             $this->referrer->add_bonus_transaction($description, $amount, $date);
         }
     }
 
-    public function add_bonus_transaction($description, $amount, $date)
+    public function add_bonus_transaction($description, $amount, $date, $earning = null)
     {
-        $this->add_transaction("bonus", $description, $amount, $date);
+        $this->add_transaction("bonus", $description, $amount, $date, 0, $earning);
     }
 
     public function add_profit_transaction(Unit $unit, Earning $earning)
@@ -347,23 +351,35 @@ class User extends Node implements
         {
             $description = "Profit from unit " . $unit->id . " from machine " . $unit->machine->name . " for " . $earning->date->format('F Y');
 
-            $amount = $unit->machine->latest_earning()->final_amount / 10; 
+            $amount = $unit->machine->latest_earning()->final_amount / 10;
 
-            $this->add_transaction("profit", $description, $amount, $earning->date);
+            $mining_start = max( $unit->machine->arrival_date, $earning->date->startOfMonth() );
+            
+            if($unit->updated_at->gt($mining_start))
+            {
+                $total_days = $earning->date->endOfMonth()->addDay()->diffInDays($mining_start);
+                $actual_days = $earning->date->endOfMonth()->diffInDays($unit->updated_at);
+
+                $amount = $amount / $total_days * $actual_days;
+            }
+
+            $this->add_transaction("profit", $description, $amount, $earning->date, 0, $earning);
         }
     }
 
-    public function add_transaction($type, $description, $amount, $date)
+    public function add_transaction($type, $description, $amount, $date, $unit, $earning = null)
     {
-        if( $this->transactions()->where('description', $description)->count() == 0 )
-        {
-            $this->transactions()->create([
-                "type"  => $type,
-                "date"  => $date,
-                "description"   => $description,
-                "amount"    => $amount
-            ]);
-        }
+        $transaction = $this->transactions()->create([
+            "type"  => $type,
+            "date"  => $date,
+            "description"   => $description,
+            "amount"    => $amount,
+            "unit_sold"  => $unit
+        ]);
+
+        if(!is_null($earning)) $transaction->update(['earning_id' => $earning->id, 'conversion_rate' => $earning->conversion_rate]);
+
+        return $transaction;
     }
 
     /* Scopes */
@@ -380,6 +396,11 @@ class User extends Node implements
     public function scopeInvestor($query)
     {
         return $query->where('is_investor', true);
+    }
+
+    public function scopeMarketingAgent($query)
+    {
+        return $query->where('is_marketing_agent', true);
     }
 
 

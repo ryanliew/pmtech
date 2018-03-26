@@ -36,17 +36,23 @@
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6">Bank name</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="5">Bank account number</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Bitcoin address</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Email</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Phone</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Amount (MYR)</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="0">Amount (Bitcoin)</th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach( $users as $user )
 											<tr>
-											  	<td class="title">{{ $user->name }}</td>
+											  	<td class="title"><a href="{{ route('transactions', $user->id) }}">{{ $user->name }}</a></td>
 											  	<td>{{ $user->bank_name }}</td>
 											  	<td>{{ $user->bank_account_number }}</td>
 											  	<td>{{ $user->bitcoin_address }}</td>
-											  	<td>{{ $user->total }}</td>
+											  	<td>{{ $user->email }}</td>
+											  	<td>{{ $user->phone }}</td>
+											  	<td>{{ number_format($user->total, 2, '.', '') }}</td>
+											  	<td>{{ number_format($user->bitcoin_total, 6, '.', '') }}</td>
 											</tr>
 										@endforeach
 									</tbody>

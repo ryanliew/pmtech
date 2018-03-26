@@ -66,7 +66,7 @@
                                         </div>
                                         <div class="form-group{{ $errors->has('bank_account_number') ? ' has-error has-danger' : '' }}">
                                             <label class="pull-left control-label mb-10" for="alt-name">Bank account number<span class="text-danger">*</span></label>
-                                            <input value="{{ old('bank_account_number') }}" type="text" name="bank_account_number" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            <input value="{{ old('bank_account_number') }}" type="text" name="bank_account_number" class="form-control" required="" id="alt-phone" placeholder="Enter your bank account number">
                                             @if($errors->has('bank_account_number'))
                                                 <div class="help-block with-errors">
                                                     <ul class="list-unstyled">
@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="form-group{{ $errors->has('bank_name') ? ' has-error has-danger' : '' }}">
                                             <label class="pull-left control-label mb-10" for="alt-name">Bank name <span class="text-danger">*</span></label>
-                                            <input value="{{ old('bank_name') }}" type="text" name="bank_name" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            <input value="{{ old('bank_name') }}" type="text" name="bank_name" class="form-control" required="" id="alt-phone" placeholder="Enter your bank's name">
                                             @if($errors->has('bank_name'))
                                                 <div class="help-block with-errors">
                                                     <ul class="list-unstyled">
@@ -88,7 +88,7 @@
                                         </div>
                                         <div class="form-group{{ $errors->has('bitcoin_address') ? ' has-error has-danger' : '' }}">
                                             <label class="pull-left control-label mb-10" for="alt-name">Bitcoin address <span class="text-danger">*</span></label>
-                                            <input value="{{ old('bitcoin_address') }}" type="text" name="bitcoin_address" class="form-control" required="" id="alt-phone" placeholder="Enter alternate contact phone number">
+                                            <input value="{{ old('bitcoin_address') }}" type="text" name="bitcoin_address" class="form-control" required="" id="alt-phone" placeholder="Enter your bitcoin wallet address">
                                             @if($errors->has('bitcoin_address'))
                                                 <div class="help-block with-errors">
                                                     <ul class="list-unstyled">
@@ -155,7 +155,7 @@
                                             @endif
                                             </div>
                                             <div class="form-group{{ $errors->has('contract_upload') ? ' has-error has-danger' : '' }} mb-30">
-                                                <label class="control-label mb-10 text-left">Management agreement upload <span class="text-danger">*</span></label>
+                                                <label class="control-label mb-10 text-left">Management agreement upload </label>
                                                 <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                                     <div class="form-control" data-trigger="fileinput"> <i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
                                                     <span class="input-group-addon fileupload btn btn-info btn-anim btn-file"><i class="fa fa-upload"></i> <span class="fileinput-new btn-text">Select file</span> <span class="fileinput-exists btn-text">Change</span>

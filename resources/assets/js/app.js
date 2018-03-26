@@ -12,7 +12,6 @@ window.Vue = require('vue');
 window.events = new Vue();
 
 window.flash = function(message, level = 'success'){
-	console.log("Flashed!");
  	window.events.$emit('flash', {message, level});
 };
 
@@ -27,6 +26,7 @@ Vue.component('transactions', require('./components/Transactions.vue'));
 Vue.component('flash', require('./components/Flash.vue'));
 Vue.component('payments', require('./components/Payments.vue'));
 Vue.component('machine-chart', require('./components/MachineChart.vue'));
+Vue.component('earning-calculator', require('./components/EarningCalculator.vue'));
 
 Vue.component('dashboard', require('./pages/Dashboard.vue'));
 Vue.use(VueCharts);

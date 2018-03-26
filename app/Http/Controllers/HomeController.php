@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Earning;
 use App\Machine;
 use App\Setting;
 use App\Transaction;
@@ -29,22 +30,21 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $payments = Transaction::profits()->sum('amount');
-
+        $personal_bitcoins = 0.00;
         $units = [];
         foreach(Machine::whereIn('id', auth()->user()->units->pluck('machine_id'))->get() as $machine)
         {
             $total = 0;
+            foreach($machine->earnings as $earning)
+            {
+                $total += $earning->transactions()->profits()->where('user_id', auth()->id())->sum('amount');
+                $personal_bitcoins += $earning->transactions()->profits()->where('user_id', auth()->id())->get()->sum(function($transaction){ return $transaction->bitcoin_earning; });
+            }
             $all = auth()->user()->units()->where('machine_id', $machine->id)->get();
             $date = null;
-            foreach( $all as $unit)
+
+            foreach( $all as $unit )
             {
-                $total += $machine->earnings()
-                                ->whereDate('date', '>=', $unit->updated_at)
-                                ->get()
-                                ->sum(function($earning){
-                                    return $earning->final_amount;
-                                }) / 10;
                 if($date == null or $date->gt($unit->updated_at))
                 {
                     $date = $unit->updated_at;
@@ -60,9 +60,11 @@ class HomeController extends Controller
         }
 
         return view('home', ['unverified_users' => User::inactive()->get(), 
-                                'payments' => $payments,
+                                'payments' => Earning::all()->sum('final_amount'),
                                 'machines' => Machine::active()->count(),
                                 'units' => $units,
+                                'personaltotalbitcoins' => $personal_bitcoins,
+                                'totalbitcoins' => Earning::sum('cryptocurrency_amount'),
                                 'commision' => Transaction::commision()->current()->sum('amount'),
                                 'power' => Setting::first()->hashing_power
                             ]);

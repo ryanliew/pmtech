@@ -27,6 +27,7 @@ Route::get('/coinhistory', 'HomeController@getHistoricalData');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'SettingController@edit')->name('settings');
 Route::post('/settings', 'SettingController@update')->name('settings');
+Route::post('/settings/deductions', 'SettingController@calculateDeduction');
 
 Route::get('machines', 'MachineController@index')->name('machines');
 Route::post('machines', 'MachineController@store')->name('machines');
@@ -43,6 +44,7 @@ Route::delete('unit/{unit}', 'UnitController@destroy')->name('unit');
 
 
 Route::get('/users', 'UserController@index')->name('users');
+Route::get('/users/tree', 'UserController@tree')->name('tree');
 Route::get('/users/payments', 'UserController@payments')->name('users.payments');
 Route::get('/user/new', 'UserController@create')->name('user.create');
 Route::post('/user/new', 'UserController@store')->name('user.create');

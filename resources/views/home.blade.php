@@ -27,24 +27,10 @@
     <dashboard isdefaultpassword="{{ auth()->user()->is_default_password }}" investor="{{ auth()->user()->referral_link }}" marketing="{{ auth()->user()->marketing_referral_link }}" confirmed="{{ auth()->user()->confirmed }}" inline-template>
         <div>
             <div class="row">
+                
                 @component('components.numbers')
                     @slot('color')
-                        bg-red
-                    @endslot
-
-                    @slot('icon')
-                        <i class="fa fa-4x fa-usd text-white"></i>
-                    @endslot
-
-                    @slot('adjective')
-                        Personal earning cumulated (MYR)
-                    @endslot
-
-                    {{ auth()->user()->transactions()->profits()->sum('amount') }}
-                @endcomponent
-                @component('components.numbers')
-                    @slot('color')
-                        bg-pink
+                        bg-green
                     @endslot
 
                     @slot('icon')
@@ -55,11 +41,26 @@
                         PMAN all-time mined value (MYR)
                     @endslot
 
-                    {{ $payments }}
+                    {{ number_format( $payments, 2 ) }}
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
-                        bg-blue
+                        bg-orange
+                    @endslot
+
+                    @slot('icon')
+                        <i class="fa fa-bitcoin fa-4x text-white"></i>
+                    @endslot
+
+                    @slot('adjective')
+                        PMAN All-time mined (BTC)
+                    @endslot
+
+                    {{ $totalbitcoins }}
+                @endcomponent
+                @component('components.numbers')
+                    @slot('color')
+                        bg-tiffanyblue
                     @endslot
 
                     @slot('icon')
@@ -78,7 +79,7 @@
                 @endcomponent
                 @component('components.numbers')
                     @slot('color')
-                        bg-green
+                        bg-purple
                     @endslot
 
                     @slot('icon')
@@ -89,11 +90,49 @@
                         PMAN Total hashing power (Th/S)
                     @endslot
 
-                    {{ $power }}
+                    {{ number_format( $power, 2 ) }}
                 @endcomponent
             </div>
             <div class="row">
                 <div class="col-md-6" >
+                    <div class="row">
+                        @component('components.numbers')
+                            @slot('size')
+                                col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                            @endslot
+                            @slot('color')
+                                bg-green
+                            @endslot
+
+                            @slot('icon')
+                                <i class="fa fa-4x fa-usd text-white"></i>
+                            @endslot
+
+                            @slot('adjective')
+                                Personal Mined Earning Cumulated (MYR)
+                            @endslot
+
+                            {{ number_format( auth()->user()->transactions()->profits()->sum('amount'), 2 ) }}
+                        @endcomponent
+                        @component('components.numbers')
+                            @slot('size')
+                                col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                            @endslot
+                            @slot('color')
+                                bg-orange
+                            @endslot
+
+                            @slot('icon')
+                                <i class="fa fa-4x fa-bitcoin text-white"></i>
+                            @endslot
+
+                            @slot('adjective')
+                                Personal Total Mined Bitcoin (BTC)
+                            @endslot
+
+                            {{ number_format( $personaltotalbitcoins, 2 ) }}
+                        @endcomponent
+                    </div>
                     <div :class="bitcoinHistoryLoadingClass">
                         @component('components.panel')
                             @slot('heading')
@@ -213,7 +252,7 @@
                         
                         <ul class="unit-list">
                             @forelse($units as $key => $unit)
-                                <li class="text-white bg-pink">
+                                <li class="text-white bg-blue">
                                     <a href="{{ route('machine', $key) }}" class="flex-row flex-center ml-10">
                                         <div>
                                             <i class="fa fa-server text-white"></i>
@@ -242,6 +281,7 @@
                         </ul>  
                     @endcomponent 
                         <div class="row">
+                            <!-- Marketing section -->
                             <div class="col-md-6" :class="milestoneLoadingClass">
                                 <div class="preloader-block">
                                     <ul class="spin-preloader">
@@ -335,11 +375,52 @@
                                 @endslot
 
                                 @slot('adjective')
-                                    Total commision payout this month (MYR)
+                                    PMAN total payout this month (MYR)
                                 @endslot
 
                                 {{ $commision }}
                             @endcomponent
+
+                            @component('components.numbers')
+                                @slot('size')
+                                    col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                                @endslot
+
+                                @slot('color')
+                                    bg-yellow
+                                @endslot
+
+                                @slot('icon')
+                                    <i class="fa fa-money fa-4x text-white"></i>
+                                @endslot
+
+                                @slot('adjective')
+                                    Personal Sales revenue this month (MYR)
+                                @endslot
+
+                                {{ auth()->user()->transactions()->commision()->current()->sum('amount') }}
+                            @endcomponent
+
+                            @component('components.numbers')
+                                @slot('size')
+                                    col-lg-6 col-md-6 col-sm-6 col-xs-12 
+                                @endslot
+
+                                @slot('color')
+                                    bg-yellow
+                                @endslot
+
+                                @slot('icon')
+                                    <i class="fa fa-server fa-4x text-white"></i>
+                                @endslot
+
+                                @slot('adjective')
+                                    units sold this month
+                                @endslot
+
+                                {{ auth()->user()->transactions()->commision()->current()->sum('unit_sold') }}
+                            @endcomponent
+                            <!-- end marketing section -->
                             
                         </div>
                         <div class="row">

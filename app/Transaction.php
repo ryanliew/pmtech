@@ -9,16 +9,26 @@ class Transaction extends Model
 {
 	protected $guarded = [];
 
-	protected $appends = ['type_name'];
+	protected $appends = ['type_name', 'bitcoin_earning'];
 	
     public function user()
     {
     	return $this->belongsTo('App\User');
     }
 
+    public function earning()
+    {
+        return $this->belongsTo('App\Earning');
+    }
+
     public function getTypeNameAttribute()
     {
     	return trans( 'pmentech.' . $this->type );
+    }
+
+    public function getBitcoinEarningAttribute()
+    {
+        return $this->conversion_rate > 0 ? $this->amount / $this->conversion_rate : 0;
     }
 
     /* Scope */
@@ -37,7 +47,7 @@ class Transaction extends Model
         return $query->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year);
     }
 
-    public function scopeLatest($query)
+    public function scopeRecent($query)
     {   
         return $query->whereMonth('date', Carbon::now()->subMonth()->month)->whereYear('date', Carbon::now()->subMonth()->year);
     }

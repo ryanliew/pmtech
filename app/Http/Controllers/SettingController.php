@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Earning;
 use App\Setting;
 use Illuminate\Http\Request;
 
@@ -35,5 +36,10 @@ class SettingController extends Controller
     	$setting->update($data);
 
     	return back()->with('success', "Settings updated");
+    }
+
+    public function calculateDeduction()
+    {
+        return Earning::calculateDeduction(request()->amount)[0];
     }
 }

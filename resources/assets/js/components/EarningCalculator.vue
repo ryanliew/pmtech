@@ -1,13 +1,22 @@
 <script>
 	export default {
+		props: ['initial_amount','cryptocurrency_amount'],
 		data() {
 			return {
-				amountMyr: 0,
+				amountMyr: this.initial_amount,
 				totalDeduction: 0,
-				amountCrypto: 1,
+				amountCrypto: this.cryptocurrency_amount,
 				calculating: false,
 
 			};
+		},
+
+		created() {
+			if( this.amountMyr > 0 )
+			{
+				this.getTotalDeduction();
+			}
+			
 		},
 
 		methods: {

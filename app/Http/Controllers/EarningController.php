@@ -33,10 +33,13 @@ class EarningController extends Controller
             return back()->with('error', 'You have already added earning for ' . $date->format('F Y'));
         }	
 
+        $deduction = Earning::calculateDeduction($data['amount']);
+
         $machine->earnings()->create([
             'date'      => $date,
             'amount'    => $data['amount'],
             'cryptocurrency_amount' => $data['cryptocurrency_amount'],
+            'deduction' => $deduction[0]
         ]);
 
         if(Transaction::whereDate('date', $date)->count() == 0)
@@ -45,18 +48,40 @@ class EarningController extends Controller
         return back()->with('success', "Added earning to " . $machine->name);
     }
 
-    // public function update(Earning $earning)
-    // {
-    //     $data = request()->validate([
-    //         'amount'    => 'required|numeric'
-    //     ]);
+    public function update(Earning $earning)
+    {
+        $data = request()->validate([
+            'month'     =>  'required|numeric|min:1|max:12',
+            'amount'    =>  'required|numeric',
+            'cryptocurrency_amount' => 'required|numeric'
+        ]);
 
-    //     $earning->update([
-    //         'amount'    => $data['amount']
-    //     ]);
+        $now = Carbon::now();
 
-    //     return back()->with('success', "Edited earning for " . $earning->date->toDateString());
-    // }
+        $date = Carbon::createFromDate( $now->year, $data['month'], $now->day);
+
+        // If it is december, move one year backwards
+        if($data['month'] == 12) $date->subYear();
+
+        $date = $date->lastOfMonth();
+
+        if( !( $date->format('m-y') == $earning->date->format('m-y') )
+            && $earning->machine->earnings()->whereMonth('date', $date->month)->whereYear('date', $date->year)->count() >= 1 )
+        {
+            return back()->with('error', 'You have already added earning for ' . $date->format('F Y'));
+        }
+
+        $deduction = Earning::calculateDeduction($data['amount']);
+
+        $earning->update([
+            'date'      => $date,
+            'amount'    => $data['amount'],
+            'cryptocurrency_amount' => $data['cryptocurrency_amount'],
+            'deduction' => $deduction[0],
+        ]);
+
+        return back()->with('success', "Edited earning for " . $earning->date->toDateString());
+    }
 
     public function sendGMBonus($date)
     {

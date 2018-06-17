@@ -70,7 +70,7 @@ Route::post('/payment/{payment}/unit/assign', 'PaymentController@assign');
 
 
 Route::post('earnings/{machine}', 'EarningController@store')->name('earning');
-Route::patch('earnings/{earning}', 'EarningController@update')->name('earning');
+Route::post('earnings/update/{earning}', 'EarningController@update')->name('earning_update');
 
 
 Route::get('/transactions/{user}', 'TransactionController@index')->name('transactions');

@@ -38,21 +38,28 @@
 					<tr>
 					 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Type</th>
 					  	
+					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Date</th>
 					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Description</th>
 					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Amount</th>
 					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Bitcoin</th>
-					  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Date</th>
 					</tr>
 				</thead>
 				<tbody>
 					<transaction v-for="(transaction, index) in items" :key="transaction.id" :data="transaction"></transaction>
 
-
 					<tr v-if="items.length == 0">
 						<td colspan="5">No transaction for selected period</td>
 					</tr>
 
+					<tr>
+						<td colspan="3" class="text-right"><b>Total:</b></td>
+						<td>{{ totalAmount | amount }}</td>
+						<td>{{ totalBitcoin | bitcoin }}</td>
+					</tr>
 				</tbody>
+			</table>
+			<table>
+				
 			</table>
 		</div>
 		<paginator :dataSet="dataSet" @changed="fetch"></paginator>
@@ -144,6 +151,18 @@
 
 				dates.push(start.format("MM-YYYY"));
 				return dates;
+			},
+
+			totalAmount()  {
+				return _.sumBy(this.items, function(i){
+					return i.amount;
+				});
+			},
+
+			totalBitcoin() {
+				return _.sumBy(this.items, function(i){
+					return i.bitcoin_earning;
+				});
 			}
 		}	
 	}

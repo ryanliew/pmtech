@@ -1,10 +1,10 @@
 <template>
 	<tr>
 		<td v-text="transaction.type_name"></td>
-		<td v-text="transaction.description"></td>
-		<td v-text="transaction.amount"></td>
-		<td v-text="transaction.bitcoin_earning" v-if=""></td>
 		<td v-text="date"></td>
+		<td v-text="transaction.description"></td>
+		<td>{{ transaction.amount | amount }}</td>
+		<td>{{ transaction.bitcoin_earning | bitcoin }}</td>
 	</tr>	
 </template>
 

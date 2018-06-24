@@ -28,18 +28,18 @@
 				<div class="panel-wrapper collapse in">
 					<div class="panel-body">
 						<div class="table-wrap">
-							<div class="mt-40">
-								<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
+							<div class="mt-40 tablesaw-overflow">
+								<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="columntoggle" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 									<thead>
 										<tr>
-										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6">Bank name</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="5">Bank account number</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Bitcoin address</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Email</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Phone</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Amount (MYR)</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="0">Amount (Bitcoin)</th>
+										 	<th data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
+										  	<th data-tablesaw-priority="0" class="tablesaw-cell-hidden">Bank name</th>
+										  	<th data-tablesaw-priority="0">Bank account number</th>
+										  	<th data-tablesaw-priority="0">Bitcoin address</th>
+										  	<th data-tablesaw-priority="0">Email</th>
+										  	<th data-tablesaw-priority="0" class="tablesaw-cell-hidden">Phone</th>
+										  	<th data-tablesaw-priority="0">Amount (MYR)</th>
+										  	<th data-tablesaw-priority="0">Amount (Bitcoin)</th>
 										</tr>
 									</thead>
 									<tbody>

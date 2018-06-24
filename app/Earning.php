@@ -20,22 +20,32 @@ class Earning extends Model
 
     public function transactions()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Transaction', 'earning_id');
     }
 
     protected static function boot()
     {
         parent::boot();
-
+        
         static::created(function($earning) {
             
             $deduction = Earning::calculateDeduction($earning->amount);
 
-            $earning->update(['deduction' => $deduction[0]]);
+            $earning->distribute_profit();
+
+            $earning->distribute_marketing_agent_profit($deduction[1], $earning);
+        });
+
+        static::updated(function($earning){
+    
+            $earning->transactions()->delete();
+
+            $deduction = Earning::calculateDeduction($earning->amount);
 
             $earning->distribute_profit();
 
             $earning->distribute_marketing_agent_profit($deduction[1], $earning);
+        
         });
     }
 

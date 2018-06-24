@@ -75,6 +75,9 @@
 						 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Date</th>
 						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Gross income</th>
 						  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Nett income</th>
+						  	@if(auth()->user()->is_admin)
+							  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6">Actions</th>
+							@endif
 						</tr>
 					</thead>
 					<tbody>
@@ -83,6 +86,140 @@
 							  	<td class="title">{{ $earning->date->toDateString()  }}</td>
 							  	<td>{{ $earning->amount }}</td>
 							  	<td>{{ $earning->final_amount }}</td>
+							  	<td>
+							  		<ul class="list-inline">
+							  			@if(auth()->user()->is_admin)
+							  			<!-- <li> 
+									  		<button class="btn btn-success" data-toggle="modal" data-target="#edit-earning-modal-{{ $earning->id }}">Edit</button>
+									  		<button type="button" class="btn btn-danger" onclick="$('#delete-machine-{{ $machine->id }}').submit()">Delete</button>
+									  	</li> -->
+									  	
+									 
+									<li>
+										@component('components.modal')
+											@slot('button')
+												Edit earning
+											@endslot
+											@slot('title')
+												Earning for {{ $earning->machine->name }}
+											@endslot
+											@slot('modal_id')
+												machine-earning-{{ $earning->id }}-modal
+											@endslot
+											@slot('action_button')
+												<button type="button" class="btn btn-success" onclick="$('#machine-earning-{{ $earning->id }}-form').submit()">Edit earning</button>
+											@endslot
+										
+											<form method="POST" action="{{ route('earning_update', $earning->id) }}" id="machine-earning-{{ $earning->id }}-form">
+												{{ csrf_field() }}
+
+												@component('components.input') 
+													@slot('input_name')
+														month
+													@endslot
+												
+													@slot('input_type')
+														Number
+													@endslot
+												
+													@slot('input_value')
+														{{ $earning->date->format('m') }}
+													@endslot
+												
+													@slot('input_placeholder')
+														Insert earning month
+													@endslot
+													
+													Earning month
+												
+													@slot('show_only')
+														false
+													@endslot
+
+												@endcomponent
+
+												<earning-calculator :initial_amount="{{ $earning->amount }}" :cryptocurrency_amount="{{ $earning->cryptocurrency_amount }}"inline-template>
+													<div>
+														@component('components.input') 
+															@slot('input_name')
+																amount
+															@endslot
+														
+															@slot('input_type')
+																number
+															@endslot
+														
+															@slot('input_value')
+																
+															@endslot
+														
+															@slot('input_placeholder')
+																Insert earning for the month (MYR)
+															@endslot
+															
+															Gross Amount mined (MYR)
+														
+															@slot('show_only')
+																false
+															@endslot
+
+															@slot('extra_information')
+																<div class="help-block">
+																	After deduction: RM<span v-text="finalAmount"></span> <i class="fa fa-circle-o-notch fa-spin fa-fw text-white" v-if="calculating"></i>
+																</div>
+															@endslot
+															
+															@slot('actions')
+																@change="getTotalDeduction"
+															@endslot
+
+															@slot('vmodel')
+																amountMyr
+															@endslot
+														@endcomponent
+													
+														@component('components.input') 
+															@slot('input_name')
+																cryptocurrency_amount
+															@endslot
+														
+															@slot('input_type')
+																number
+															@endslot
+														
+															@slot('input_value')
+																
+															@endslot
+														
+															@slot('input_placeholder')
+																Insert earning for the month (Cryptocurrency)
+															@endslot
+															
+															Nett Amount mined (Crypocurrency)
+														
+															@slot('show_only')
+																false
+															@endslot
+
+															@slot('vmodel')
+																amountCrypto
+															@endslot
+
+															@slot('extra_information')
+																<div class="help-block">
+																	Conversion rate: RM<span v-text="conversionRate"></span> per cryptocurrency
+																</div>
+															@endslot
+														@endcomponent
+													</div>
+												</earning-calculator>
+											</form>
+										@endcomponent
+									</li>
+									@endif
+									</ul>
+								</td>
+
 							</tr>
 						@endforeach
 					</tbody>

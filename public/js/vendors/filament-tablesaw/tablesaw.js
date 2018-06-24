@@ -383,7 +383,6 @@ if( Tablesaw.mustard ) {
 			var $this = $( this ),
 				priority = $this.attr("data-tablesaw-priority"),
 				$cells = self.$getCells( this );
-
 			if( priority && priority !== "persist" ) {
 				$cells.addClass( self.classes.priorityPrefix + priority );
 

@@ -21,6 +21,15 @@ window.flash = function(message, level = 'success'){
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 import VueSweetalert2 from 'vue-sweetalert2';
+
+Vue.filter('bitcoin', function(value){
+	return value.toFixed(6);
+});
+
+Vue.filter('amount', function(value){
+	return value.toFixed(2);
+});
+
 Vue.component('paginator', require('./components/Paginator.vue'));
 Vue.component('transactions', require('./components/Transactions.vue'));
 Vue.component('flash', require('./components/Flash.vue'));

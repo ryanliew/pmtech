@@ -68,7 +68,7 @@
 						@endif
 						<div class="table-wrap">
 							<div class="mt-40">
-								<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="swipe" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
+								<table class="tablesaw table-bordered table-hover table" data-tablesaw-mode="columntoggle" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 									<thead>
 										<tr>
 										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>

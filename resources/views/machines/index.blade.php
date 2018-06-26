@@ -74,10 +74,10 @@
 										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Empty units</th>
 										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Status</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Estimated arrival</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="0">Estimated arrival</th>
 										  	@if(auth()->user()->is_admin)
-											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="0" class="tablesaw-cell-hidden">Last earning amount</th>
-											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="0" class="tablesaw-cell-hidden">Last earning month</th>
+											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1" >Last earning amount</th>
+											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Last earning month</th>
 											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
 											@endif
 										</tr>

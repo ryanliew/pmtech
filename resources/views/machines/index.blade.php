@@ -72,13 +72,13 @@
 									<thead>
 										<tr>
 										 	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Name</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6">Empty units</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="5">Status</th>
-										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Estimated arrival</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Empty units</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Status</th>
+										  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Estimated arrival</th>
 										  	@if(auth()->user()->is_admin)
-											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Last earning amount</th>
-											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Last earning month</th>
-											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6">Actions</th>
+											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="0" class="tablesaw-cell-hidden">Last earning amount</th>
+											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="0" class="tablesaw-cell-hidden">Last earning month</th>
+											  	<th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Actions</th>
 											@endif
 										</tr>
 									</thead>
